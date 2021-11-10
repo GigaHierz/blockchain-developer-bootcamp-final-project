@@ -3,6 +3,19 @@
 a. project description
 NFT Game for Blockchain Bootcamps
 
+Users can login with their MetaMask Wallet. - Ropsten Network
+They should get some ether from a ropsten faucet.
+
+When hey arrive at the page, they will be greeted and introduced to the idea. And see a button, to connect to MetaMask.
+
+When they are connected, they see the cute image of the Octopus and can click a button to create their own octopus.
+
+will be already created per randomized something (later, visual choice etc....)
+
+- Minting an NFT. That they see, choose
+
+Functions:
+
 Attributes:
 
 - color octopus
