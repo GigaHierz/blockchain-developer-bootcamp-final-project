@@ -1,4 +1,4 @@
-const NFT = artifacts.require("NFT");
+const NFT = artifacts.require("Nft");
 
 module.exports = function (deployer) {
   deployer.deploy(NFT);

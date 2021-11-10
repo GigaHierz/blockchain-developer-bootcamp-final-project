@@ -16,6 +16,10 @@ will be already created per randomized something (later, visual choice etc....)
 
 Functions:
 
+- smartcontract deployed
+- is connected to Ropsent TestNet?
+- create NFTs (https://github.com/dappuniversity/nft/blob/master/src/components/App.js)
+
 Attributes:
 
 - color octopus

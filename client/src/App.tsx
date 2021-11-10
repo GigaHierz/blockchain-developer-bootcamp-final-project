@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import FlexColumn from "./components/shared/FlexColumn";
 import Page from "./components/shared/Page";
+import Home  from "./pages/Home";
 import ConnectButton from "./components/metamask/ConnectButton";
 
 
@@ -13,6 +14,7 @@ export default function App() {
       <Page>
         <FlexColumn>
           <ConnectButton />   
+          <Home />
         </FlexColumn>
       </Page>
     </ChakraProvider>
