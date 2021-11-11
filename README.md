@@ -6,9 +6,20 @@ NFT Game for Blockchain Bootcamps
 Users can login with their MetaMask Wallet. - Ropsten Network
 They should get some ether from a ropsten faucet.
 
-When hey arrive at the page, they will be greeted and introduced to the idea. And see a button, to connect to MetaMask.
+When they arrive at the page, they will be greeted and introduced to the idea. And see a button, to connect to MetaMask.
 
 When they are connected, they see the cute image of the Octopus and can click a button to create their own octopus.
+
+should there already be some minted?
+-max number of minted NFTs
+-or should they all be freshly minted?
+
+when there is a baby. who does it belng to? or are there always two babies?
+if I say I worked with that person, i enter their adress.
+
+- if they have an nft.
+- if i dont already have a baby with the nft
+- i can mint the nft
 
 will be already created per randomized something (later, visual choice etc....)
 

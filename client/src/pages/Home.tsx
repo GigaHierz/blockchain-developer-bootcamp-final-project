@@ -1,8 +1,10 @@
-import { Component } from "react";
 import Nft from '../contracts/Nft.json'
+import { ethers} from 'ethers'
+import {  useEffect, useRef } from "react";
+import {  Contract } from '@usedapp/core/node_modules/ethers/lib/ethers';
 
 export interface State  {
-   account: string;
+   account: string| null | undefined;
    contract: any;
    totalSupply: number;
    colors: Color[];
@@ -13,111 +15,100 @@ export interface Color {
    value: string
 }
 
-export interface Contract {
-   id: string;
-   value: string
-}
+export default function Home () {
 
-export default class Home extends Component {
+   let color : Color| null;
+   let colors : Color[] = [];
+   // const {chainId, account} = useEthers()
+   const contract = useRef<Contract>();
+   // const baseTokenURI = "ipfs://QmZbWNKJPAjxXuNFSEaksCJVd1M6DaKQViJBYPK2BdpDEP/";
 
-   color = {} as Color | null;
-   state = {} as State;
+   useEffect(() => {
+      // this is only run once on component mounting
+      const setup = async () => {
+        const provider = new ethers.providers.JsonRpcProvider();
+      //   const network = await provider.getNetwork();
+        
+
+      // TODO: Figure out chainID
+        const contractAddress = Nft.networks[3].address;
+  
+        // instantiate contract instance and assign to component ref variable
+        contract.current = new ethers.Contract(
+          contractAddress,
+          Nft.abi,
+          provider.getSigner(),
+        );
 
  
+      };
+      setup();
+   }, []);
 
-   constructor(props: Color) {
-      super(props)
-      this.state= {
-        account: '',
-        contract: Nft,
-        totalSupply: 0,
-        colors: []
-      } as State;  
-   };
-
-  /* async loadBlockchainData() {
-      const web3 = window.web3
-      // Load account
-      const accounts = await web3.eth.getAccounts()
-      this.setState({ account: accounts[0] })
   
-      const networkId = await web3.eth.net.getId()
-      const networkData = Nft.networks[networkId]
-      if(networkData) {
-        const abi = Nft.abi
-        const address = networkData.address
-        const contract = new web3.eth.Contract(abi, address)
-        this.setState({ contract })
-        const totalSupply = await contract.methods.totalSupply().call()
-        this.setState({ totalSupply })
-        // Load Colors
-        for (var i = 1; i <= totalSupply; i++) {
-          const color = await contract.methods.colors(i - 1).call()
-          this.setState({
-            colors: [...this.state.colors, color]
-          })
-        }
-      } else {
-        window.alert('Smart contract not deployed to detected network.')
-      }
-   };*/
 
-   generateColor = () => {
+
+
+   const generateColor = () => {
       return `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
    };
 
-   mint = (color: string) => {
-      this.state.contract.methods.mint(color).send({ from: this.state.account })
-      .once('receipt', (receipt: string) => {
-        this.setState({
-          colors: [...this.state.colors, color]
-        })
-      })
+   const  mint = async(color: Color) => {
+      if(color) {
+
+
+         const tx2 = await contract.current.mint(color.value);
+         const result2 = await tx2.wait()
+         console.log(result2);
+         
+          colors = [...colors, color]
+
+          const tx3 = await contract.current.totalSupply();
+          const result3 = await tx3.wait()
+          console.log(result3);
+      }
    };
   
-
-
-   render() {
-      return (
-        <div>
-          <div className="container-fluid mt-5">
-            <div className="row">
-              <main role="main" className="col-lg-12 d-flex text-center">
-                <div className="content mr-auto ml-auto">
-                  <h1>Issue Token</h1>
-                  <form onSubmit={(event) => {
-                    event.preventDefault()
-                    const color = this.color?.value
-                    color ? this.mint(color): this.mint(this.generateColor())
-                  }}>
-                    <input
-                      type='text'
-                      className='form-control mb-1'
-                      placeholder='e.g. #FFFFFF'
-                      ref={(input) => { this.color = input }}
-                    />
-                    <input
-                      type='submit'
-                      className='btn btn-block btn-primary'
-                      value='MINT'
-                    />
-                  </form>
-                </div>
-              </main>
-            </div>
-            <hr/>
-            <div className="row text-center">
-              { this.state.colors.map((color, key) => {
-                return(
-                  <div key={key} className="col-md-3 mb-3">
-                    <div className="token" style={{ backgroundColor: color.value }}></div>
-                    <div>{color}</div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      );
-}
+   return (
+      <div>
+         <div className="container-fluid mt-5">
+         <div className="row">
+            <main role="main" className="col-lg-12 d-flex text-center">
+               <div className="content mr-auto ml-auto">
+               <h1>Issue Token</h1>
+               <form onSubmit={(event) => {
+                  event.preventDefault()
+            
+                  color?.value ? mint(color): mint({value: generateColor(), id: ''})
+               }}>
+                  <input
+                     type='text'
+                     className='form-control mb-1'
+                     placeholder='e.g. #FFFFFF'
+                     ref={(input) => { color = input }}
+                  />
+                  <input
+                     type='submit'
+                     className='btn btn-block btn-primary'
+                     value='MINT'
+                  />
+               </form>
+               </div>
+            </main>
+         </div>
+         <hr/>
+         <div className="row text-center">
+            { colors.map((color, key) => {
+               return(
+               <div key={key} className="col-md-3 mb-3">
+                  <div className="token" style={{ backgroundColor: color.value }}></div>
+                  <div>{color}</div>
+               </div>
+               )
+            })}
+         </div>
+         </div>
+      </div>
+   );
+            
 }
