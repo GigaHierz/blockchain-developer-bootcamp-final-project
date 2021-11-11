@@ -3,18 +3,23 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract Nft is ERC721, Ownable, ERC721Enumerable {
+   using Counters for Counters.Counter;
 
+   Counters.Counter private _tokenIdCounter;
    string[] public colors;
    mapping(string => bool) _colorExists;
-   uint counter = 0;
    constructor() ERC721("Nft", "NFT") {}
 
+
+// add color, require uniqie color, call mint funciton, trak the color
   function mint(string memory _color) public {
     require(!_colorExists[_color]);
-    uint _id = counter++;
+    uint _id = _tokenIdCounter.current();
+    _tokenIdCounter.increment();
     colors.push(_color);
     _mint(msg.sender, _id);
     _colorExists[_color] = true;
