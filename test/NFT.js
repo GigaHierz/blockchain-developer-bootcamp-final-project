@@ -7,18 +7,21 @@
  * 
  * */
 
-const NFT = artifacts.require('../contracts/NFT.sol');
+const Nft = artifacts.require('../contracts/Nft.sol');
 
 
-contract('NFT', (accounts) => {
-   var creatorAddress = accounts[0];
-   var firstOwnerAddress = accounts[1];
-   var secondOwnerAddress = accounts[2];
-   var externalAddress = accounts[3];
-   var unprivilegedAddress = accounts[4]
+contract('Nft', (accounts) => {
+   let contract;
+   let creatorAddress = accounts[0];
+   let firstOwnerAddress = accounts[1];
+   let secondOwnerAddress = accounts[2];
+   let externalAddress = accounts[3];
+   let unprivilegedAddress = accounts[4]
    /* create named accounts for contract roles */
 
    before(async () => {
+      contract = await Nft.deployed()
+
       /* before tests */
    })
 
@@ -27,7 +30,7 @@ contract('NFT', (accounts) => {
    })
 
    it('should revert if ...', () => {
-      return NFT.deployed()
+      return Nft.deployed()
          .then(instance => {
             return instance.publicOrExternalContractMethod(argument1, argument2, { from: externalAddress });
          })
@@ -43,7 +46,7 @@ contract('NFT', (accounts) => {
       //deploy a new contract
       before(async () => {
          /* before tests */
-         const newNFT = await NFT.new()
+         const newNFT = await Nft.new()
 
          it('fails on initialize ...', async () => {
             return assertRevert(async () => {
@@ -62,5 +65,65 @@ contract('NFT', (accounts) => {
 
       })
 
+
+
+   })
+   context('deployment', async () => {
+      it('deploys successfully', async () => {
+         const address = contract.address
+         assert.notEqual(address, 0x0)
+         assert.notEqual(address, '')
+         assert.notEqual(address, null)
+         assert.notEqual(address, undefined)
+      })
+
+      it('has a name', async () => {
+         const name = await contract.name()
+         assert.equal(name, 'Nft')
+      })
+
+      it('has a symbol', async () => {
+         const symbol = await contract.symbol()
+         assert.equal(symbol, 'NFT')
+      })
+
+   })
+
+   describe('minting', async () => {
+
+      it('creates a new token', async () => {
+         const result = await contract.mint('#EC058E')
+         const totalSupply = await contract.totalSupply()
+         // SUCCESS
+         assert.equal(totalSupply, 1)
+         const event = result.logs[0].args
+         assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
+         assert.equal(event.from, '0x0000000000000000000000000000000000000000', 'from is correct')
+         assert.equal(event.to, accounts[0], 'to is correct')
+
+         // FAILURE: cannot mint same color twice
+         await contract.mint('#EC058E').should.be.rejected;
+      })
+   })
+
+   describe('indexing', async () => {
+      it('lists colors', async () => {
+         // Mint 3 more tokens
+         await contract.mint('#5386E4')
+         await contract.mint('#FFFFFF')
+         await contract.mint('#000000')
+         const totalSupply = await contract.totalSupply()
+
+         let color
+         let result = []
+
+         for (var i = 1; i <= totalSupply; i++) {
+            color = await contract.colors(i - 1)
+            result.push(color)
+         }
+
+         let expected = ['#EC058E', '#5386E4', '#FFFFFF', '#000000']
+         assert.equal(result.join(','), expected.join(','))
+      })
    })
 });
