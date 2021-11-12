@@ -1,13 +1,11 @@
 // ConnectButton.tsx
 import { Button, Box, Text } from "@chakra-ui/react";
-import { useEthers, useEtherBalance } from "@usedapp/core";
-import { formatEther } from "@ethersproject/units";
+import { useEthers } from "@usedapp/core";
 import Identicon from "./Identicon";
 
 
 export default function ConnectButton() {
   const {activateBrowserWallet, account } = useEthers();
-  const etherBalance = useEtherBalance(account);
 
   function handleConnectWallet() {
    activateBrowserWallet();
