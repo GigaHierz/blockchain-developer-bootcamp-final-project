@@ -3,7 +3,6 @@ import { Box, Text } from "@chakra-ui/react";
 export default function Nft (color) {
 
     const nft = color.color
-    console.log(nft);
 
     return (
         <Box key={nft.id}                

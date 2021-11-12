@@ -13,7 +13,7 @@ export default function App() {
   // Todo: alert when chainId is updated
   const  checkChainId = () =>  {
     if( chainId !== 3 && active ) {
-      alert('To be able to use this App please connect to the RopstenNetwork')
+      // alert('To be able to use this App please connect to the RopstenNetwork')
     }
   }
   checkChainId()

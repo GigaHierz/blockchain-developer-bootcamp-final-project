@@ -9,17 +9,7 @@ import Nft from '../components/nfts/Nft';
 export default function Home () {
 
    let color ;
-   let colors  = [
-      // {id: "0", value: "#595406"}, 
-      // {id: "1", value: "#c82097"}, 
-      // {id: "2", value: "#da3576"}, 
-      // {id: "3", value: "#de848c"},
-      // {id: "4", value: "#679e60"},
-      // {id: "5", value: "#bc31e9"},
-      // {id: "6", value: "#de848c"},
-      // {id: "7", value: "#a73c80"},
-      // {id: "8", value: "#19774b"}
-   ];
+   let colors  = [];
    const provider = useRef();
    const contract = useRef();
    const { account} = useEthers();
@@ -33,7 +23,7 @@ export default function Home () {
          //   const network = await provider.getNetwork();
 
          // TODO: Figure out chainID
-         const contractAddress = NftContract.networks[3].address;
+         const contractAddress = NftContract.networks[1337].address;
    
          // instantiate contract instance and assign to component ref variable
          contract.current = new ethers.Contract(
@@ -51,25 +41,16 @@ export default function Home () {
    };
 
    const  mint = async(color) => {
-      
       if(color) {
          await contract?.current?.mint(color.value);
-         colors = [...colors, color];
-
-         setColor(prevColors => [...prevColors, color])
-         
-         console.log(colors);  
       }
    };
 
    const showList = async() => {
-      // console.log(account);
-      
-
       const tx4 = await contract?.current?.tokensOfOwner(account);
-      colors = await tx4.wait()
       console.log(tx4);
-
+   
+      setColor(prevColors => [...prevColors, ...tx4])
    }
   
    return (
@@ -148,11 +129,10 @@ export default function Home () {
                   width="90%"
                >
                  {colorList.map((color) => {
-                        console.log(colors);
                         if(color) {
 
                            return(
-                              <Nft color={color} />
+                              <Nft color={color} key={color.id}/>
                            )
                         }
                   })}

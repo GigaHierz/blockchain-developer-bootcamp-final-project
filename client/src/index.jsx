@@ -13,8 +13,8 @@ import { ChainId, Config, DAppProvider } from '@usedapp/core'
 //   },
 //   supportedChains: [ChainId.Ropsten]
 // }
-const config: Config = {
-  readOnlyChainId: ChainId.Mainnet,
+const config = {
+  readOnlyChainId: 1337,
   // readOnlyUrls: {
   //   [ChainId.Mainnet]: `https://ropsten.infura.io/v3/0d49b90057c740b0835bdc554e327181`,
   // },
