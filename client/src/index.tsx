@@ -18,7 +18,7 @@ const config: Config = {
   // readOnlyUrls: {
   //   [ChainId.Mainnet]: `https://ropsten.infura.io/v3/0d49b90057c740b0835bdc554e327181`,
   // },
-  supportedChains: [ChainId.Mainnet]
+  supportedChains: [ChainId.Mainnet, 5777, ChainId.Ropsten, 1337]
 }
 
 ReactDOM.render(

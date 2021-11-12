@@ -33,7 +33,7 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
     }
 
     function tokensOfOwner(address _owner)
-        external
+        public
         view
         returns (string[] memory)
     {

@@ -21,11 +21,6 @@ export default function ConnectButton() {
      borderRadius="xl"
      py="0"
    >
-     <Box px="3">
-       <Text color="white" fontSize="md">
-         {etherBalance && parseFloat(formatEther(etherBalance)).toFixed(3)} ETH
-       </Text>
-     </Box>
      <Button
        bg="gray.800"
        border="1px solid transparent"
