@@ -34,7 +34,6 @@ export default function Home () {
    let signer : any;
    let contract: Contract;
    // const { account} = useEthers()
-   // const baseTokenURI = "ipfs://QmZbWNKJPAjxXuNFSEaksCJVd1M6DaKQViJBYPK2BdpDEP/";
 
    useEffect(() => {
       // this is only run once on component mounting
