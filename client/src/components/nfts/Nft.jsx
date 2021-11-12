@@ -1,7 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Color } from "../../models/color.model";
 
-export default function Nft (color: any) {
+export default function Nft (color) {
 
     const nft = color.color
     console.log(nft);

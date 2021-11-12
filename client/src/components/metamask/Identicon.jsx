@@ -12,7 +12,7 @@ const StyledIdenticon = styled.div`
 `;
 
 export default function Identicon() {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef();
   const { account } = useEthers();
 
   useEffect(() => {
@@ -22,5 +22,5 @@ export default function Identicon() {
     }
   }, [account]);
   
-  return <StyledIdenticon ref={ref as any} />
+  return <StyledIdenticon ref={ref } />
 }

@@ -1,28 +1,18 @@
 import NftContract from '../contracts/Nft.json'
-import { Contract, ethers} from 'ethers'
+import {  ethers} from 'ethers'
 import {  useEffect, useRef, useState } from "react";
 import { Container, Button, Box, Text } from "@chakra-ui/react";
 import { useEthers } from '@usedapp/core';
-import { Color } from '../models/color.model';
 import Nft from '../components/nfts/Nft';
-
-
-
-// export interface State  {
-//    account: string| null | undefined;
-//    contract: any;
-//    totalSupply: number;
-//    colors: Color[];
-// }
 
 
 export default function Home () {
 
-   let color : Color;
-   let colors : Color[] = [
-      {id: "0", value: "#595406"}, 
-      {id: "1", value: "#c82097"}, 
-      {id: "2", value: "#da3576"}, 
+   let color ;
+   let colors  = [
+      // {id: "0", value: "#595406"}, 
+      // {id: "1", value: "#c82097"}, 
+      // {id: "2", value: "#da3576"}, 
       // {id: "3", value: "#de848c"},
       // {id: "4", value: "#679e60"},
       // {id: "5", value: "#bc31e9"},
@@ -30,9 +20,9 @@ export default function Home () {
       // {id: "7", value: "#a73c80"},
       // {id: "8", value: "#19774b"}
    ];
-   const provider = useRef<ethers.providers.JsonRpcProvider>();
-   const contract = useRef<Contract>();
-   const { account} = useEthers()
+   const provider = useRef();
+   const contract = useRef();
+   const { account} = useEthers();
 
    const [colorList, setColor] = useState(colors);
 
@@ -60,7 +50,7 @@ export default function Home () {
       return `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
    };
 
-   const  mint = async(color: Color) => {
+   const  mint = async(color) => {
       
       if(color) {
          await contract?.current?.mint(color.value);
