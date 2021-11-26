@@ -9,7 +9,6 @@ export default function App() {
 
   const { chainId,active  } = useEthers();
 
-
   // Todo: alert when chainId is updated
   const  checkChainId = () =>  {
     if( chainId !== 3 && active ) {
@@ -19,7 +18,6 @@ export default function App() {
   checkChainId()
 
   return (
-    // lets us use Chakra UI syntax across our app:
 
     <ChakraProvider >
       <Page>

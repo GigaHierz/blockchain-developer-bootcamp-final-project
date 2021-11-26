@@ -16,38 +16,45 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
     uint256 public constant MAX_SUPPLY = 50000;
     uint256 public constant PRICE = 0.0001 ether;
     uint256 public constant MAX_PER_MINT = 100;
-    string public baseTokenURI = "ipfs://20mff5OGplOZeEo7CoLA1lD6Jcy/";
+    string public baseTokenURI = "ipfs://QmZbWNKJPAjxXuNFSEaksCJVd1M6DaKQViJBYPK2BdpDEP/";
+
+    mapping(uint256 => address) tokensToOwner;
 
     Counters.Counter private _tokenIds;
-    mapping(uint256 => string) colors;
-    mapping(string => bool) _colorExists;
+    mapping(uint256 => string) tokensList;
+    mapping(string => bool) _tokenExists;
 
-    // add color, require uniqie color, call mint funciton, trak the color
-    function mint(string memory _color) public {
-        require(!_colorExists[_color]);
-        uint256 _id = _tokenIds.current();
-        colors[_tokenIds.current()] = _color;
-        _tokenIds.increment();
+
+    function mint( string memory cid) public returns (uint256 _id){
+        require(!_tokenExists[cid]);
+
+        _id = _tokenIds.current();
         _mint(msg.sender, _id);
-        _colorExists[_color] = true;
+        tokensToOwner[_id] = msg.sender;
+        tokensList[_tokenIds.current()] = cid;
+        _tokenExists[cid] = true;
+        _tokenIds.increment();
+
+        return _id;
+
     }
 
     function tokensOfOwner(address _owner)
         public
         view
-        returns (string[] memory)
+        returns (uint256[] memory)
     {
         uint256 tokenCount = balanceOf(_owner);
         uint256[] memory tokensId = new uint256[](tokenCount);
-        string[] memory  userColors = new string[](tokenCount);
+        // string[] memory  userTokens = new string[](tokenCount);
 
         for (uint256 i = 0; i < tokenCount; i++) {
             tokensId[i] = tokenOfOwnerByIndex(_owner, i);
-            if(tokensId[i]  == i){
-               userColors[i] = colors[i];
-            }
+            // if(tokensId[i]  == i){
+            //    userTokens[i] = tokensList[i];
+            // }
         }
-        return userColors;
+        return tokensId;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {

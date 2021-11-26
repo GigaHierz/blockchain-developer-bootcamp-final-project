@@ -59,13 +59,10 @@ contract('Nft', (accounts) => {
          })
       })
 
-
       beforeEach(async () => {
          /* before each tests */
 
       })
-
-
 
    })
    context('deployment', async () => {
@@ -85,6 +82,7 @@ contract('Nft', (accounts) => {
       it('has a symbol', async () => {
          const symbol = await contract.symbol()
          assert.equal(symbol, 'NFT')
+
       })
 
    })
@@ -104,25 +102,39 @@ contract('Nft', (accounts) => {
          assert.equal(event.to, accounts[0], 'to is correct')
 
          // FAILURE: cannot mint same color twice
-         // await contract.mint('#EC058E').should.be.rejected;
+         // await contract.mint('#EC058E').turffle should.be.rejected;
       })
    })
 
-   describe('indexing', async () => {
-      it('lists colors', async () => {
+   xdescribe('indexing', async () => {
+      it('token List ', async () => {
          // Mint 3 more tokens
          await contract.mint('#5386E4')
          await contract.mint('#FFFFFF')
          await contract.mint('#000000')
          const totalSupply = await contract.totalSupply()
 
-         let color
+         let token
          let result = []
 
          for (var i = 1; i <= totalSupply; i++) {
-            color = await contract.colors(i - 1)
-            result.push(color)
+            token = await contract.tokensList(i - 1)
+            result.push(token)
          }
+
+         let expected = ['#EC058E', '#5386E4', '#FFFFFF', '#000000']
+         assert.equal(result.join(','), expected.join(','))
+      })
+   })
+
+   describe('get tokens of owner', async () => {
+      it('lists tokens', async () => {
+         // Mint 3  tokens
+         await contract.mint('#5386E4')
+         await contract.mint('#FFFFFF')
+         await contract.mint('#000000')
+
+         let result = await contract.tokensOfOwner(accounts[0])
 
          let expected = ['#EC058E', '#5386E4', '#FFFFFF', '#000000']
          assert.equal(result.join(','), expected.join(','))
