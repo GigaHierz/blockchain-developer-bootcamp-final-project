@@ -25,8 +25,8 @@ export default function Home() {
       console.log(process.env.INFURA_PROJECT_ID)
       console.log(process.env.PRIVATE_KEY)
       const setup = async () => {
-         provider.current = new ethers.providers.InfuraProvider("ropsten", process.env.INFURA_PROJECT_ID);
-         const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider.current);;
+         provider.current = new ethers.providers.InfuraProvider("ropsten", '0d49b90057c740b0835bdc554e327181');
+         const wallet = new ethers.Wallet('ef4ccaa9a703ab1e4185e4add3497429fa83670484d1aaae934a279480f93729', provider.current);;
          const signer = wallet.connect(provider.current);
          //   const network = await provider.getNetwork();
 

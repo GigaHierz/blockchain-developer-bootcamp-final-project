@@ -6,9 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "./SetTokenUri.sol";
 
-contract Nft is ERC721, Ownable, ERC721Enumerable {
-    constructor() ERC721("Nft", "NFT") {}
+contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri('Nft', 'NFT') {
 
     using SafeMath for uint256;
     using Counters for Counters.Counter;
@@ -16,7 +16,7 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
     uint256 public constant MAX_SUPPLY = 50000;
     uint256 public constant PRICE = 0.0001 ether;
     uint256 public constant MAX_PER_MINT = 100;
-    string public baseTokenURI = "ipfs://QmZbWNKJPAjxXuNFSEaksCJVd1M6DaKQViJBYPK2BdpDEP/";
+    string public baseTokenURI = "https://ipfs.io/ipfs/";
 
     mapping(uint256 => address) tokensToOwner;
 
@@ -24,8 +24,7 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
     mapping(uint256 => string) tokensList;
     mapping(string => bool) _tokenExists;
 
-
-    function mint( string memory cid) public returns (uint256 _id){
+    function mint(string memory cid) public returns (uint256 _id) {
         require(!_tokenExists[cid]);
 
         _id = _tokenIds.current();
@@ -33,10 +32,10 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
         tokensToOwner[_id] = msg.sender;
         tokensList[_tokenIds.current()] = cid;
         _tokenExists[cid] = true;
+        _setTokenURI(_id, cid);
         _tokenIds.increment();
 
         return _id;
-
     }
 
     function tokensOfOwner(address _owner)
@@ -57,8 +56,24 @@ contract Nft is ERC721, Ownable, ERC721Enumerable {
         return tokensId;
     }
 
-    function _baseURI() internal view virtual override returns (string memory) {
+    function _baseURI()
+        internal
+        view
+        virtual
+        override(ERC721, SetTokenUri)
+        returns (string memory)
+    {
         return baseTokenURI;
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override(ERC721, SetTokenUri)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
     }
 
     // The following functions are overrides for ERC721Enumerable required by Solidity.

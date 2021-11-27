@@ -1,54 +1,72 @@
 import { Box, Button } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { BigNumber, Contract } from "ethers";
 import { useState } from "react";
 import Color from "../models/Color";
+import { hexToDec } from "../shared/HexEncoder";
 import Nft from "./nfts/Nft";
 
-export default function ItemList({contract, account}: {contract: Contract, account: string| null | undefined}){
+export default function ItemList({
+  contract,
+  account,
+}: {
+  contract: Contract;
+  account: string | null | undefined;
+}) {
+  const [tokenList, setTokenList] = useState<string[]>([]);
 
-    let colors: Color[] = [];
-    const [colorList, setColorList] = useState(colors);
+  const showList = async () => {
+    const tokenIds: BigNumber[] = await contract?.tokensOfOwner(account);
+    let result: string[] = [];
 
+    tokenIds.map(async (token: BigNumber, index: number) => {
+      await contract
+        ?.tokenURI(hexToDec(token._hex))
+        .then((token: string) => result.push(token));
+      // .then(() => {
+      //   if (index === tokenIds.length - 1) {
+      //     console.log(index);
 
-    const showList = async () => {
+      //     setTokenList(result);
+      //     // console.log(tokenList);
 
-      // get ids of owner and then get the tokenofowner with id
-        const tx4 = await contract?.tokensOfOwner(account); 
-        console.log(tx4);
-    
-        // tokensOfOwner.map((token) => {
-        //   const result =  await
-        // })
-        setColorList((prevColors) => [...prevColors, ...tx4]);
-    };
+      //     // console.log(result);
+      //   }
+      // })
+      // .then(() => console.log(tokenList));
+    });
 
-    return (<Box>
-                <Button
-          border="1px solid transparent"
-          _hover={{
-            border: "1px",
-            borderStyle: "solid",
-            borderColor: "blue.400",
-          }}
-          borderRadius="xl"
-          width="10vh"
-          onClick={showList}
-        >
-          Show List
-        </Button>
-        <Box
-          display="grid"
-          grid-template-columns="1fr 1fr 1fr 1fr"
-          alignItems="center"
-          flexDirection="row"
-          flex-wrap="wrap"
-          width="90%"
-        >
-          {colorList.map((color, index) => {
-            if (color) {
-              return <Nft nft={color} key={index} />;
-            }
-          })}
-        </Box>
-    </Box>)
+    setTokenList(result);
+  };
+
+  return (
+    <Box>
+      <Button
+        border="1px solid transparent"
+        _hover={{
+          border: "1px",
+          borderStyle: "solid",
+          borderColor: "blue.400",
+        }}
+        borderRadius="xl"
+        width="10vh"
+        onClick={showList}
+      >
+        Show List
+      </Button>
+      <Box
+        display="grid"
+        grid-template-columns="1fr 1fr 1fr 1fr"
+        alignItems="center"
+        flexDirection="row"
+        flex-wrap="wrap"
+        width="90%"
+      >
+        {tokenList.map((color, index) => {
+          if (color) {
+            return <Nft nft={color} key={index} />;
+          }
+        })}
+      </Box>
+    </Box>
+  );
 }
