@@ -1,31 +1,29 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import FlexColumn from "./components/shared/FlexColumn";
 import Page from "./components/shared/Page";
-import Home  from "./pages/Home";
+import Home from "./pages/Home";
 import ConnectButton from "./components/metamask/ConnectButton";
-import {  useEthers } from '@usedapp/core'
+import { useEthers } from "@usedapp/core";
 
 export default function App() {
-
-  const { chainId,active  } = useEthers();
+  const { chainId, active } = useEthers();
 
   // Todo: alert when chainId is updated
-  const  checkChainId = () =>  {
-    if( chainId !== 3 && active ) {
+  const checkChainId = () => {
+    if (chainId !== 3 && active) {
       // alert('To be able to use this App please connect to the RopstenNetwork')
     }
-  }
-  checkChainId()
+  };
+  checkChainId();
 
   return (
-
-    <ChakraProvider >
+    <ChakraProvider>
       <Page>
         <FlexColumn>
-          <ConnectButton />   
+          <ConnectButton />
           <Home />
         </FlexColumn>
       </Page>
     </ChakraProvider>
-  )
+  );
 }

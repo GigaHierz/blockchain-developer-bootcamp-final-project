@@ -8,8 +8,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "./SetTokenUri.sol";
 
-contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri('Nft', 'NFT') {
-
+contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri("Nft", "NFT") {
     using SafeMath for uint256;
     using Counters for Counters.Counter;
 
@@ -21,16 +20,16 @@ contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri('Nft', 'NFT') {
     mapping(uint256 => address) tokensToOwner;
 
     Counters.Counter private _tokenIds;
-    mapping(uint256 => string) tokensList;
     mapping(string => bool) _tokenExists;
+    mapping(address => bool) _userExists;
 
     function mint(string memory cid) public returns (uint256 _id) {
-        require(!_tokenExists[cid]);
+        require(!_tokenExists[cid], "Object already exists");
 
         _id = _tokenIds.current();
         _mint(msg.sender, _id);
         tokensToOwner[_id] = msg.sender;
-        tokensList[_tokenIds.current()] = cid;
+        tokenURIs[_id] = cid;
         _tokenExists[cid] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();

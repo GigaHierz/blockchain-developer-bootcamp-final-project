@@ -1,49 +1,84 @@
-import { Box, Button, Text } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import Color from "../models/Color";
+import { ReactComponent as YourSvg } from "../assets/octopus.svg";
+import svg from "../assets/octopus.svg";
+import fs from "fs";
+import MintItem from "./MintItem";
+import { Contract } from "ethers";
 import { encodeString } from "../shared/StringEncoder";
 
-export default function CreateItem({
-  contract,
-  account,
-}: {
-  contract: Contract;
-  account: string | null | undefined;
-}) {
-  const [token, setToken] = useState({} as Color);
+export default function CreateItem({ contract }: { contract: Contract }) {
+  let yourName: HTMLInputElement | null;
 
-  const generateColor = () => {
-    return `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
+  const [color, setColor] = useState("");
+  const [name, setName] = useState("");
+  const [data, setData] = useState("");
+
+  let frame = document.getElementById("frame");
+  let img = document.createElement("img");
+
+  const create = async (name: string) => {
+    let temp: string | null;
+
+    if (img.id) {
+      frame?.firstChild?.remove();
+      temp = await base64SvgToBase64Png(svg, 200);
+    } else {
+      temp = await base64SvgToBase64Png(svg, 200);
+    }
+    !temp || setData(temp);
   };
 
-  const createOctopus = (name: string) => {
-    let hex = encodeString(name);
+  /**
+   * converts a base64 encoded data url SVG image to a PNG image
+   * @param originalBase64 data url of svg image
+   * @param width target width in pixel of PNG image
+   * @return {Promise<String>} resolves to png data url of the image
+   */
+  function base64SvgToBase64Png(
+    originalBase64: string,
+    width: number
+  ): Promise<string | null> {
+    return new Promise((resolve) => {
+      console.log(img);
+      console.log(color);
 
-    token.name = name;
-    token.value = `#${hex.toString().slice(0, 6)}`;
-
-    console.log(token);
-  };
+      img.id = name;
+      img.onload = function () {
+        frame?.appendChild(img);
+        let canvas = document.createElement("canvas");
+        let ratio = img.clientWidth / img.clientHeight || 1;
+        color || frame?.removeChild(img);
+        img.style.background = color;
+        img.style.border = "1.5px solid #ffff11";
+        img.style.width = "300px";
+        canvas.width = width;
+        canvas.height = width / ratio;
+        let ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+        try {
+          let data = canvas.toDataURL("image/png");
+          fs.writeFileSync("./test.png", data);
+          resolve(data);
+        } catch (e) {
+          resolve(null);
+        }
+      };
+      img.src = originalBase64;
+    });
+  }
 
   const enterName = () => {
-    console.log("Enter  Name");
-  };
-
-  const mint = async () => {
-    console.log(contract);
-
-    if (token) {
-      console.log(token);
-      await contract.mint(token.name).then((token: any) => console.log(token));
-      // await tx3.wait()
-      // console.log(tx3);
-      //   setColorList((prevColors) => [...prevColors, token]);
-    }
+    alert("Please enter a Name");
   };
 
   return (
-    <Box>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -62,9 +97,9 @@ export default function CreateItem({
           onSubmit={(event) => {
             event.preventDefault();
 
-            token?.value && token?.value !== ""
-              ? createOctopus(token.value)
-              : createOctopus(generateColor());
+            yourName?.value && yourName?.value !== ""
+              ? create(yourName?.value)
+              : enterName();
           }}
         >
           <Box
@@ -77,16 +112,25 @@ export default function CreateItem({
               type="text"
               className="form-control mb-1"
               placeholder="Your Name"
-              ref={(input) => ({ name: "", value: input?.value || "", id: "" })}
+              ref={(input) => (yourName = input)}
             />
             <input
               type="submit"
               className="btn btn-block btn-primary"
-              value="Create NFT"
+              value="Create"
             />
           </Box>
         </form>
       </Box>
+      <Box id="frame" margin="20px" padding="10px" border="1.5px solid #ffff11">
+        {!name && <YourSvg width="300px" height="300px/ratio"></YourSvg>}
+      </Box>
+      <MintItem
+        contract={contract}
+        name={name}
+        value={color}
+        img={data}
+      ></MintItem>
       <Box
         margin="0"
         padding="10px"
@@ -95,21 +139,7 @@ export default function CreateItem({
         flexDirection="column"
         borderRadius="xl"
         py="0"
-      >
-        <Button
-          border="1px solid transparent"
-          _hover={{
-            border: "1px",
-            borderStyle: "solid",
-            borderColor: "blue.400",
-          }}
-          borderRadius="xl"
-          width="10vh"
-          onClick={mint}
-        >
-          Mint
-        </Button>
-      </Box>
+      ></Box>
     </Box>
   );
 }

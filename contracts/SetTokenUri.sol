@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity  >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -7,7 +8,7 @@ contract SetTokenUri is ERC721, Ownable {
     using Strings for uint256;
 
     // Optional mapping for token URIs
-    mapping(uint256 => string) private _tokenURIs;
+    mapping(uint256 => string) internal tokenURIs;
 
     // Base URI
     string private _baseURIextended;
@@ -28,7 +29,7 @@ contract SetTokenUri is ERC721, Ownable {
             _exists(tokenId),
             "ERC721Metadata: URI set of nonexistent token"
         );
-        _tokenURIs[tokenId] = _tokenURI;
+        tokenURIs[tokenId] = _tokenURI;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -47,7 +48,7 @@ contract SetTokenUri is ERC721, Ownable {
             "ERC721Metadata: URI query for nonexistent token"
         );
 
-        string memory _tokenURI = _tokenURIs[tokenId];
+        string memory _tokenURI = tokenURIs[tokenId];
         string memory base = _baseURI();
 
         // If there is no base URI, return the token URI.

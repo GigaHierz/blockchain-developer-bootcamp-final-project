@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import { BigNumber, Contract } from "ethers";
 import { useState } from "react";
-import Color from "../models/Color";
+import Token from "../models/Token";
 import { hexToDec } from "../shared/HexEncoder";
 import Nft from "./nfts/Nft";
 
@@ -19,23 +19,13 @@ export default function ItemList({
     let result: string[] = [];
 
     tokenIds.map(async (token: BigNumber, index: number) => {
-      await contract
-        ?.tokenURI(hexToDec(token._hex))
-        .then((token: string) => result.push(token));
-      // .then(() => {
-      //   if (index === tokenIds.length - 1) {
-      //     console.log(index);
-
-      //     setTokenList(result);
-      //     // console.log(tokenList);
-
-      //     // console.log(result);
-      //   }
-      // })
-      // .then(() => console.log(tokenList));
+      await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
+        result.push(token);
+      });
     });
 
     setTokenList(result);
+    console.log(tokenList);
   };
 
   return (
@@ -63,7 +53,7 @@ export default function ItemList({
       >
         {tokenList.map((color, index) => {
           if (color) {
-            return <Nft nft={color} key={index} />;
+            // return <Nft nft={color} key={index} />;
           }
         })}
       </Box>
