@@ -1,8 +1,8 @@
 // Identicon.tsx
-import { useEffect, useRef } from "react";
 import { useEthers } from "@usedapp/core";
 import styled from "@emotion/styled";
 import Jazzicon from "@metamask/jazzicon";
+import { useEffect, useRef } from "react";
 
 const StyledIdenticon = styled.div`
   height: 1rem;
@@ -21,6 +21,6 @@ export default function Identicon() {
       ref.current.appendChild(Jazzicon(16, parseInt(account.slice(2, 10), 16)));
     }
   }, [account]);
-  
-  return <StyledIdenticon ref={ref } />
+
+  return <StyledIdenticon ref={ref} />;
 }

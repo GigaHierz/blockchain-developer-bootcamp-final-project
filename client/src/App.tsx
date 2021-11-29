@@ -1,16 +1,15 @@
-import { ChakraProvider, Container, Switch } from "@chakra-ui/react";
-import FlexColumn from "./components/shared/FlexColumn";
-import Home from "./pages/Home";
-import ConnectButton from "./components/metamask/ConnectButton";
+import { ChakraProvider } from "@chakra-ui/react";
 import { useEthers } from "@usedapp/core";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
-import NftContract from "./contracts/Nft.json";
-import Navigation from "./components/shared/Navigation";
-import Footer from "./components/shared/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./pages/Home";
 import ItemView from "./pages/ItemView";
 import AllItems from "./pages/AllItems";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import FlexColumn from "./components/shared/FlexColumn";
+import ConnectButton from "./components/metamask/ConnectButton";
+import NftContract from "./contracts/Nft.json";
 
 export default function App() {
   const { chainId, active } = useEthers();

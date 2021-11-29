@@ -1,6 +1,6 @@
 import { Image } from "react-bulma-components";
-
 import { useParams } from "react-router-dom";
+
 import FlexColumn from "../components/shared/FlexColumn";
 import Page from "../components/shared/Page";
 

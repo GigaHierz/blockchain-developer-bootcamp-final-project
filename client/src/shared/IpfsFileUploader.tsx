@@ -1,7 +1,5 @@
 /* import the ipfs-http-client library */
 import { create } from "ipfs-http-client"; /* Create an instance of the client */
-// import { useState } from "react";
-// export default function MintItem({})
 
 const client = create({
   url: "https://ipfs.infura.io:5001/api/v0",

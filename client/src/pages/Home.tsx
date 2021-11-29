@@ -1,7 +1,7 @@
 import { Container } from "@chakra-ui/react";
-import ItemList from "../components/ItemList";
-import CreateItem from "../components/CreateItem";
 import { Contract } from "ethers";
+
+import CreateItem from "../components/CreateItem";
 import Page from "../components/shared/Page";
 
 export default function Home({

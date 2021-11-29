@@ -1,6 +1,6 @@
 // FlexColumn.tsx
-import { ReactNode } from "react";
 import { Flex } from "@chakra-ui/react";
+import { ReactNode } from "react";
 
 type Props = {
   children?: ReactNode;

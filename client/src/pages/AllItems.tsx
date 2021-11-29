@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Heading } from "@chakra-ui/layout";
 import { Contract } from "ethers";
+
 import Page from "../components/shared/Page";
 import ItemList from "../components/ItemList";
 import FlexColumn from "../components/shared/FlexColumn";
-import { Heading } from "@chakra-ui/layout";
 
 const AllItems = ({
   contract,

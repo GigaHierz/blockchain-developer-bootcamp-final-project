@@ -1,11 +1,10 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useState } from "react";
+
 import Token from "../models/Token";
 import { addItemToIPFS } from "../shared/IpfsFileUploader";
-// import uploadImage from "../service/FileUploadService";
 import png from "../assets/octopus.png";
-import FileUploadService from "../service/FileUploadService";
 import uploadImage from "../service/FileUploadService";
 
 export default function MintItem({

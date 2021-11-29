@@ -1,6 +1,7 @@
 // Layout.tsx
-import { ReactNode } from "react";
 import { Box, Heading } from "@chakra-ui/react";
+import { ReactNode } from "react";
+
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 import FlexColumn from "./FlexColumn";

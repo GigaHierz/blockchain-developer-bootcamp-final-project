@@ -1,10 +1,11 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { Contract } from "ethers";
+
+import MintItem from "./MintItem";
+import { encodeString } from "../shared/StringEncoder";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
-import MintItem from "./MintItem";
-import { Contract } from "ethers";
-import { encodeString } from "../shared/StringEncoder";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
   let yourName: HTMLInputElement | null;

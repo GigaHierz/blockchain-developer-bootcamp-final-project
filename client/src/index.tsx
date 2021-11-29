@@ -1,9 +1,10 @@
+import { ChainId, Config, DAppProvider } from "@usedapp/core";
 import React from "react";
 import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./index.scss";
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { ChainId, Config, DAppProvider } from "@usedapp/core";
 
 const config: Config = {
   readOnlyChainId: ChainId.Ropsten,
