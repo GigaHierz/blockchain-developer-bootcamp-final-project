@@ -1411,16 +1411,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           }
         ],
         "types": {
@@ -1577,16 +1577,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "Nft",
@@ -1797,16 +1797,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "NftV2",
@@ -2017,16 +2017,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "Nft",
@@ -2237,16 +2237,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "Nft",
@@ -2457,16 +2457,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "NftV2",
@@ -2677,16 +2677,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "Nft",
@@ -2897,16 +2897,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:12"
+            "src": "../project:/contracts/BaseContract.sol:12"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:15"
+            "src": "../project:/contracts/BaseContract.sol:15"
           },
           {
             "contract": "Nft",
@@ -3099,16 +3099,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:19"
+            "src": "../project:/contracts/BaseContract.sol:19"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:22"
+            "src": "../project:/contracts/BaseContract.sol:22"
           }
         ],
         "types": {
@@ -3289,16 +3289,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:19"
+            "src": "../project:/contracts/BaseContract.sol:19"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:22"
+            "src": "../project:/contracts/BaseContract.sol:22"
           },
           {
             "contract": "Nft",
@@ -3552,16 +3552,16 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:19"
+            "src": "../project:/contracts/BaseContract.sol:19"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:22"
+            "src": "../project:/contracts/BaseContract.sol:22"
           },
           {
             "contract": "Nft",
@@ -3815,22 +3815,22 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:25"
+            "src": "../project:/contracts/BaseContract.sol:25"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "baseTokenURI",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:27"
+            "src": "../project:/contracts/BaseContract.sol:27"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:35"
+            "src": "../project:/contracts/BaseContract.sol:35"
           },
           {
             "contract": "Nft",
@@ -4078,22 +4078,22 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:25"
+            "src": "../project:/contracts/BaseContract.sol:25"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "baseTokenURI",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:27"
+            "src": "../project:/contracts/BaseContract.sol:27"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:35"
+            "src": "../project:/contracts/BaseContract.sol:35"
           },
           {
             "contract": "Nft",
@@ -4341,22 +4341,22 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:25"
+            "src": "../project:/contracts/BaseContract.sol:25"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "baseTokenURI",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:27"
+            "src": "../project:/contracts/BaseContract.sol:27"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:35"
+            "src": "../project:/contracts/BaseContract.sol:35"
           },
           {
             "contract": "Nft",
@@ -4604,22 +4604,22 @@
             "src": "../@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:82"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "tokenURIs",
             "type": "t_mapping(t_uint256,t_string_storage)",
-            "src": "../project:/contracts/SetTokenUri.sol:25"
+            "src": "../project:/contracts/BaseContract.sol:25"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "baseTokenURI",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:27"
+            "src": "../project:/contracts/BaseContract.sol:27"
           },
           {
-            "contract": "SetTokenUri",
+            "contract": "BaseContract",
             "label": "_baseURIextended",
             "type": "t_string_storage",
-            "src": "../project:/contracts/SetTokenUri.sol:35"
+            "src": "../project:/contracts/BaseContract.sol:35"
           },
           {
             "contract": "Nft",

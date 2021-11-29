@@ -7,12 +7,7 @@ const NFT = artifacts.require("Nft");
 module.exports = async function (deployer) {
   const existing = await deployProxy(
     NFT,
-    [
-      "Nft",
-      "Octopus",
-      "https://ipfs.io/ipfs/",
-      deployer.networks.development.from,
-    ],
+    ["Nft", "Octopus", "https://ipfs.io/ipfs/"],
     {
       deployer,
       initializer: "initialize",
@@ -26,7 +21,6 @@ module.exports = async function (deployer) {
   //     "Nft2",
   //     "Octopus",
   //     "https://ipfs.io/ipfs/",
-  //     deployer.networks.development.from,
   //   ],
   //   {
   //     deployer,

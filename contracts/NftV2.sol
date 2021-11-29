@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./SetTokenUri.sol";
+import "./BaseContract.sol";
 
-contract NftV2 is SetTokenUri {
+contract NftV2 is BaseContract {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter internal _tokenIdCounter;
     mapping(uint256 => address) tokensToOwner;
@@ -14,10 +14,9 @@ contract NftV2 is SetTokenUri {
     function initialize(
         string memory _name,
         string memory _symbol,
-        string memory _baseTokenURI,
-        address _owner
-    ) public override(SetTokenUri) initializer {
-        SetTokenUri.initialize(_name, _symbol, _baseTokenURI, _owner);
+        string memory _baseTokenURI
+    ) public override(BaseContract) initializer {
+        BaseContract.initialize(_name, _symbol, _baseTokenURI);
     }
 
     function mint(address to, string memory cid) public returns (uint256 _id) {
@@ -66,7 +65,7 @@ contract NftV2 is SetTokenUri {
     function tokenURI(uint256 tokenId)
         public
         view
-        override(SetTokenUri)
+        override(BaseContract)
         returns (string memory)
     {
         return super.tokenURI(tokenId);
@@ -76,13 +75,13 @@ contract NftV2 is SetTokenUri {
         internal
         view
         virtual
-        override(SetTokenUri)
+        override(BaseContract)
         returns (string memory)
     {
         return super._baseURI();
     }
 
-    function _burn(uint256 tokenId) internal virtual override(SetTokenUri) {
+    function _burn(uint256 tokenId) internal virtual override(BaseContract) {
         super._burn(tokenId);
     }
 
@@ -91,14 +90,14 @@ contract NftV2 is SetTokenUri {
         address from,
         address to,
         uint256 tokenId
-    ) internal override(SetTokenUri) {
+    ) internal override(BaseContract) {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(SetTokenUri)
+        override(BaseContract)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

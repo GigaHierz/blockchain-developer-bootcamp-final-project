@@ -10,7 +10,7 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 
-contract SetTokenUri is
+contract BaseContract is
     Initializable,
     ERC721Upgradeable,
     ERC721URIStorageUpgradeable,
@@ -37,14 +37,13 @@ contract SetTokenUri is
     function initialize(
         string memory _name,
         string memory _symbol,
-        string memory _baseTokenURI,
-        address _owner
+        string memory _baseTokenURI
     ) public virtual initializer {
         __ERC721_init(_name, _symbol);
         baseTokenURI = _baseTokenURI;
 
-        _grantRole(DEFAULT_ADMIN_ROLE, _owner);
-        _grantRole(MINTER_ROLE, _owner);
+        _grantRole(DEFAULT_ADMIN_ROLE, owner());
+        _grantRole(MINTER_ROLE, owner());
     }
 
     function setBaseURI(string memory baseURI_) external onlyOwner {

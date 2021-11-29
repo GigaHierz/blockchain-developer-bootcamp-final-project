@@ -23,11 +23,9 @@ contract("Nft (proxy)", (accounts) => {
 
   // Test case
   it("retrieve returns a value previously initialized", async function () {
-    await deployProxy(
-      Nft,
-      ["Nft", "Octopus", "https://ipfs.io/ipfs/", accounts[0]],
-      { initializer: "initialize" }
-    ).then(
+    await deployProxy(Nft, ["Nft", "Octopus", "https://ipfs.io/ipfs/"], {
+      initializer: "initialize",
+    }).then(
       async (contract) =>
         await contract
           .baseTokenURI()
@@ -40,7 +38,7 @@ contract("Nft (proxy)", (accounts) => {
   xit("works before and after upgrading", async function () {
     const instance = await deployProxy(
       Nft,
-      ["Nft", "Octopus", "https://ipfs.io/ipfs/", accounts[0]],
+      ["Nft", "Octopus", "https://ipfs.io/ipfs/"],
       { initializer: "initialize" }
     )
       .then((instance) => {
@@ -54,7 +52,7 @@ contract("Nft (proxy)", (accounts) => {
           await upgradeProxy(
             instance.address,
             NftV2,
-            ["NftV2", "Octopus", "https://ipfs.io/infura/ipfs", accounts[0]],
+            ["NftV2", "Octopus", "https://ipfs.io/infura/ipfs"],
             { initializer: "initialize" }
           )
       );
@@ -67,16 +65,14 @@ contract("Nft (proxy)", (accounts) => {
 
   xcontext("upgrades", () => {
     it("works", async () => {
-      await deployProxy(
-        Nft,
-        ["Nft", "Octopus", "https://ipfs.io/ipfs/", accounts[0]],
-        { initializer: "initialize" }
-      ).then(
+      await deployProxy(Nft, ["Nft", "Octopus", "https://ipfs.io/ipfs/"], {
+        initializer: "initialize",
+      }).then(
         async (instance) =>
           await upgradeProxy(
             instance.address,
             NftV2,
-            ["NftV2", "Octopus", "https://ipfs.io/infura/ipfs", accounts[0]],
+            ["NftV2", "Octopus", "https://ipfs.io/infura/ipfs"],
             { initializer: "initialize" }
           ).then(
             async (instance2) =>
