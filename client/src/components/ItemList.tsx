@@ -20,6 +20,8 @@ export default function ItemList({
     const tokenIds: BigNumber[] = await contract?.tokensOfOwner(account);
     let result: string[] = [];
 
+    console.log(contract);
+
     tokenIds.map(async (token: BigNumber, index: number) => {
       await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
         result.push(token);

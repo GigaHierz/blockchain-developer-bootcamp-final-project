@@ -10,6 +10,7 @@ const Footer = () => {
             <a
               href="https://github.com/DLT-developers-NFT-project"
               target="_blank"
+              rel="noreferrer"
             >
               Original Project Idea
             </a>

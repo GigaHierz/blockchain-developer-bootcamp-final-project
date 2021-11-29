@@ -22,7 +22,7 @@ export default function Home({
         borderRadius="xl"
         py="0"
       >
-        <CreateItem contract={contract}></CreateItem>
+        <CreateItem contract={contract} account={account}></CreateItem>
       </Container>
     </Page>
   );

@@ -3,7 +3,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "./SetTokenUri.sol";
 
-contract Nft is SetTokenUri {
+contract NftV2 is SetTokenUri {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter internal _tokenIdCounter;
     mapping(uint256 => address) tokensToOwner;

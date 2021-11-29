@@ -7,7 +7,13 @@ import { encodeString } from "../shared/StringEncoder";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
 
-export default function CreateItem({ contract }: { contract: Contract }) {
+export default function CreateItem({
+  contract,
+  account,
+}: {
+  contract: Contract;
+  account: string | null | undefined;
+}) {
   let yourName: HTMLInputElement | null;
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
@@ -160,6 +166,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
       </Box>
       <MintItem
         contract={contract}
+        account={account}
         name={name}
         value={color}
         img={data}

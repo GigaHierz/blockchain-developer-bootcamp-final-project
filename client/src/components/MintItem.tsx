@@ -9,11 +9,13 @@ import uploadImage from "../service/FileUploadService";
 
 export default function MintItem({
   contract,
+  account,
   name,
   value,
   img,
 }: {
   contract: Contract;
+  account: string | null | undefined;
   name: string;
   value: string;
   img?: any;
@@ -58,7 +60,10 @@ export default function MintItem({
   const mint = async (tokenUri: string): Promise<Token | undefined> => {
     if (tokenUri) {
       setStatus("...isLoading");
-      return await contract.mint(tokenUri).then((result: any) => {
+
+      console.log(contract);
+
+      return await contract.mint(account, tokenUri).then((result: any) => {
         console.log(token);
         setStatus(
           `The NFT  was minted.`
