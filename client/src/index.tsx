@@ -9,7 +9,7 @@ import App from "./App";
 const config: Config = {
   readOnlyChainId: ChainId.Ropsten,
   readOnlyUrls: {
-    [ChainId.Ropsten]: `https://ropsten.infura.io/v3/0d49b90057c740b0835bdc554e327181`,
+    [ChainId.Ropsten]: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
   },
   supportedChains: [ChainId.Ropsten],
 };

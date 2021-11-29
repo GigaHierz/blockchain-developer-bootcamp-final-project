@@ -24,42 +24,34 @@ export default function MintItem({
 
   const createMetadataForOctopus = async () => {
     if (name) {
-      console.log("name entred");
-
       uploadImage({ path: png, name: "octopussy" });
 
       await addItemToIPFS(img)
-        .then(async (imageUrl) => {
-          console.log("ipfs");
-
+        .then((imageUrl) => {
           if (imageUrl) {
-            console.log("imageUrl");
-
             setToken(() => ({
               value,
               name,
               imageUrl,
             }));
           }
+          return { value, name, imageUrl };
         })
-        .then(async () => {
+        .then(async (tk) => {
           if (token && token.value) {
             console.log("token");
 
-            const jsonObject = JSON.stringify(token);
+            const jsonObject = JSON.stringify(tk || token);
             await addItemToIPFS(jsonObject).then(async (url) => {
               const urlTemp = url?.replace(baseURI, "");
-              console.log(urlTemp);
+              console.log(url);
 
               if (urlTemp) {
-                const tx1 = await mint(urlTemp);
+                await mint(urlTemp);
               }
             });
           }
         });
-
-      // TODO: Create Image and save to IPFS
-      // const ImageUrl = await addItemToIPFS(Image);
     }
   };
 
