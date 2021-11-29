@@ -1,7 +1,9 @@
-
 // Layout.tsx
 import { ReactNode } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
+import Footer from "./Footer";
+import Navigation from "./Navigation";
+import FlexColumn from "./FlexColumn";
 
 type Props = {
   children?: ReactNode;
@@ -9,8 +11,20 @@ type Props = {
 
 export default function Page({ children }: Props) {
   return (
-    <Box padding="4px" w="100%" h="100vh" bgGradient="linear(to-r, green.200, pink.500)" >
-      {children}
+    <Box
+      padding="4px"
+      w="100%"
+      h="100vh"
+      bgGradient="linear(to-r, green.200, pink.500)"
+    >
+      <FlexColumn>
+        <Navigation />
+
+        <Heading></Heading>
+        <Box h="70vh">{children}</Box>
+
+        <Footer />
+      </FlexColumn>
     </Box>
-  )
+  );
 }

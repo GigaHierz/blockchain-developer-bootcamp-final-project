@@ -1,8 +1,7 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
-import fs from "fs";
 import MintItem from "./MintItem";
 import { Contract } from "ethers";
 import { encodeString } from "../shared/StringEncoder";
@@ -66,7 +65,6 @@ export default function CreateItem({ contract }: { contract: Contract }) {
           ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
           try {
             let data = canvas.toDataURL("image/png");
-            fs.writeFileSync("./test.png", data);
             resolve(data);
           } catch (e) {
             resolve(null);

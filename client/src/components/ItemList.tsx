@@ -1,17 +1,18 @@
 import { Box, Button } from "@chakra-ui/react";
 import { BigNumber, Contract } from "ethers";
 import { useState } from "react";
-import Token from "../models/Token";
 import { hexToDec } from "../shared/HexEncoder";
-import Nft from "./nfts/Nft";
 
 export default function ItemList({
   contract,
   account,
+  ipfsGateway,
 }: {
   contract: Contract;
   account: string | null | undefined;
+  ipfsGateway: string;
 }) {
+  const [metadataUrl, setMetadataUrl] = useState(`Loading...`);
   const [tokenList, setTokenList] = useState<string[]>([]);
 
   const showList = async () => {
