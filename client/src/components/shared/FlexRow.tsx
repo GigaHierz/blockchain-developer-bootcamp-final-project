@@ -1,7 +1,5 @@
-
-// Layout.tsx
-import { ReactNode } from "react";
 import { Flex } from "@chakra-ui/react";
+import { ReactNode } from "react";
 
 type Props = {
   children?: ReactNode;
@@ -18,5 +16,5 @@ export default function FlexRow({ children }: Props) {
     >
       {children}
     </Flex>
-  )
+  );
 }
