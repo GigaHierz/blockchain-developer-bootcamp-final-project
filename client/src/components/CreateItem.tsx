@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
@@ -9,7 +9,6 @@ import { encodeString } from "../shared/StringEncoder";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
   let yourName: HTMLInputElement | null;
-
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
   const [data, setData] = useState("");
@@ -39,34 +38,77 @@ export default function CreateItem({ contract }: { contract: Contract }) {
     originalBase64: string,
     width: number
   ): Promise<string | null> {
-    return new Promise((resolve) => {
-      console.log(img);
-      console.log(color);
+    if (yourName?.value) {
+      return new Promise((resolve) => {
+        console.log(img);
+        console.log(color);
 
-      img.id = name;
-      img.onload = function () {
-        frame?.appendChild(img);
-        let canvas = document.createElement("canvas");
-        let ratio = img.clientWidth / img.clientHeight || 1;
-        color || frame?.removeChild(img);
-        img.style.background = color;
-        img.style.border = "1.5px solid #ffff11";
-        img.style.width = "300px";
-        canvas.width = width;
-        canvas.height = width / ratio;
-        let ctx = canvas.getContext("2d");
-        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-        try {
-          let data = canvas.toDataURL("image/png");
-          fs.writeFileSync("./test.png", data);
-          resolve(data);
-        } catch (e) {
-          resolve(null);
-        }
-      };
-      img.src = originalBase64;
-    });
+        img.id = yourName?.value || name;
+        img.onload = async () => {
+          frame?.appendChild(img);
+          let canvas = document.createElement("canvas");
+          let ratio = img.clientWidth / img.clientHeight || 1;
+          color || frame?.removeChild(img);
+          img.style.background =
+            color ||
+            `#${(
+              Number(encodeString(yourName?.value || "")) *
+              0xfffff *
+              1000000
+            )
+              .toString(16)
+              .slice(0, 6)}`;
+          img.style.border = "1.5px solid #ffff11";
+          img.style.width = "300px";
+          canvas.width = width;
+          canvas.height = width / ratio;
+          let ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+          try {
+            let data = canvas.toDataURL("image/png");
+            fs.writeFileSync("./test.png", data);
+            resolve(data);
+          } catch (e) {
+            resolve(null);
+          }
+        };
+        img.src = originalBase64;
+      });
+    } else {
+      return new Promise(() => {
+        enterName();
+      });
+    }
   }
+
+  const addName = async (event: any) => {
+    event.preventDefault();
+
+    if (event.target.value) {
+      setName(event.target.value);
+      setColor(
+        `#${(Number(encodeString(event.target.value)) * 0xfffff * 1000000)
+          .toString(16)
+          .slice(0, 6)}`
+      );
+      create(event.target.value);
+    } else if (yourName?.value) {
+      setName(yourName?.value || "");
+      setColor(
+        `#${(Number(encodeString(yourName?.value)) * 0xfffff * 1000000)
+          .toString(16)
+          .slice(0, 6)}`
+      );
+      create(yourName?.value || "");
+    } else {
+      setColor(
+        `#${(Number(encodeString(name)) * 0xfffff * 1000000)
+          .toString(16)
+          .slice(0, 6)}`
+      );
+      name && name !== "" ? create(name) : enterName();
+    }
+  };
 
   const enterName = () => {
     alert("Please enter a Name");
@@ -93,15 +135,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         opacity="0.8"
       >
         <Text>Your Name</Text>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-
-            yourName?.value && yourName?.value !== ""
-              ? create(yourName?.value)
-              : enterName();
-          }}
-        >
+        <form onSubmit={addName}>
           <Box
             display="flex"
             alignItems="center"
@@ -123,7 +157,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         </form>
       </Box>
       <Box id="frame" margin="20px" padding="10px" border="1.5px solid #ffff11">
-        {!name && <YourSvg width="300px" height="300px/ratio"></YourSvg>}
+        {!name && <YourSvg width="300px" height="250px"></YourSvg>}
       </Box>
       <MintItem
         contract={contract}
