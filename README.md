@@ -17,6 +17,8 @@ The user will then be redirected to the main Page where they can see their NFTs 
 
 Next action for the would/could be to get the address of someone from the course, who also already created their original Ocotpus. With this address they can create another NFT. A baby Octopus. (- this can only happen once with each person registerd).
 
+Find the app [here](https://octopus-nft-game.herokuapp.com/). Unfortunatly it is not yet possible to mint as someone else then the owner. The metadata is deployed to ipfs but the image is so far only available as pngURL... Anyways enjoy the idea.
+
 1. Installing dependencies
 
 To get started, clone the repository on your local machine:
