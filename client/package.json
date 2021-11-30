@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "https://gigahierz.github.io/blockchain-developer-bootcamp-final-project/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,6 +22,7 @@
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "framer-motion": "4.1.17",
+    "gh-pages": "^3.2.3",
     "ipfs-http-client": "^54.0.2",
     "node-fetch": "^3.1.0",
     "react": "^17.0.2",
@@ -35,7 +37,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d build"
   },
   "proxy": "http://localhost:5000",
   "eslintConfig": {
