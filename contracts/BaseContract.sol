@@ -69,7 +69,6 @@ contract BaseContract is
         internal
         virtual
         override(ERC721URIStorageUpgradeable)
-        tokenExists(tokenId, "ERC721Metadata: URI set of nonexistent token")
     {
         tokenURIs[tokenId] = _tokenURI;
     }

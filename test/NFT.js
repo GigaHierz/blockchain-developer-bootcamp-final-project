@@ -23,46 +23,7 @@ contract("Nft", (accounts) => {
     /* before tests */
   });
 
-  beforeEach(async () => {
-    /* before each context */
-  });
-
-  it("should revert if ...", () => {
-    return Nft.deployed()
-      .then((instance) => {
-        return instance.publicOrExternalContractMethod(argument1, argument2, {
-          from: externalAddress,
-        });
-      })
-      .then((result) => {
-        assert.fail();
-      })
-      .catch((error) => {
-        assert.notEqual(error.message, "assert.fail()", "Reason ...");
-      });
-  });
-
-  context("testgroup - security tests - description...", () => {
-    //deploy a new contract
-    before(async () => {
-      /* before tests */
-      const newNFT = await Nft.new();
-
-      it("fails on initialize ...", async () => {
-        return assertRevert(async () => {
-          await newNFT.initialize();
-        });
-      });
-
-      it("checks if method returns true", async () => {
-        assert.isTrue(await newNFT.thisMethodShouldReturnTrue());
-      });
-    });
-
-    beforeEach(async () => {
-      /* before each tests */
-    });
-  });
+  // Contract is initialized
   context("deployment", async () => {
     it("deploys successfully", async () => {
       const address = contract.address;
@@ -83,6 +44,7 @@ contract("Nft", (accounts) => {
     });
   });
 
+  // Test for minting an NFT
   context("minting", async () => {
     it("creates a new token", async () => {
       // SUCCESS
@@ -104,13 +66,22 @@ contract("Nft", (accounts) => {
         .then((totalSupply) => assert.equal(totalSupply, 1));
 
       // FAILURE: cannot mint same CID twice
-      //    await contract.mint(
-      //      accounts[0],
-      //      "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV"
-      //    ).should.be.rejected;
+      await contract
+        .mint(accounts[0], "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
+        .then((result) => {
+          assert.fail();
+        })
+        .catch((error) => {
+          assert.notEqual(
+            error.message,
+            "assert.fail()",
+            "You cannot mint the same CID twice"
+          );
+        });
     });
   });
 
+  // Get all tokens that belng to contract
   xcontext("indexing", async () => {
     it("token List ", async () => {
       // Mint 3 more tokens
@@ -146,6 +117,7 @@ contract("Nft", (accounts) => {
     });
   });
 
+  // Get Tokens of OWner
   context("get tokenIds of owner", async () => {
     let expected = [
       "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
@@ -175,6 +147,8 @@ contract("Nft", (accounts) => {
     });
   });
 
+  // Check if minting function can be called by another address
+
   context("if message sender changes", async () => {
     it("lists their tokens", async () => {
       // Mint 3  tokens
@@ -203,3 +177,40 @@ contract("Nft", (accounts) => {
     });
   });
 });
+
+// it("should revert if ...", () => {
+//   return Nft.deployed()
+//     .then((instance) => {
+//       return instance.publicOrExternalContractMethod(argument1, argument2, {
+//         from: externalAddress,
+//       });
+//     })
+//     .then((result) => {
+//       assert.fail();
+//     })
+//     .catch((error) => {
+//       assert.notEqual(error.message, "assert.fail()", "Reason ...");
+//     });
+// });
+
+// context("testgroup - security tests - description...", () => {
+//   //deploy a new contract
+//   before(async () => {
+//     /* before tests */
+//     const newNFT = await Nft.new();
+
+//     it("fails on initialize ...", async () => {
+//       return assertRevert(async () => {
+//         await newNFT.initialize();
+//       });
+//     });
+
+//     it("checks if method returns true", async () => {
+//       assert.isTrue(await newNFT.thisMethodShouldReturnTrue());
+//     });
+//   });
+
+//   beforeEach(async () => {
+//     /* before each tests */
+//   });
+// });

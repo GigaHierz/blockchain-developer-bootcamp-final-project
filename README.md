@@ -3,65 +3,107 @@
 a. project description
 NFT Game for Blockchain Bootcamps
 
-Users can login with their MetaMask Wallet. - Ropsten Network
-They should get some ether from a ropsten faucet.
+The basic idea is that people get used to interacting with DApps in an easy and playfull way. It would be complementary to a bootcamp/codecamp.
+The idea is based on a [project](https://github.com/DLT-developers-NFT-project) I started with my study group from DLT Talents.Over there you can find more ideas for a more elaborated app.
 
-When they arrive at the page, they will be greeted and introduced to the idea. And see a button, to connect to MetaMask.
+The user learns to use MetaMask and do little actions.
 
-When they are connected, they see the cute image of the Octopus and can click a button to create their own octopus.
+In this MVP the user will enter their name and a color is created for the image (in this case Octopus, code camps could use their specific logo).
 
-should there already be some minted?
--max number of minted NFTs
--or should they all be freshly minted?
+If the user likes the color, they can MINT the image as an NFT.
+This action will only be available once.
 
-when there is a baby. who does it belng to? or are there always two babies?
-if I say I worked with that person, i enter their adress.
+The user will then be redirected to the main Page where they can see their NFTs listed.
 
-- if they have an nft.
-- if i dont already have a baby with the nft
-- i can mint the nft
-
-will be already created per randomized something (later, visual choice etc....)
-
-- Minting an NFT. That they see, choose
-
-Functions:
-
-- smartcontract deployed
-- is connected to Ropsent TestNet?
-- create NFTs (https://github.com/dappuniversity/nft/blob/master/src/components/App.js)
-
-Attributes:
-
-- color octopus
-- color suction cups
-- form of suction cup - 3
-  - round
-  - hearts
-  - squares
-- eyes - 5
-  - sad
-  - happy
-  - crazy
-  - smart
-  - high
-- accessory - 5
-  - bow - regulator or lawyer
-  - hat - entrepeneur
-  - laptop - technologist or developer
-  - suitcase - investor or VC
-  - sunglasses - multiplicator or influencer
-
-b. directory structure
-c. accessing the frontend
-d. public ethereum adress
-e. design patterns - link to file
-f. security measures - link to file
+Next action for the would/could be to get the address of someone from the course, who also already created their original Ocotpus. With this address they can create another NFT. A baby Octopus. (- this can only happen once with each person registerd).
 
 1. Installing dependencies
+
+To get started, clone the repository on your local machine:
+
+```
+git clone https://github.com/GigaHierz/blockchain-developer-bootcamp-final-project.git
+
+```
+
+then navigate into the repository
+
+```
+cd blockchain-developer-bootcamp-final-project
+```
+
+get all packages installed
+
+```
+yarn install
+```
+
 2. setting up environement variables
-3. Accessing or—if your project needs a server (not required)—running your project
+
+Somehow I had problems with "dotenv". So I created seperate files for each key. Feel free to use dotenv if it works for you.
+
+Otherwise:
+
+- create a file called `.infura`
+
+And add the public key of your infura project into this file:
+
+- create a file called `.mnemonic`
+
+And add the mnemonic / secret passphrase of the MetaMask Wallet that you want to deploy the contract from.
+
+add these files into your .gitignore file. (They should already be icluded.)
+
+3. Sarting FE and setting up env variables there
+
+navigate to the client folder
+
+```
+cd client
+```
+
+run
+
+```
+yarn install
+```
+
+setup `.env` file with the following variables.
+
+```
+REACT_APP_PRIVATE_KEY=xxxxxx
+REACT_APP_IPFS=xxxxxx
+REACT_APP_SECRET=xxxxxx
+REACT_APP_INFURA_PROJECT_ID=xxxxxx
+
+```
+
+run the command
+
+```
+npm run start
+```
+
+the Frontend should be running on [http://localhost:3000/](http://localhost:3000/).
+
 4. Running your smart contract unit tests
+
+make sure you are in the root directory of the project.
+
+run the command
+
+```
+truffle development
+```
+
+inside of the truffle CLI
+
+```
+test
+```
+
+Unfortunately so far the tests for the upgradable plugin are still failing. But there are more tests.
+
 5. A screencast of you walking through your project - loom
 
 To get a developer certification for the course, your project must:
@@ -85,11 +127,3 @@ To get a developer certification for the course, your project must:
   Updates the frontend if the transaction is successful or not
 
 - Hosted on Github Pages, Heroku, Netlify, Fleek, Surge or some other free frontend service that gives users a public interface to your decentralized application. That address should be in your README.md document.
-
-First ideas:
-
-- A platform that offers an overview about blockchain companies and ICOs by minorities/diverse/intersectional led blockchain companies
-
-- a platform like onlyfans but on blockchain
-
-- a platform to save important documents (for people that worked with the german governemnt) - but how would it work with identificaion? someone ould upload the document and send it to the german government. And only they can access & read it and then you could get a visa.. visa process through blockchain? -of course idea for this projet would just be to verify a document?
