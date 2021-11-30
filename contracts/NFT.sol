@@ -39,6 +39,10 @@ contract Nft is BaseContract {
         require(_userExists[user], "User doesn't exists");
         _;
     }
+    modifier addressNotSender(address user1, address user2) {
+        require(user1 != user2, "User doesn't exists");
+        _;
+    }
 
     /// only called once when contract is initialized. Same s constructor.
     /// @inheritdoc BaseContract
@@ -84,6 +88,7 @@ contract Nft is BaseContract {
         payable
         userExists(user1)
         userExists(user2)
+        addressNotSender(user1, user2)
         tokenUnique(cid)
         returns (uint256 _id)
     {
