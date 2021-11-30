@@ -14,7 +14,6 @@ export default function FlexColumn({ children }: Props) {
       justifyContent="center"
       bg="gray.800"
       bgGradient="linear(to-r, green.200, pink.500)"
-      margin="4px"
     >
       {children}
     </Flex>

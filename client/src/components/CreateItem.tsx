@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Contract } from "ethers";
 
 import MintItem from "./MintItem";
-import { encodeString } from "../shared/StringEncoder";
+import { encodeString, hexToDec } from "../shared/StringEncoder";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
+import generateBabyName from "../shared/NameGenerator";
 
 export default function CreateItem({
   contract,
@@ -16,8 +17,7 @@ export default function CreateItem({
   account: string | null | undefined;
   step?: boolean;
 }) {
-  let yourName: HTMLInputElement | null;
-  let handshakeAddress: HTMLInputElement | null;
+  let inputValue: HTMLInputElement | null;
 
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
@@ -27,16 +27,27 @@ export default function CreateItem({
   let frame = document.getElementById("frame");
   let img = document.createElement("img");
 
-  const create = async (name: string) => {
-    let temp: string | null;
+  const create = async (nameInput: string, colorInput: string) => {
+    console.log(nameInput);
+    console.log(colorInput);
 
-    if (img.id) {
-      frame?.firstChild?.remove();
-      temp = await base64SvgToBase64Png(svg, 200);
-    } else {
-      temp = await base64SvgToBase64Png(svg, 200);
-    }
-    !temp || setData(temp);
+    await base64SvgToBase64Png(svg, 200, nameInput, colorInput)
+      .then((data) => !data || setData(data))
+      .then(() => {
+        if (img.style.background === colorInput) {
+          return;
+        }
+      })
+      .then(() => {
+        frame?.appendChild(img);
+      })
+      .then(() => {
+        if (frame?.childElementCount && frame?.childElementCount > 1) {
+          frame?.firstChild?.remove();
+        }
+      });
+
+    //   color || frame?.removeChild(img);
   };
 
   /**
@@ -47,28 +58,17 @@ export default function CreateItem({
    */
   function base64SvgToBase64Png(
     originalBase64: string,
-    width: number
+    width: number,
+    inputName: string,
+    inputColor: string
   ): Promise<string | null> {
-    if (yourName?.value) {
+    if (inputName || name) {
       return new Promise((resolve) => {
-        console.log(img);
-        console.log(color);
-
-        img.id = yourName?.value || name;
+        img.id = inputName || name;
         img.onload = async () => {
-          frame?.appendChild(img);
           let canvas = document.createElement("canvas");
           let ratio = img.clientWidth / img.clientHeight || 1;
-          color || frame?.removeChild(img);
-          img.style.background =
-            color ||
-            `#${(
-              Number(encodeString(yourName?.value || "")) *
-              0xfffff *
-              1000000
-            )
-              .toString(16)
-              .slice(0, 6)}`;
+          img.style.background = color || inputColor;
           img.style.border = "1.5px solid #ffff11";
           img.style.width = "300px";
           canvas.width = width;
@@ -86,7 +86,7 @@ export default function CreateItem({
       });
     } else {
       return new Promise(() => {
-        enterName();
+        enterValue();
       });
     }
   }
@@ -94,19 +94,43 @@ export default function CreateItem({
   const addName = async (event: any) => {
     event.preventDefault();
 
-    if (yourName?.value) {
-      setName(yourName?.value || "");
-      setColor(
-        `#${(Number(encodeString(yourName?.value)) * 0xfffff * 1000000)
-          .toString(16)
-          .slice(0, 6)}`
-      );
-      create(yourName?.value || "");
+    if (step && inputValue?.value && account) {
+      if (!name) {
+        setAddress(inputValue?.value);
+        generateBabyName()
+          .then((name) => {
+            const color = `#${(
+              hexToDec(
+                inputValue?.value.slice(10, 16) + account.slice(16, 22)
+              ) *
+              0xfffff *
+              1000000
+            )
+              .toString(16)
+              .slice(0, 6)}`;
+
+            setName(name);
+            setColor(color);
+            return [name, color];
+          })
+          .then(([name, color]) => create(name, color));
+      }
+    } else if (inputValue?.value) {
+      const color = `#${(
+        Number(encodeString(inputValue?.value)) *
+        0xfffff *
+        1000000
+      )
+        .toString(16)
+        .slice(0, 6)}`;
+      setName(inputValue?.value || "");
+      setColor(color);
+      create(inputValue?.value || "", color);
     }
   };
 
-  const enterName = () => {
-    alert("Please enter a Name");
+  const enterValue = () => {
+    alert("Please enter a Value");
   };
 
   return (
@@ -141,9 +165,7 @@ export default function CreateItem({
               type="text"
               className="form-control mb-1"
               placeholder={step ? "0xAddress" : "Your Name"}
-              ref={(input) =>
-                step ? (handshakeAddress = input) : (yourName = input)
-              }
+              ref={(input) => (inputValue = input)}
             />
             <input
               type="submit"

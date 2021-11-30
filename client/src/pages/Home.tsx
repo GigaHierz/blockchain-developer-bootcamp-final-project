@@ -11,8 +11,6 @@ export default function Home({
   contract: Contract;
   account: string | null | undefined;
 }) {
-  // Input variable
-
   return (
     <Page>
       <Container

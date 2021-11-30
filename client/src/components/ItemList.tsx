@@ -1,8 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
-import { BigNumber, Contract } from "ethers";
+import { Contract } from "ethers";
 import { useState } from "react";
 
-import { hexToDec } from "../shared/HexEncoder";
 import FlexColumn from "./shared/FlexColumn";
 
 export default function ItemList({
