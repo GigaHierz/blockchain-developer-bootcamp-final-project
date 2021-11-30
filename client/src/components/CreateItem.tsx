@@ -10,13 +10,18 @@ import svg from "../assets/octopus.svg";
 export default function CreateItem({
   contract,
   account,
+  step,
 }: {
   contract: Contract;
   account: string | null | undefined;
+  step?: boolean;
 }) {
   let yourName: HTMLInputElement | null;
+  let handshakeAddress: HTMLInputElement | null;
+
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [data, setData] = useState("");
 
   let frame = document.getElementById("frame");
@@ -89,15 +94,7 @@ export default function CreateItem({
   const addName = async (event: any) => {
     event.preventDefault();
 
-    if (event.target.value) {
-      setName(event.target.value);
-      setColor(
-        `#${(Number(encodeString(event.target.value)) * 0xfffff * 1000000)
-          .toString(16)
-          .slice(0, 6)}`
-      );
-      create(event.target.value);
-    } else if (yourName?.value) {
+    if (yourName?.value) {
       setName(yourName?.value || "");
       setColor(
         `#${(Number(encodeString(yourName?.value)) * 0xfffff * 1000000)
@@ -105,13 +102,6 @@ export default function CreateItem({
           .slice(0, 6)}`
       );
       create(yourName?.value || "");
-    } else {
-      setColor(
-        `#${(Number(encodeString(name)) * 0xfffff * 1000000)
-          .toString(16)
-          .slice(0, 6)}`
-      );
-      name && name !== "" ? create(name) : enterName();
     }
   };
 
@@ -139,7 +129,7 @@ export default function CreateItem({
         background="#a73c80"
         opacity="0.8"
       >
-        <Text>Your Name</Text>
+        <Text> {step ? "0xAddress" : "Your Name"}</Text>
         <form onSubmit={addName}>
           <Box
             display="flex"
@@ -150,8 +140,10 @@ export default function CreateItem({
             <input
               type="text"
               className="form-control mb-1"
-              placeholder="Your Name"
-              ref={(input) => (yourName = input)}
+              placeholder={step ? "0xAddress" : "Your Name"}
+              ref={(input) =>
+                step ? (handshakeAddress = input) : (yourName = input)
+              }
             />
             <input
               type="submit"

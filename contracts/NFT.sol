@@ -50,7 +50,7 @@ contract Nft is BaseContract {
         BaseContract.initialize(_name, _symbol, _baseTokenURI);
     }
 
-    /// @notice assigns MinterRolle to msg.sender so msg.sender can mint the NFT. Then Token is minted.
+    /// @notice assigns MinterRolle to msg.sender so msg.sender can mint the NFT. Then Token is minted. Can only be called once by every user.
     /// @dev unfortunatly it dosn't work yet to mint from another address
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata

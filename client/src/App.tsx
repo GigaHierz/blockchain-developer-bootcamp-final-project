@@ -10,6 +10,7 @@ import AllItems from "./pages/AllItems";
 import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 import NftContract from "./contracts/Nft.json";
+import Handshake from "./pages/Handshake";
 
 export default function App() {
   const { chainId, active } = useEthers();
@@ -66,6 +67,13 @@ export default function App() {
             <Route
               path="/item/:itemId"
               element={<ItemView ipfsGateway={ipfsGateway} />}
+            />
+
+            <Route
+              path="/handshake"
+              element={
+                <Handshake contract={contract.current} account={account} />
+              }
             />
 
             {/* <Route path="/contact">

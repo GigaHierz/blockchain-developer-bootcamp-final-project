@@ -16,8 +16,8 @@ const AllItems = ({
 }) => {
   return (
     <Page>
-      <Heading size="l">All Your Octopussessss</Heading>
       <FlexColumn>
+        <Heading size="l">All Your Octopussessss</Heading>
         <ItemList
           contract={contract}
           account={account}
