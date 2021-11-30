@@ -13,17 +13,15 @@ import NftContract from "./contracts/Nft.json";
 
 export default function App() {
   const { chainId, active } = useEthers();
-  const ipfsGateway = `https://ipfs.io/ipfs`;
+  const ipfsGateway = `https://ipfs.io/ipfs/`;
   const { account } = useEthers();
-  //   const ipfsGateway = `https://ipfs.io/ipfs`;
   const provider = useRef<ethers.providers.InfuraProvider>();
-  //   const contract = useRef<Contract>({} as Contract);
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
 
   // Todo: alert when chainId is updated
   const checkChainId = () => {
     if (chainId !== 3 && active) {
-      // alert('To be able to use this App please connect to the RopstenNetwork')
+      alert("To be able to use this App please connect to the RopstenNetwork");
     }
   };
   checkChainId();

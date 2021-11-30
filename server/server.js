@@ -10,39 +10,40 @@ const options = {
 
 app.use(cors(options));
 
-// app.get("/love", (req, res) => {
-//   res.send({ express: "LOVE" }); //Line 10
-// });
+app.get("/love", (req, res) => {
+  res.send({ express: "LOVE" }); //Line 10
+});
 
 app.post("/upload", (req, res) => {
+  console.log(req);
   let fileObj = {};
-  if (req.inputFile) {
-    const file = req.inputFile;
-    const fileName = file.name;
-    const filePath = __dirname + "/files/" + fileName;
+  // if (req.file) {
+  //   const file = req.file;
+  //   const fileName = file.name;
+  //   const filePath = __dirname + "/assets/" + fileName;
 
-    file.mv(filePath, async (err) => {
-      if (err) {
-        console.log("Error: failed to download file.");
-        return res.status(500).send(err);
-      }
+  //   file.mv(filePath, async (err) => {
+  //     if (err) {
+  //       console.log("Error: failed to download file.");
+  //       return res.status(500).send(err);
+  //     }
 
-      const fileHash = await addFile(fileName, filePath);
-      console.log("File Hash received __>", fileHash);
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log("Error: Unable to delete file. ", err);
-        }
-      });
-      fileObj = {
-        file: file,
-        name: fileName,
-        path: filePath,
-        hash: fileHash,
-      };
-      res.render("transfer", { fileObj });
-    });
-  }
+  //     const fileHash = await addFile(fileName, filePath);
+  //     console.log("File Hash received __>", fileHash);
+  //     fs.unlink(filePath, (err) => {
+  //       if (err) {
+  //         console.log("Error: Unable to delete file. ", err);
+  //       }
+  //     });
+  //     fileObj = {
+  //       file: file,
+  //       name: fileName,
+  //       path: filePath,
+  //       hash: fileHash,
+  //     };
+  //     res.render("transfer", { fileObj });
+  //   });
+  // }
 });
 
 const addFile = async (fileName, filePath) => {

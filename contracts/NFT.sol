@@ -62,6 +62,20 @@ contract Nft is BaseContract {
         return userTokens;
     }
 
+    function tokenIdsOfOwner(address _owner)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        uint256 tokenCount = balanceOf(_owner);
+        uint256[] memory tokensId = new uint256[](tokenCount);
+
+        for (uint256 i = 0; i < tokenCount; i++) {
+            tokensId[i] = tokenOfOwnerByIndex(_owner, i);
+        }
+        return tokensId;
+    }
+
     function tokenURI(uint256 tokenId)
         public
         view

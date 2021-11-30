@@ -3,9 +3,9 @@ import { Contract } from "ethers";
 import { useState } from "react";
 
 import Token from "../models/Token";
-import { addItemToIPFS } from "../shared/IpfsFileUploader";
+import { addItemToIPFS } from "../service/IpfsFileUploader";
 import png from "../assets/octopus.png";
-import uploadImage from "../service/FileUploadService";
+import metadata from "../assets/metadata.json";
 
 export default function MintItem({
   contract,
@@ -26,8 +26,6 @@ export default function MintItem({
 
   const createMetadataForOctopus = async () => {
     if (name) {
-      uploadImage({ path: png, name: "octopussy" });
-
       await addItemToIPFS(img)
         .then((imageUrl) => {
           if (imageUrl) {
@@ -43,7 +41,14 @@ export default function MintItem({
           if (token && token.value) {
             console.log("token");
 
-            const jsonObject = JSON.stringify(tk || token);
+            metadata.properties.name.description = tk.name || token.name;
+            metadata.properties.value.description = tk.value || token.value;
+            metadata.properties.image.description =
+              tk.imageUrl || token.imageUrl;
+
+            const meta = { ...metadata };
+
+            const jsonObject = JSON.stringify(meta);
             await addItemToIPFS(jsonObject).then(async (url) => {
               const urlTemp = url?.replace(baseURI, "");
               console.log(url);
