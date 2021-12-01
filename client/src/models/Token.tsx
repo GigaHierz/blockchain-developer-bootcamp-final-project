@@ -3,6 +3,6 @@ export default interface Token {
   value: string;
   imageUrl: string;
   description?: string;
-  parent1?: string;
+  parent1?: string | null;
   parent2?: string;
 }

@@ -14,22 +14,22 @@ export default function Home({
 }) {
   const [state, setState] = useState(true);
 
-  useEffect(() => {
-    checkIfCallerIsNew();
-  });
-  const checkIfCallerIsNew = async () => {
-    await contract
-      .tokensOfOwner(account)
-      .then((data: number[]) => {
-        if (data.length > 0) {
-          setState(false);
-        }
-        setState(true);
-      })
-      .catch((err: Error) => {
-        console.log("Failed with error: " + err);
-      });
-  };
+  // useEffect(() => {
+  //   checkIfCallerIsNew();
+  // });
+  // const checkIfCallerIsNew = async () => {
+  //   await contract
+  //     .tokensOfOwner(account)
+  //     .then((data: number[]) => {
+  //       if (data.length > 0) {
+  //         setState(false);
+  //       }
+  //       setState(true);
+  //     })
+  //     .catch((err: Error) => {
+  //       console.log("Failed with error: " + err);
+  //     });
+  // };
 
   return (
     <Page>

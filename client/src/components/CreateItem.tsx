@@ -187,6 +187,7 @@ export default function CreateItem({
       <MintItem
         contract={contract}
         account={account}
+        address={address}
         step={step}
         name={name}
         value={color}

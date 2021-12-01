@@ -9,6 +9,7 @@ import TokenMetaData from "../models/TokenMetaData";
 export default function MintItem({
   contract,
   account,
+  address,
   step,
   name,
   value,
@@ -16,6 +17,7 @@ export default function MintItem({
 }: {
   contract: Contract;
   account: string | null | undefined;
+  address?: string;
   step?: boolean;
   name: string;
   value: string;
@@ -49,8 +51,10 @@ export default function MintItem({
               type: "Octopus",
               properties: {
                 name: tk.name || token.name,
-                imageUrl: tk.value || token.value,
-                value: tk.imageUrl || token.imageUrl,
+                imageUrl: tk.imageUrl || token.imageUrl,
+                value: tk.value || token.value,
+                parent1: account || null,
+                parent2: address,
               },
             };
 
@@ -61,16 +65,16 @@ export default function MintItem({
 
               if (urlTemp) {
                 mintEvent = await mint(urlTemp);
-                mintEvent.watch(function (err: Error, result: any) {
-                  if (err) {
-                    setStatus(`There was an error.`);
-                    return;
-                  }
-                  console.log(result.args._value);
-                  // check that result.args._from is something then
-                  // display result.args._value in the UI and call
-                  // exampleEvent.stopWatching()
-                });
+                // mintEvent.watch(function (err: Error, result: any) {
+                //   if (err) {
+                //     setStatus(`There was an error.`);
+                //     return;
+                //   }
+                //   console.log(result.args._value);
+                //   // check that result.args._from is something then
+                //   // display result.args._value in the UI and call
+                //   // exampleEvent.stopWatching()
+                // });
               }
             });
           }
@@ -89,12 +93,18 @@ export default function MintItem({
 
       if (step) {
         return await contract
-          .handShake(account, tokenUri, value)
+          .handShake(account, address, tokenUri, value, {
+            gasPrice: 100,
+            gasLimit: 9000000,
+          })
           .then((result: any) => {
             console.log(token);
             setStatus(`The NFT  was minted.`);
           })
-          .catch((err: Error) => {
+          .catch((err: any) => {
+            if (err.code === "INVALID_ARGUMENT") {
+              setStatus(`PLease enter a vali ENS. `);
+            }
             setStatus(
               `There was an error. Maybe you tried to shake hands again? That is unfortunatly only possible once in here. `
             );
@@ -102,7 +112,10 @@ export default function MintItem({
           });
       } else {
         return await contract
-          .mint(account, tokenUri, value)
+          .mint(account, tokenUri, value, {
+            gasPrice: 100,
+            gasLimit: 90000000,
+          })
           .then((result: any) => {
             console.log(token);
             setStatus(`The NFT  was minted.`);

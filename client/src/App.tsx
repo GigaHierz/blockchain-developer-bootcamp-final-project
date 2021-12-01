@@ -59,7 +59,6 @@ export default function App() {
       <FlexColumn>
         <ConnectButton />
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
-          {/* <BrowserRouter> */}
           <Routes>
             <Route
               path="/"
