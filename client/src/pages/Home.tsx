@@ -17,8 +17,6 @@ export default function Home({
     await contract
       .tokensOfOwner(account)
       .then((data: number[]) => {
-        console.log(data);
-
         if (data.length > 0) {
           setState(false);
         }
