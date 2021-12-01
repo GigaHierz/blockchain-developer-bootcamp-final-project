@@ -1,4 +1,4 @@
-# blockchain-developer-bootcamp-final-project
+# Blockchain Developer Bootcamp Final Project GigaHierz
 
 a. project description
 NFT Game for Blockchain Bootcamps
@@ -56,6 +56,24 @@ And add the mnemonic / secret passphrase of the MetaMask Wallet that you want to
 
 add these files into your .gitignore file. (They should already be icluded.)
 
+Next to comile and migrate the contracts run :
+
+```
+truffle compile
+```
+
+and
+
+```
+truffle migrate
+```
+
+And then lastly deploy the contract to the ropsten testnet:
+
+```
+truffle migrate --development ropsten
+```
+
 3. Sarting FE and setting up env variables there
 
 navigate to the client folder
@@ -104,9 +122,15 @@ inside of the truffle CLI
 test
 ```
 
+or you use Ganach CLI. Then the port for the local testnet is `8545`.
+
 Unfortunately so far the tests for the upgradable plugin are still failing. But there are other tests that go through :).
 
 5. A screencast of you walking through your project - loom
+
+6. Ethereum Address
+
+- 0x0AFBEA5597875c33047aB0004575f636e652C49etest
 
 To get a developer certification for the course, your project must:
 

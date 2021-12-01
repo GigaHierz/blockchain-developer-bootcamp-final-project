@@ -29,6 +29,8 @@ export default function Home({
       });
   };
 
+  checkIfCallerIsNew();
+
   return (
     <Page>
       <Container
@@ -38,7 +40,7 @@ export default function Home({
         borderRadius="xl"
         py="0"
       >
-        {state || (
+        {state && (
           <CreateItem contract={contract} account={account}></CreateItem>
         )}
       </Container>

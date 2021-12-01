@@ -11,14 +11,6 @@ const Nft = artifacts.require("../contracts/Nft.sol");
 const NftV2 = artifacts.require("../contracts/NftV2.sol");
 
 contract("Nft (proxy)", (accounts) => {
-  let contract;
-  let creatorAddress = accounts[0];
-  let firstOwnerAddress = accounts[1];
-  let secondOwnerAddress = accounts[2];
-  let externalAddress = accounts[3];
-  let unprivilegedAddress = accounts[4];
-  /* create named accounts for contract roles */
-
   beforeEach(async () => {});
 
   // Test case

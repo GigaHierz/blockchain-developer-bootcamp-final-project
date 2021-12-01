@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity 0.8.10;
 
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
@@ -59,7 +59,7 @@ contract BaseContract is
 
     /// @notice Sets the _baseURI of the contract
     /// @param baseURI_ baseUri for Token (ipfs)
-    function setBaseURI(string memory baseURI_) external onlyOwner {
+    function setBaseURI(string memory baseURI_) internal {
         _baseURIextended = baseURI_;
     }
 

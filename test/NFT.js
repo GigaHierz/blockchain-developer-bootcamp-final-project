@@ -10,12 +10,6 @@ const Nft = artifacts.require("../contracts/Nft.sol");
 
 contract("Nft", (accounts) => {
   let contract;
-  let creatorAddress = accounts[0];
-  let firstOwnerAddress = accounts[1];
-  let secondOwnerAddress = accounts[2];
-  let externalAddress = accounts[3];
-  let unprivilegedAddress = accounts[4];
-  /* create named accounts for contract roles */
 
   before(async () => {
     contract = await Nft.deployed();
@@ -44,14 +38,18 @@ contract("Nft", (accounts) => {
     });
   });
 
-  // Test for minting an NFT
   context("minting", async () => {
     it("creates a new token", async () => {
       // SUCCESS
       await contract
-        .mint(accounts[0], "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
+        .mint(
+          accounts[0],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+          "#111111"
+        )
         .then((data) => {
-          const event = data.logs[0].args;
+          // console.log(data.logs);
+          const event = data.logs[1].args;
           assert.equal(
             event.from,
             "0x0000000000000000000000000000000000000000",
@@ -67,7 +65,11 @@ contract("Nft", (accounts) => {
 
       // FAILURE: cannot mint same CID twice
       await contract
-        .mint(accounts[0], "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
+        .mint(
+          accounts[0],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+          "#222222"
+        )
         .then((result) => {
           assert.fail();
         })
@@ -78,10 +80,117 @@ contract("Nft", (accounts) => {
             "You cannot mint the same CID twice"
           );
         });
+      // FAILURE: cannot mint same color twice
+      await contract
+        .mint(
+          accounts[0],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
+          "#111111"
+        )
+        .then((result) => {
+          assert.fail();
+        })
+        .catch((error) => {
+          assert.notEqual(
+            error.message,
+            "assert.fail()",
+            "You cannot mint the same color twice"
+          );
+        });
     });
   });
 
-  // Get all tokens that belng to contract
+  // Test for handshake an NFT. This means when two user interacted they can add the address of the other person and mint a baby octopus
+  context("handShake", async () => {
+    it("creates a new token", async () => {
+      // Failure as user2 is unkown
+      await contract
+        .handShake(
+          accounts[0],
+          accounts[1],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
+          "#000000"
+        )
+        .then((result) => {
+          assert.fail();
+        })
+        .catch((error) => {
+          assert.notEqual(error.message, "assert.fail()", "User is unknown");
+        });
+
+      await contract.mint(
+        accounts[1],
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
+        "#aaaaaa"
+      );
+      // SUCCESS
+      await contract
+        .handShake(
+          accounts[0],
+          accounts[1],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
+          "#000000"
+        )
+        .then((data) => {
+          console.log("HALSDFOASDNKFKSDNF");
+          console.log(data);
+          console.log(data.logs);
+          const event = data.logs[0].args;
+
+          assert.equal(
+            event.from,
+            "0x0000000000000000000000000000000000000000",
+            "from is correct"
+          );
+          assert.equal(event.to, accounts[0], "to is correct");
+          assert.equal(event.tokenId.toString(), 2, "id is correct");
+        });
+
+      await contract
+        .totalSupply()
+        .then((totalSupply) => assert.equal(totalSupply, 3));
+
+      // FAILURE: cannot mint same CID twice
+      await contract
+        .handShake(
+          accounts[0],
+          accounts[1],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+          "#bbbbbb"
+        )
+        .then((result) => {
+          assert.fail();
+        })
+        .catch((error) => {
+          assert.notEqual(
+            error.message,
+            "assert.fail()",
+            "You cannot mint the same CID twice"
+          );
+        });
+
+      // FAILURE: cannot mint same color twice
+      await contract
+        .handShake(
+          accounts[0],
+          accounts[1],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
+          "#111111"
+        )
+        .then((result) => {
+          assert.fail();
+        })
+        .catch((error) => {
+          assert.notEqual(
+            error.message,
+            "assert.fail()",
+            "You cannot mint the same color twice"
+          );
+        });
+    });
+  });
+
+  // Get all tokens that belong to contract
   xcontext("indexing", async () => {
     it("token List ", async () => {
       // Mint 3 more tokens
@@ -118,62 +227,90 @@ contract("Nft", (accounts) => {
   });
 
   // Get Tokens of OWner
-  context("get tokenIds of owner", async () => {
+  xcontext("get tokenIds of owner", async () => {
     let expected = [
-      "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
-      "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ11",
-      "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF22",
-      "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHz33",
+      "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJaa",
+      "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJbb",
+      "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJcc",
+      "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXFdd",
+      "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHzee",
       //   "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCk34",
     ];
     it("lists tokens", async () => {
       // Mint 3  tokens
       await contract.mint(
-        accounts[0],
-        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ11"
+        accounts[2],
+        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJaa",
+        "#cccccc"
       );
       await contract.mint(
-        accounts[0],
-        "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF22"
+        accounts[3],
+        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJbb",
+        "#dddddd"
       );
       await contract.mint(
-        accounts[0],
-        "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHz33"
+        accounts[4],
+        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJcc",
+        "#123456"
       );
-
+      await contract.handShake(
+        accounts[2],
+        accounts[3],
+        "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXFdd",
+        "#444444"
+      );
       await contract
-        .tokensOfOwner(accounts[0])
-        .then((result) => assert.equal(result.join(","), expected.join(",")));
+        .handShake(
+          accounts[2],
+          accounts[4],
+          "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHzee",
+          "#555555"
+        )
+        .then(
+          async () =>
+            await contract
+              .tokensOfOwner(accounts[2])
+              .then((result) =>
+                assert.equal(result.join(","), expected.join(","))
+              )
+        );
     });
   });
 
   // Check if minting function can be called by another address
 
-  context("if message sender changes", async () => {
+  xcontext("if message sender changes", async () => {
     it("lists their tokens", async () => {
+      let expectedAccount1 = ["QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ44"];
+      let expectedAccount2 = ["QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF77"];
+
       // Mint 3  tokens
-      await contract.mint(
-        accounts[1],
-        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ44"
-      );
-      await contract.mint(
-        accounts[1],
-        "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF77"
-      );
-      await contract.mint(
-        accounts[1],
-        "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHzhh"
-      );
-
-      let expected = [
-        "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ44",
-        "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF77",
-        "Qmb26q9fZELfDYLUzbFr2pXsrnLaiBD8v5p3h8ZRFTHzhh",
-      ];
-
       await contract
-        .tokensOfOwner(accounts[1])
-        .then((result) => assert.equal(result.join(","), expected.join(",")));
+        .mint(
+          accounts[5],
+          "QmZpzAuddjVVcVWAV4fgN4d5riPwdH52Y1RfFjNtknCJ44",
+          "#666666"
+        )
+        .then(async () => {
+          await contract
+            .tokensOfOwner(accounts[5])
+            .then((result) =>
+              assert.equal(result.join(","), expectedAccount1.join(","))
+            );
+        });
+      await contract
+        .mint(
+          accounts[6],
+          "QmYYJ1mXNRUCHGnN2i9N9u1k9qfu3cPNVWmsrxYb3KXF77",
+          "#777777"
+        )
+        .then(async () => {
+          await contract
+            .tokensOfOwner(accounts[6])
+            .then((result) =>
+              assert.equal(result.join(","), expectedAccount2.join(","))
+            );
+        });
     });
   });
 });

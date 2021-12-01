@@ -1,6 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Contract } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Token from "../models/Token";
 import { addItemToIPFS } from "../service/IpfsFileUploader";
@@ -9,12 +9,14 @@ import TokenMetaData from "../models/TokenMetaData";
 export default function MintItem({
   contract,
   account,
+  step,
   name,
   value,
   img,
 }: {
   contract: Contract;
   account: string | null | undefined;
+  step?: boolean;
   name: string;
   value: string;
   img?: any;
@@ -23,6 +25,9 @@ export default function MintItem({
   const [token, setToken] = useState({} as Token);
   const [status, setStatus] = useState("");
 
+  useEffect(() => {
+    // contract.LogForMint().watch((data: any) => console.log(data));
+  });
   const createMetadataForOctopus = async () => {
     if (name) {
       await addItemToIPFS(img)
@@ -73,15 +78,31 @@ export default function MintItem({
 
       console.log(contract);
 
-      return await contract
-        .mint(account, tokenUri)
-        .then((result: any) => {
-          console.log(token);
-          setStatus(`The NFT  was minted.`);
-        })
-        .catch((err: Error) => {
-          console.log("Failed with error: " + err);
-        });
+      if (step) {
+        return await contract
+          .handShake(account, tokenUri, value)
+          .then((result: any) => {
+            console.log(token);
+            setStatus(`The NFT  was minted.`);
+          })
+          .catch((err: Error) => {
+            setStatus(
+              `There was an error. Maybe you tried to shake hands again? That is unfortunatly only possible once in here. `
+            );
+            console.log("Failed with error: " + err);
+          });
+      } else {
+        return await contract
+          .mint(account, tokenUri, value)
+          .then((result: any) => {
+            console.log(token);
+            setStatus(`The NFT  was minted.`);
+          })
+          .catch((err: Error) => {
+            setStatus(`There was an error.`);
+            console.log("Failed with error: " + err);
+          });
+      }
       // await tx3.wait()
       // console.log(tx3);
       //   setColorList((prevColors) => [...prevColors, token]);

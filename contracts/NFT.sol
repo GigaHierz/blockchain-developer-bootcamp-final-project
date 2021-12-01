@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity 0.8.10;
 
 /// @title An NFT game for newcomer to the blockchain world. Can be used complementary to Bootcamps to get used to MetaMask and Dapps.
 /// @author Lena Hierzi
@@ -17,6 +17,8 @@ contract Nft is BaseContract {
     mapping(uint256 => address) tokensToOwner;
     // <tokenExist mapping>
     mapping(string => bool) _tokenExists;
+    // <tokenExist mapping>
+    mapping(string => bool) _colorExists;
     // <userExist mapping>
     mapping(address => bool) _userExists;
 
@@ -24,15 +26,22 @@ contract Nft is BaseContract {
      * Events
      */
 
+    // <LogForSale event: sku arg>
+    event LogForMint(address owner, uint256 tokenId);
+
     /*
      * Modifiers
      */
     modifier tokenUnique(string memory token) {
-        require(!_tokenExists[token], "Object already exists");
+        require(!_tokenExists[token], "token already exists");
+        _;
+    }
+    modifier colorUnique(string memory color) {
+        require(!_colorExists[color], "color already exists");
         _;
     }
     modifier userDoesntExists(address user) {
-        require(!_userExists[user], "User doesn't exists");
+        require(!_userExists[user], "User  exists");
         _;
     }
     modifier userExists(address user) {
@@ -40,7 +49,7 @@ contract Nft is BaseContract {
         _;
     }
     modifier addressNotSender(address user1, address user2) {
-        require(user1 != user2, "User doesn't exists");
+        require(user1 != user2, "Address same as message sender");
         _;
     }
 
@@ -59,16 +68,22 @@ contract Nft is BaseContract {
     /// @dev unfortunatly it dosn't work yet to mint from another address
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata
+    /// @param color needs to be checke so there wont be two NFTs with the same color
     /// @return _id
-    function mint(address to, string memory cid)
+    function mint(
+        address to,
+        string memory cid,
+        string memory color
+    )
         public
         tokenUnique(cid)
+        colorUnique(color)
         userDoesntExists(to)
         returns (uint256 _id)
     {
         _id = _tokenIdCounter.current();
         _grantRole(MINTER_ROLE, to);
-        safeMint(to, cid);
+        safeMint(to, cid, color);
 
         return _id;
     }
@@ -78,12 +93,14 @@ contract Nft is BaseContract {
     /// @param user1 The address, of the user the token will be asigned too
     /// @param user2 The address of the user user1 interacted with.
     /// @param cid The CID of the Tokens metadata
+    /// @param color needs to be checke so there wont be two NFTs with the same color
     /// @return _id
 
     function handShake(
         address user1,
         address user2,
-        string memory cid
+        string memory cid,
+        string memory color
     )
         public
         payable
@@ -91,29 +108,33 @@ contract Nft is BaseContract {
         userExists(user2)
         addressNotSender(user1, user2)
         tokenUnique(cid)
+        colorUnique(color)
         returns (uint256 _id)
     {
         _id = _tokenIdCounter.current();
-        safeMint(user1, cid);
+        safeMint(user1, cid, color);
         return _id;
     }
 
     /// @notice checks if the msg.sender has the minter role, if so the token is assigned to several mappings so you can later check who it belongs to, if it exists.
-    /// @dev unfortunatly it dosn't work yet to mint from another address
     /// @param to The address, the Token should be transfered to
     /// @param uri The CID of the Tokens metadata
-    function safeMint(address to, string memory uri)
-        public
-        onlyRole(MINTER_ROLE)
-    {
+    function safeMint(
+        address to,
+        string memory uri,
+        string memory color
+    ) public onlyRole(MINTER_ROLE) {
         uint256 tokenId = _tokenIdCounter.current();
         _setTokenURI(tokenId, uri);
         tokensToOwner[tokenId] = to;
         tokenURIs[tokenId] = uri;
+        _userExists[to] = true;
         _tokenExists[uri] = true;
+        _colorExists[color] = true;
 
         _setTokenURI(tokenId, uri);
         _safeMint(to, tokenId);
+        emit LogForMint(to, tokenId);
         _tokenIdCounter.increment();
     }
 
@@ -123,7 +144,7 @@ contract Nft is BaseContract {
     function tokensOfOwner(address _owner)
         public
         view
-        userExists(address)
+        userExists(_owner)
         returns (string[] memory)
     {
         uint256 tokenCount = balanceOf(_owner);
@@ -145,7 +166,7 @@ contract Nft is BaseContract {
     function tokenIdsOfOwner(address _owner)
         public
         view
-        userExists(address)
+        userExists(_owner)
         returns (uint256[] memory)
     {
         uint256 tokenCount = balanceOf(_owner);
