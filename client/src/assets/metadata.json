@@ -17,6 +17,14 @@
     "value": {
       "type": "string",
       "description": "Gives you the color of your Ocotpus represents"
+    },
+    "parent1": {
+      "type": "string",
+      "description": "First parent and owner of the Octopus"
+    },
+    "parent2": {
+      "type": "string",
+      "description": "Second parent and person the owner shaked virtual hands"
     }
   }
 }

@@ -45,6 +45,9 @@ export default function CreateItem({
         if (frame?.childElementCount && frame?.childElementCount > 1) {
           frame?.firstChild?.remove();
         }
+      })
+      .catch((err) => {
+        console.log("Failed with error: " + err);
       });
 
     //   color || frame?.removeChild(img);
@@ -139,7 +142,10 @@ export default function CreateItem({
       alignItems="center"
       justifyContent="center"
       flexDirection="column"
+      margin="20px"
     >
+      <Text>Mint a cute octopus</Text>
+
       <Box
         display="flex"
         alignItems="center"

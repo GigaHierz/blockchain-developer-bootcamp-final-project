@@ -14,6 +14,7 @@ import Handshake from "./pages/Handshake";
 
 export default function App() {
   const { chainId, active } = useEthers();
+
   const ipfsGateway = `https://ipfs.io/ipfs/`;
   const { account } = useEthers();
   const provider = useRef<ethers.providers.InfuraProvider>();
@@ -57,7 +58,8 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
-        <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
+        {/* <BrowserRouter basename="/blockchain-developer-bootcamp-final-project"> */}
+        <BrowserRouter>
           <Routes>
             <Route
               path="/"

@@ -51,6 +51,7 @@ contract Nft is BaseContract {
         string memory _symbol,
         string memory _baseTokenURI
     ) public override(BaseContract) initializer {
+        setBaseURI(_baseTokenURI);
         BaseContract.initialize(_name, _symbol, _baseTokenURI);
     }
 
@@ -122,6 +123,7 @@ contract Nft is BaseContract {
     function tokensOfOwner(address _owner)
         public
         view
+        userExists(address)
         returns (string[] memory)
     {
         uint256 tokenCount = balanceOf(_owner);
@@ -143,6 +145,7 @@ contract Nft is BaseContract {
     function tokenIdsOfOwner(address _owner)
         public
         view
+        userExists(address)
         returns (uint256[] memory)
     {
         uint256 tokenCount = balanceOf(_owner);

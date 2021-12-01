@@ -17,7 +17,9 @@ export default function Page({ children }: Props) {
         <Navigation />
 
         <Heading></Heading>
-        <Box h="70vh">{children}</Box>
+        <Box h="70vh" margin="20px">
+          {children}
+        </Box>
 
         <Footer />
       </FlexColumn>

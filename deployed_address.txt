@@ -1,6 +1,6 @@
 Website at: 
 
-https://octopus-nft-game.herokuapp.com/
+https://gigahierz.github.io/blockchain-developer-bootcamp-final-project/
 
 
 Contract Address:

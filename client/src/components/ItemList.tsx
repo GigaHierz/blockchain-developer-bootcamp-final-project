@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Container, Flex } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useState } from "react";
 
@@ -45,14 +45,22 @@ export default function ItemList({
             list?.appendChild(a);
           }
         });
+      })
+      .catch((err: Error) => {
+        console.log("Failed with error: " + err);
       });
   };
 
   const getMetaData = async () => {};
 
   return (
-    <Box width="40vh" height="50vh">
-      <FlexColumn>
+    <Container width="40vh" height="50vh">
+      <Flex
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        id="octopusList"
+      >
         <Button
           border="1px solid transparent"
           _hover={{
@@ -66,15 +74,8 @@ export default function ItemList({
         >
           Show List
         </Button>
-        <Box
-          id="octopusList"
-          display="grid"
-          grid-template-columns="1fr 1fr 1fr 1fr"
-          alignItems="center"
-          flexDirection="row"
-          flex-wrap="wrap"
-        ></Box>
-      </FlexColumn>
-    </Box>
+        <Box id="octopusList"></Box>
+      </Flex>
+    </Container>
   );
 }

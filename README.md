@@ -15,9 +15,9 @@ This action will only be available once.
 
 The user will then be redirected to the main Page where they can see their NFTs listed.
 
-Next action for the would/could be to get the address of someone from the course, who also already created their original Ocotpus. With this address they can create another NFT. A baby Octopus. (- this can only happen once with each person registerd).
+Next action for the user would/could be to get the address of someone from the course, who also already created their original Ocotpus. With this address they can create another NFT. A baby Octopus. (- this can only happen once with each person registerd).
 
-Find the app [here](https://octopus-nft-game.herokuapp.com/). Unfortunatly it is not yet possible to mint as someone else then the owner. The metadata is deployed to ipfs but the image is so far only available as pngURL... Anyways enjoy the idea.
+Find the app [here](https://gigahierz.github.io/blockchain-developer-bootcamp-final-project/). The metadata is deployed to ipfs including the imgURL but the image is so far only available as pngURL... Anyways enjoy the idea.
 
 1. Installing dependencies
 
@@ -104,7 +104,7 @@ inside of the truffle CLI
 test
 ```
 
-Unfortunately so far the tests for the upgradable plugin are still failing. But there are more tests.
+Unfortunately so far the tests for the upgradable plugin are still failing. But there are other tests that go through :).
 
 5. A screencast of you walking through your project - loom
 

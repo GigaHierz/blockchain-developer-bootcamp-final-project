@@ -4,8 +4,7 @@ import { useState } from "react";
 
 import Token from "../models/Token";
 import { addItemToIPFS } from "../service/IpfsFileUploader";
-import png from "../assets/octopus.png";
-import metadata from "../assets/metadata.json";
+import TokenMetaData from "../models/TokenMetaData";
 
 export default function MintItem({
   contract,
@@ -41,12 +40,15 @@ export default function MintItem({
           if (token && token.value) {
             console.log("token");
 
-            metadata.properties.name.description = tk.name || token.name;
-            metadata.properties.value.description = tk.value || token.value;
-            metadata.properties.image.description =
-              tk.imageUrl || token.imageUrl;
-
-            const meta = { ...metadata };
+            let meta: TokenMetaData = {
+              title: "Octopus " + name,
+              type: "Octopus",
+              properties: {
+                name: tk.name || token.name,
+                image: tk.value || token.value,
+                value: tk.imageUrl || token.imageUrl,
+              },
+            };
 
             const jsonObject = JSON.stringify(meta);
             await addItemToIPFS(jsonObject).then(async (url) => {
@@ -58,6 +60,9 @@ export default function MintItem({
               }
             });
           }
+        })
+        .catch((err) => {
+          console.log("Failed with error: " + err);
         });
     }
   };
@@ -68,17 +73,15 @@ export default function MintItem({
 
       console.log(contract);
 
-      return await contract.mint(account, tokenUri).then((result: any) => {
-        console.log(token);
-        setStatus(
-          `The NFT  was minted.`
-          // `The NFT ${result.name} was minted. Find the <a href="${
-          //   baseURI + tokenUri
-          // }">metadata</a> and <a href="${
-          //   result.imageUrl
-          // }">the image</a> on IPFS.`
-        );
-      });
+      return await contract
+        .mint(account, tokenUri)
+        .then((result: any) => {
+          console.log(token);
+          setStatus(`The NFT  was minted.`);
+        })
+        .catch((err: Error) => {
+          console.log("Failed with error: " + err);
+        });
       // await tx3.wait()
       // console.log(tx3);
       //   setColorList((prevColors) => [...prevColors, token]);
@@ -101,6 +104,8 @@ export default function MintItem({
         }}
         borderRadius="xl"
         width="10vh"
+        backgroundColor="#0d6efd"
+        className="btn btn-block btn-primary"
         onClick={createMetadataForOctopus}
       >
         Mint Item

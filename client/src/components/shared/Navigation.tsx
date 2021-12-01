@@ -24,7 +24,7 @@ const Navigation = () => {
           <img src={octopus} alt="Octopus Game" width="50" height="28" />
         </StyledLink>
         <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/handshake">Create</StyledLink>
+        <StyledLink to="/handshake">Handshake</StyledLink>
         <StyledLink to="/all">All Items</StyledLink>
         {/* <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link> */}
