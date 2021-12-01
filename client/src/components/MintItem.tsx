@@ -103,11 +103,12 @@ export default function MintItem({
           })
           .catch((err: any) => {
             if (err.code === "INVALID_ARGUMENT") {
-              setStatus(`PLease enter a vali ENS. `);
+              setStatus(`PLease enter a valid ENS. `);
+            } else {
+              setStatus(
+                `There was an error. Maybe you tried to shake hands againwith the same person? That is unfortunatly only possible once in here. `
+              );
             }
-            setStatus(
-              `There was an error. Maybe you tried to shake hands again? That is unfortunatly only possible once in here. `
-            );
             console.log("Failed with error: " + err);
           });
       } else {

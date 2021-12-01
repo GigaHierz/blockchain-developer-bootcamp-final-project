@@ -3,7 +3,7 @@ import { Box, Container } from "@chakra-ui/react";
 const Footer = () => {
   return (
     <Container>
-      <Box style={{ textAlign: "center" }} h="10vh">
+      <Box style={{ textAlign: "center", margin: "20px 0 0 0" }} h="10vh">
         <p>
           Discover{" "}
           <strong>
