@@ -45,7 +45,7 @@ export default function MintItem({
               type: "Octopus",
               properties: {
                 name: tk.name || token.name,
-                image: tk.value || token.value,
+                imageUrl: tk.value || token.value,
                 value: tk.imageUrl || token.imageUrl,
               },
             };

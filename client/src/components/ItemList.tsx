@@ -51,8 +51,6 @@ export default function ItemList({
       });
   };
 
-  const getMetaData = async () => {};
-
   return (
     <Container width="40vh" height="50vh">
       <Flex
