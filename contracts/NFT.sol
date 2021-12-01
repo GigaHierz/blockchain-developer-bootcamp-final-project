@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.10;
-
 /// @title An NFT game for newcomer to the blockchain world. Can be used complementary to Bootcamps to get used to MetaMask and Dapps.
 /// @author Lena Hierzi
 /// @notice This contract is not aiming for security as it is designed for testing and only to be deployed on testnet.

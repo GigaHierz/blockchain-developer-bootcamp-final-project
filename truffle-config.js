@@ -21,7 +21,8 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const fs = require("fs");
-const infuraKey = fs.readFileSync(".env").toString();
+const infuraKey = fs.readFileSync(".infura").toString();
+console.log(process.env.INFURA_KEY);
 const mnemonic = fs.readFileSync(".mnemonic").toString().trim();
 
 module.exports = {
@@ -61,6 +62,7 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     ropsten: {
+      networkCheckTimeout: 999999,
       provider: () =>
         new HDWalletProvider(
           mnemonic,
@@ -89,7 +91,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.10", // Fetch exact version from solc-bin (default: truffle's version)
+      version: ">=0.4.22 <0.9.0", // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {
         // See the solidity docs for advice about optimization and evmVersion
