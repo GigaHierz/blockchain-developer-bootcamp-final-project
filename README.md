@@ -71,7 +71,7 @@ truffle migrate
 And then lastly deploy the contract to the ropsten testnet:
 
 ```
-truffle migrate --development ropsten
+truffle migrate --network ropsten
 ```
 
 3. Sarting FE and setting up env variables there

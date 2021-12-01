@@ -17,4 +17,4 @@
 
 ## 2. Access Control
 
-I addd access contro, as in the future this contract is a game and a playing field for people who are getting into smart contract development. Like this it will be easy to give inherit it to the next generation. I also wanted the minting funciton to be accessible for everyone, so every person that wants to mint their own token gets assigned the role of a minter. Maybe not the best solution, but ht eonly one I could findin my very tight schedule.
+I added access contro, as in the future this contract is a game and a playing field for people who are getting into smart contract development. Like this it will be easy to give inherit it to the next generation. I also wanted the minting funciton to be accessible for everyone, so every person that wants to mint their own token gets assigned the role of a minter. Maybe not the best solution, but ht eonly one I could findin my very tight schedule.
