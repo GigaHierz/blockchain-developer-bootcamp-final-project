@@ -58,8 +58,8 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
-        {/* <BrowserRouter basename="/blockchain-developer-bootcamp-final-project"> */}
-        <BrowserRouter>
+        <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
+          {/* <BrowserRouter> */}
           <Routes>
             <Route
               path="/"
