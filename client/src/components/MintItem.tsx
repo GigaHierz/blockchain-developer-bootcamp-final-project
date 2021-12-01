@@ -25,9 +25,6 @@ export default function MintItem({
   const [token, setToken] = useState({} as Token);
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    // contract.LogForMint().watch((data: any) => console.log(data));
-  });
   const createMetadataForOctopus = async () => {
     if (name) {
       await addItemToIPFS(img)
