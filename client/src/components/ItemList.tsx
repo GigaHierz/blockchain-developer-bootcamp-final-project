@@ -2,8 +2,6 @@ import { Box, Button, Container, Flex } from "@chakra-ui/react";
 import { Contract } from "ethers";
 import { useState } from "react";
 
-import FlexColumn from "./shared/FlexColumn";
-
 export default function ItemList({
   contract,
   account,

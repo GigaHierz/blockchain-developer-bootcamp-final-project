@@ -1,6 +1,6 @@
 import { Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CreateItem from "../components/CreateItem";
 import Page from "../components/shared/Page";
@@ -13,6 +13,10 @@ export default function Home({
   account: string | null | undefined;
 }) {
   const [state, setState] = useState(true);
+
+  useEffect(() => {
+    checkIfCallerIsNew();
+  });
   const checkIfCallerIsNew = async () => {
     await contract
       .tokensOfOwner(account)
@@ -26,8 +30,6 @@ export default function Home({
         console.log("Failed with error: " + err);
       });
   };
-
-  checkIfCallerIsNew();
 
   return (
     <Page>

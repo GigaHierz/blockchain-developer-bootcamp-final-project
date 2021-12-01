@@ -75,6 +75,7 @@ contract Nft is BaseContract {
         string memory color
     )
         public
+        payable
         tokenUnique(cid)
         colorUnique(color)
         userDoesntExists(to)
