@@ -1,6 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Contract } from "ethers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Token from "../models/Token";
 import { addItemToIPFS } from "../service/IpfsFileUploader";
@@ -24,6 +24,8 @@ export default function MintItem({
   const baseURI = "https://ipfs.infura.io/ipfs/";
   const [token, setToken] = useState({} as Token);
   const [status, setStatus] = useState("");
+
+  let mintEvent: any;
 
   const createMetadataForOctopus = async () => {
     if (name) {
@@ -58,7 +60,17 @@ export default function MintItem({
               console.log(url);
 
               if (urlTemp) {
-                await mint(urlTemp);
+                mintEvent = await mint(urlTemp);
+                mintEvent.watch(function (err: Error, result: any) {
+                  if (err) {
+                    setStatus(`There was an error.`);
+                    return;
+                  }
+                  console.log(result.args._value);
+                  // check that result.args._from is something then
+                  // display result.args._value in the UI and call
+                  // exampleEvent.stopWatching()
+                });
               }
             });
           }
@@ -69,7 +81,7 @@ export default function MintItem({
     }
   };
 
-  const mint = async (tokenUri: string): Promise<Token | undefined> => {
+  const mint = async (tokenUri: string): Promise<any> => {
     if (tokenUri) {
       setStatus("...isLoading");
 
