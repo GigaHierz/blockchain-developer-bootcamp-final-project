@@ -14,18 +14,14 @@ module.exports = async function (deployer) {
     }
   );
   console.log("Deployed", existing.address);
-  // const instance = await upgradeProxy(
-  //   existing.address,
-  //   NFTV2,
-  //   [
-  //     "Nft2",
-  //     "Octopus",
-  //     "https://ipfs.io/ipfs/",
-  //   ],
-  //   {
-  //     deployer,
-  //     initializer: "initialize",
-  //   }
-  // );
-  // console.log("Upgraded", instance.address);
+  const instance = await upgradeProxy(
+    existing.address,
+    NFTV2,
+    ["NftV2", "Octopus", "https://ipfs.io/ipfs/"],
+    {
+      deployer,
+      initializer: "initialize",
+    }
+  );
+  console.log("Upgraded", instance.address);
 };
