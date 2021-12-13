@@ -2,7 +2,7 @@
 const { deployProxy, upgradeProxy } = require("@openzeppelin/truffle-upgrades");
 
 const NFT = artifacts.require("Nft");
-// const NFTV2 = artifacts.require("NftV2");
+const NFTV2 = artifacts.require("NftV2");
 
 module.exports = async function (deployer) {
   const existing = await deployProxy(
