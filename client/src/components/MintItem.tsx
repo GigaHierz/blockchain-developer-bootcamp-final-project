@@ -1,5 +1,5 @@
 import { Box, Button, Text } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { useState } from "react";
 
 import Token from "../models/Token";
@@ -8,6 +8,7 @@ import TokenMetaData from "../models/TokenMetaData";
 
 export default function MintItem({
   contract,
+  provider,
   account,
   address,
   step,
@@ -16,6 +17,7 @@ export default function MintItem({
   img,
 }: {
   contract: Contract;
+  provider: ethers.providers.InfuraProvider | undefined;
   account: string | null | undefined;
   address?: string;
   step?: boolean;
@@ -112,19 +114,30 @@ export default function MintItem({
             console.log("Failed with error: " + err);
           });
       } else {
-        return await contract
-          .mint(account, tokenUri, value, {
-            gasPrice: 100,
-            gasLimit: 90000000,
-          })
-          .then((result: any) => {
-            console.log(token);
-            setStatus(`The NFT  was minted.`);
-          })
-          .catch((err: Error) => {
-            setStatus(`There was an error.`);
-            console.log("Failed with error: " + err);
-          });
+        console.log(account, tokenUri, value);
+        // let gasPrice = (await provider.getGasPrice()).toNumber() * 2
+
+        await provider?.getGasPrice().then(async (price: any) => {
+          let gasPrice = price.toNumber() * 2;
+
+          console.log(gasPrice);
+          console.log(typeof account);
+          console.log(eth.getBlock("latest"));
+
+          return await contract
+            .mint(account, tokenUri.toString, value.toString, {
+              gasPrice: 5000000,
+              gasLimit: 5000000000,
+            })
+            .then((result: any) => {
+              console.log(token);
+              setStatus(`The NFT  was minted.`);
+            })
+            .catch((err: Error) => {
+              setStatus(`There was an error.`);
+              console.log("Failed with error: " + err);
+            });
+        });
       }
       // await tx3.wait()
       // console.log(tx3);

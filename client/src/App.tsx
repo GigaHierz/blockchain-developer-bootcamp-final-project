@@ -62,7 +62,13 @@ export default function App() {
           <Routes>
             <Route
               path="/"
-              element={<Home contract={contract.current} account={account} />}
+              element={
+                <Home
+                  contract={contract.current}
+                  account={account}
+                  provider={provider.current}
+                />
+              }
             />
 
             <Route
@@ -73,7 +79,11 @@ export default function App() {
             <Route
               path="/handshake"
               element={
-                <Handshake contract={contract.current} account={account} />
+                <Handshake
+                  contract={contract.current}
+                  account={account}
+                  provider={provider.current}
+                />
               }
             />
 

@@ -8,7 +8,7 @@ const client = create({
 const auth =
   "Basic " +
   Buffer.from(
-    process.env.REACT_APP_IPFS + ":" + process.env.REACT_APP_LENA
+    process.env.REACT_APP_IPFS + ":" + process.env.REACT_APP_SECRET
   ).toString();
 
 export async function addItemToIPFS(file: any) {

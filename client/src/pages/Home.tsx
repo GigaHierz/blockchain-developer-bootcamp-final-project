@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 import CreateItem from "../components/CreateItem";
@@ -7,9 +7,11 @@ import Page from "../components/shared/Page";
 
 export default function Home({
   contract,
+  provider,
   account,
 }: {
   contract: Contract;
+  provider: ethers.providers.InfuraProvider | undefined;
   account: string | null | undefined;
 }) {
   const [state, setState] = useState(true);
@@ -41,7 +43,11 @@ export default function Home({
         py="0"
       >
         {state && (
-          <CreateItem contract={contract} account={account}></CreateItem>
+          <CreateItem
+            contract={contract}
+            account={account}
+            provider={provider}
+          ></CreateItem>
         )}
       </Container>
     </Page>

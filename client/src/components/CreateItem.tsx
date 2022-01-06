@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 
 import MintItem from "./MintItem";
 import { encodeString, hexToDec } from "../shared/StringEncoder";
@@ -10,10 +10,12 @@ import generateBabyName from "../shared/NameGenerator";
 
 export default function CreateItem({
   contract,
+  provider,
   account,
   step,
 }: {
   contract: Contract;
+  provider: ethers.providers.InfuraProvider | undefined;
   account: string | null | undefined;
   step?: boolean;
 }) {
@@ -187,6 +189,7 @@ export default function CreateItem({
       <MintItem
         contract={contract}
         account={account}
+        provider={provider}
         address={address}
         step={step}
         name={name}
