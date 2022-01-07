@@ -10,10 +10,12 @@ import generateBabyName from "../shared/NameGenerator";
 
 export default function CreateItem({
   contract,
+  provider,
   account,
   step,
 }: {
   contract: Contract;
+  provider: ethers.providers.InfuraProvider | undefined;
   account: string | null | undefined;
   step?: boolean;
 }) {
@@ -188,6 +190,7 @@ export default function CreateItem({
         contract={contract}
         account={account}
         address={address}
+        provider={provider}
         step={step}
         name={name}
         value={color}

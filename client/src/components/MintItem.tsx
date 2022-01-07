@@ -122,7 +122,6 @@ export default function MintItem({
 
           console.log(gasPrice);
           console.log(typeof account);
-          console.log(eth.getBlock("latest"));
 
           return await contract
             .mint(account, tokenUri.toString, value.toString, {
