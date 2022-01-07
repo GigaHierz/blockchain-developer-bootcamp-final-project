@@ -58,18 +58,16 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
-        <BrowserRouter>
+        <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
             <Route
               path="/"
               element={<Home contract={contract.current} account={account} />}
             />
-
             <Route
               path="/item/:itemId"
               element={<ItemView ipfsGateway={ipfsGateway} />}
             />
-
             {/* <Route path="/contact">
               <Navigation />
               <Contact />
