@@ -96,7 +96,7 @@ export default function MintItem({
       if (step) {
         return await contract
           .handShake(account, address, tokenUri, value, {
-            gasPrice: 100,
+            gasPrice: 5000,
             gasLimit: 9000000,
           })
           .then((result: any) => {
