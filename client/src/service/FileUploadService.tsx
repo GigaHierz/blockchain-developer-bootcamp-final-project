@@ -13,8 +13,3 @@ export default function uploadImage(file: { path: string; name: string }) {
     .then((data) => console.log(data))
     .catch((error) => console.log(error));
 }
-
-uploadImage({
-  path: "https://github.com/GigaHierz/blockchain-developer-bootcamp-final-project/blob/main/client/src/assets/octopus.svg",
-  name: "image",
-});
