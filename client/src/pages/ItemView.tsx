@@ -1,4 +1,3 @@
-import { Image } from "react-bulma-components";
 import { useParams } from "react-router-dom";
 
 import FlexColumn from "../components/shared/FlexColumn";
@@ -10,7 +9,7 @@ const ItemView = ({ ipfsGateway }: { ipfsGateway: string }) => {
   return (
     <Page>
       <FlexColumn>
-        <Image src={`${ipfsGateway}/${itemId}`} />
+        <img src={`${ipfsGateway}/${itemId}`} />
       </FlexColumn>
     </Page>
   );

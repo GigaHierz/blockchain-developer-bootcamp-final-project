@@ -1,7 +1,7 @@
 const NFT = artifacts.require("Nft");
-const SetTokenUri = artifacts.require("SetTokenUri");
+const BaseContract = artifacts.require("BaseContract");
 
 module.exports = function (deployer) {
-  deployer.deploy(SetTokenUri);
+  deployer.deploy(BaseContract);
   deployer.deploy(NFT);
 };
