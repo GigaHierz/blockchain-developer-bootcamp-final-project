@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity 0.8.10;
+/// @title An NFT game for newcomer to the blockchain world. Can be used complementary to Bootcamps to get used to MetaMask and Dapps.
+/// @author Lena Hierzi
+/// @notice This contract is not aiming for security as it is designed for testing and only to be deployed on testnet.
+/// @dev All Contract imports can be found in the BaseContract. I think it might be quite heavy and expensive to compile. But it's on the testnet. So go crazy.
+/// @custom:experimental This is an experimental contract.
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -11,7 +16,7 @@ contract BaseContract is ERC721, Ownable {
     mapping(uint256 => string) internal tokenURIs;
 
     // Base URI
-    string private _baseURIextended;
+    string internal _baseURIextended;
 
     constructor(string memory _name, string memory _symbol)
         ERC721(_name, _symbol)
