@@ -15,13 +15,13 @@ contract Nft is ERC721, BaseContract("Nft", "NFT") {
     mapping(string => bool) _tokenExists;
     mapping(address => bool) _userExists;
 
-    function mint(address to, string memory cid) public returns (uint256 _id) {
+    function mint(string memory cid) public returns (uint256 _id) {
         require(!_tokenExists[cid], "Object already exists");
 
         _id = _tokenIds.current();
-        _mint(to, _id);
+        _mint(msg.sender, _id);
 
-        tokensToOwner[_id] = to;
+        tokensToOwner[_id] = msg.sender;
         tokenURIs[_id] = cid;
         _tokenExists[cid] = true;
         _setTokenUri(_id, cid);

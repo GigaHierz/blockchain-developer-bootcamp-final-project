@@ -63,24 +63,25 @@ export default function MintItem({
 
     if (tokenUri) {
       setStatus("...isLoading");
-      const tx3 = await contract.mint(account, tokenUri, {
-        gasPrice: 5000,
-        gasLimit: 500000,
-      });
-      // .then((result: any) => {
-      //   console.log(result);
-      //   setStatus(
-      //     `The NFT  was minted.`
-      //     // `The NFT ${result.name} was minted. Find the <a href="${
-      //     //   baseURI + tokenUri
-      //     // }">metadata</a> and <a href="${
-      //     //   result.imageUrl
-      //     // }">the image</a> on IPFS.`
-      //   );
-      // });
-      let temp = await tx3.wait();
-      console.log(temp);
-      return temp;
+      return await contract
+        .mint(tokenUri, {
+          gasPrice: 500000,
+          gasLimit: 50000000,
+        })
+        .then((result: any) => {
+          console.log(result);
+          setStatus(
+            `The NFT  was minted.`
+            // `The NFT ${result.name} was minted. Find the <a href="${
+            //   baseURI + tokenUri
+            // }">metadata</a> and <a href="${
+            //   result.imageUrl
+            // }">the image</a> on IPFS.`
+          );
+        });
+      // let temp = await tx3.wait();
+      // console.log(temp);
+      // return temp;
       //   setColorList((prevColors) => [...prevColors, token]);
     }
   };
