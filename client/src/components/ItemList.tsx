@@ -67,7 +67,12 @@ export default function ItemList({
         {tokenList.map((color, index) => {
           if (color) {
             return (
-              <StyledLink href={color} target="_blank" rel="noreferrer">
+              <StyledLink
+                href={color}
+                target="_blank"
+                rel="noreferrer"
+                key={index}
+              >
                 your Octopus No: {index}{" "}
               </StyledLink>
             );
