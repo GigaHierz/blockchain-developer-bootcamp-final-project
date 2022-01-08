@@ -9,7 +9,7 @@ const ItemView = ({ ipfsGateway }: { ipfsGateway: string }) => {
   return (
     <Page>
       <FlexColumn>
-        <img src={`${ipfsGateway}/${itemId}`} />
+        <img src={`${ipfsGateway}/${itemId}`} alt="octopus" />
       </FlexColumn>
     </Page>
   );

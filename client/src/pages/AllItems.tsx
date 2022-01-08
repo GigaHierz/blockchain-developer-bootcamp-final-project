@@ -16,10 +16,10 @@ const AllItems = ({
 }) => {
   return (
     <Page>
-      <Heading size="5" renderas="h1">
-        All Your Octopussessss
-      </Heading>
       <FlexColumn>
+        <Heading size="5" renderas="h1">
+          All Your Octopussessss
+        </Heading>
         <ItemList
           contract={contract}
           account={account}
