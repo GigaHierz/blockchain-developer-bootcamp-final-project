@@ -19,8 +19,9 @@ const Navigation = () => {
         align-items="center"
         justify-content="end"
         flexDirection="row"
+        fix
+        styling
         alignItems="end"
-        justifyContent="center"
         h="10vh"
       >
         <StyledLink to="/">
