@@ -1,8 +1,17 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Link } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import { BigNumber, Contract } from "ethers";
 import { useState } from "react";
 
 import { hexToDec } from "../shared/HexEncoder";
+import Nft from "./nfts/Nft";
+
+const StyledLink = styled(Link)`
+  color: #4a4a4a;
+  margin: 5px;
+  backgroundcolor: #666666;
+  border="1px solid transparent"
+`;
 
 export default function ItemList({
   contract,
@@ -31,8 +40,9 @@ export default function ItemList({
   };
 
   return (
-    <Box>
+    <Box width="40vh" display="flex" flexDir="column" align-items="center">
       <Button
+        margin="10px"
         border="1px solid transparent"
         _hover={{
           border: "1px",
@@ -46,6 +56,7 @@ export default function ItemList({
         Show List
       </Button>
       <Box
+        padding="10px"
         display="grid"
         grid-template-columns="1fr 1fr 1fr 1fr"
         alignItems="center"
@@ -55,8 +66,15 @@ export default function ItemList({
       >
         {tokenList.map((color, index) => {
           if (color) {
+            return (
+              <StyledLink href={color} target="_blank" rel="noreferrer">
+                your Octopus No: {index}{" "}
+              </StyledLink>
+            );
             // return <Nft nft={color} key={index} />;
           }
+
+          <p>{color}</p>;
         })}
       </Box>
     </Box>

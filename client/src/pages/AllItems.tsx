@@ -16,7 +16,7 @@ const AllItems = ({
 }) => {
   return (
     <Page>
-      <Heading size="5" renderAs="h1">
+      <Heading size="5" renderas="h1">
         All Your Octopussessss
       </Heading>
       <FlexColumn>

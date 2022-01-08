@@ -19,8 +19,6 @@ const Navigation = () => {
         align-items="center"
         justify-content="end"
         flexDirection="row"
-        fix
-        styling
         alignItems="end"
         h="10vh"
       >
