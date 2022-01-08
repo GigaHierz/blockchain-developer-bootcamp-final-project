@@ -6,12 +6,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 import App from "./App";
 
+// const config: Config = {
+//   readOnlyChainId: ChainId.Ropsten,
+//   readOnlyUrls: {
+//     [ChainId.Ropsten]: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
+//   },
+//   supportedChains: [ChainId.Ropsten],
+// };
+
 const config: Config = {
-  readOnlyChainId: ChainId.Ropsten,
+  readOnlyChainId: ChainId.Rinkeby,
   readOnlyUrls: {
-    [ChainId.Ropsten]: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
+    [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
   },
-  supportedChains: [ChainId.Ropsten],
+  supportedChains: [ChainId.Rinkeby],
 };
 
 ReactDOM.render(

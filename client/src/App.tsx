@@ -33,7 +33,7 @@ export default function App() {
 
     const setup = async () => {
       provider.current = new ethers.providers.InfuraProvider(
-        "ropsten",
+        "rinkeby",
         process.env.REACT_APP_INFURA_PROJECT_ID
       );
       const wallet = new ethers.Wallet(
@@ -44,7 +44,7 @@ export default function App() {
       //   const network = await provider.getNetwork();
 
       // TODO: Figure out chainID
-      const contractAddress = NftContract.networks[3].address;
+      const contractAddress = NftContract.networks[4].address;
 
       setContract((contract) => ({
         ...contract,
