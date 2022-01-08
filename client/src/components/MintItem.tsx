@@ -6,6 +6,7 @@ import Token from "../models/Token";
 import { addItemToIPFS } from "../shared/IpfsFileUploader";
 import png from "../assets/octopus.png";
 import uploadImage from "../service/FileUploadService";
+import { useEthers } from "@usedapp/core";
 
 export default function MintItem({
   contract,
@@ -18,6 +19,8 @@ export default function MintItem({
   value: string;
   img?: any;
 }) {
+  const { account } = useEthers();
+
   const baseURI = "https://ipfs.infura.io/ipfs/";
   const [token, setToken] = useState({} as Token);
   const [status, setStatus] = useState("");
@@ -56,10 +59,12 @@ export default function MintItem({
   };
 
   const mint = async (tokenUri: string): Promise<Token | undefined> => {
+    console.log(contract.address);
+
     if (tokenUri) {
       setStatus("...isLoading");
-      return await contract.mint(tokenUri).then((result: any) => {
-        console.log(token);
+      return await contract.mint(account, tokenUri).then((result: any) => {
+        console.log(result);
         setStatus(
           `The NFT  was minted.`
           // `The NFT ${result.name} was minted. Find the <a href="${
@@ -69,8 +74,9 @@ export default function MintItem({
           // }">the image</a> on IPFS.`
         );
       });
-      // await tx3.wait()
-      // console.log(tx3);
+      // let temp = await tx3.wait();
+      // console.log(temp);
+      // return temp;
       //   setColorList((prevColors) => [...prevColors, token]);
     }
   };

@@ -1,0 +1,18 @@
+{
+  "name": "octopus",
+  "version": "1.0.0",
+  "description": "nft game for fun",
+  "main": "index.js",
+  "repository": "git@github.com:GigaHierz/blockchain-developer-bootcamp-final-project.git",
+  "author": "GigaHierz <lenahierzi@hotmail.de>",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.1",
+    "fs": "^0.0.1-security",
+    "ganache": "7.0.0-filecoin.5"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.2.3",
+    "truffle": "^5.2.7-preserves.5"
+  }
+}

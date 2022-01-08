@@ -6,9 +6,14 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "./SetTokenUri.sol";
+import "./BaseContract.sol";
 
-contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri("Nft", "NFT") {
+contract Nft is
+    ERC721,
+    Ownable,
+    ERC721Enumerable,
+    BaseContract("Nft", "Octopus")
+{
     using SafeMath for uint256;
     using Counters for Counters.Counter;
 
@@ -23,12 +28,12 @@ contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri("Nft", "NFT") {
     mapping(string => bool) _tokenExists;
     mapping(address => bool) _userExists;
 
-    function mint(string memory cid) public returns (uint256 _id) {
+    function mint(address to, string memory cid) public returns (uint256 _id) {
         require(!_tokenExists[cid], "Object already exists");
 
         _id = _tokenIds.current();
-        _mint(msg.sender, _id);
-        tokensToOwner[_id] = msg.sender;
+        _mint(to, _id);
+        tokensToOwner[_id] = to;
         tokenURIs[_id] = cid;
         _tokenExists[cid] = true;
         _setTokenURI(_id, cid);
@@ -53,26 +58,6 @@ contract Nft is ERC721, Ownable, ERC721Enumerable, SetTokenUri("Nft", "NFT") {
             // }
         }
         return tokensId;
-    }
-
-    function _baseURI()
-        internal
-        view
-        virtual
-        override(ERC721, SetTokenUri)
-        returns (string memory)
-    {
-        return baseTokenURI;
-    }
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        virtual
-        override(ERC721, SetTokenUri)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
     }
 
     // The following functions are overrides for ERC721Enumerable required by Solidity.
