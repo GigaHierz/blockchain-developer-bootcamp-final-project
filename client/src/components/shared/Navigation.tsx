@@ -15,15 +15,17 @@ const Navigation = () => {
   return (
     <Container>
       <Box
+        display={"flex"}
+        align-items="center"
+        justify-content="end"
         flexDirection="row"
         alignItems="end"
         justifyContent="center"
         h="10vh"
       >
         <StyledLink to="/">
-          <img src={octopus} alt="Octopus Game" width="50" height="28" />
+          <img src={octopus} alt="Home" width="50" height="28" />
         </StyledLink>
-        <StyledLink to="/">Home</StyledLink>
         <StyledLink to="/all">All Items</StyledLink>
         {/* <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link> */}

@@ -4,8 +4,6 @@ import { useState } from "react";
 
 import Token from "../models/Token";
 import { addItemToIPFS } from "../shared/IpfsFileUploader";
-import png from "../assets/octopus.png";
-import uploadImage from "../service/FileUploadService";
 import { useEthers } from "@usedapp/core";
 
 export default function MintItem({
@@ -25,10 +23,8 @@ export default function MintItem({
   const [token, setToken] = useState({} as Token);
   const [status, setStatus] = useState("");
 
-  const createMetadataForOctopus = async () => {
+  const createOctopus = async () => {
     if (name) {
-      uploadImage({ path: png, name: "octopussy" });
-
       await addItemToIPFS(img)
         .then((imageUrl) => {
           if (imageUrl) {
@@ -63,17 +59,23 @@ export default function MintItem({
 
     if (tokenUri) {
       setStatus("...isLoading");
-      return await contract.mint(account, tokenUri).then((result: any) => {
-        console.log(result);
-        setStatus(
-          `The NFT  was minted.`
-          // `The NFT ${result.name} was minted. Find the <a href="${
-          //   baseURI + tokenUri
-          // }">metadata</a> and <a href="${
-          //   result.imageUrl
-          // }">the image</a> on IPFS.`
-        );
-      });
+      return await contract
+        .mint(account, tokenUri)
+        .then((result: any) => {
+          console.log(result);
+          setStatus(
+            `The NFT  was minted.`
+            // `The NFT ${result.name} was minted. Find the <a href="${
+            //   baseURI + tokenUri
+            // }">metadata</a> and <a href="${
+            //   result.imageUrl
+            // }">the image</a> on IPFS.`
+          );
+        })
+        .catch((err: Error) => {
+          setStatus(`There was an error.`);
+          console.log("Failed with error: " + err);
+        });
       // let temp = await tx3.wait();
       // console.log(temp);
       // return temp;
@@ -97,7 +99,7 @@ export default function MintItem({
         }}
         borderRadius="xl"
         width="10vh"
-        onClick={createMetadataForOctopus}
+        onClick={createOctopus}
       >
         Mint Item
       </Button>
