@@ -34,7 +34,7 @@ contract Nft is
      * Modifiers
      */
     modifier tokenUnique(string memory token) {
-        require(!_tokenExists[token], "token already exists");
+        require(!_tokenExists[token], "Object already exists");
         _;
     }
     modifier userDoesntExists(address user) {
@@ -64,6 +64,7 @@ contract Nft is
         _mint(to, _id);
         tokensToOwner[_id] = to;
         _tokenExists[cid] = true;
+        _userExists[to] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();
 
