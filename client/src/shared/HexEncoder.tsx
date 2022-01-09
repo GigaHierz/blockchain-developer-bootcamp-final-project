@@ -1,3 +1,3 @@
 export function hexToDec(hexString: string) {
-  return parseInt(hexString, 16);
+  return parseInt(hexString.slice(4, 10), 16);
 }
