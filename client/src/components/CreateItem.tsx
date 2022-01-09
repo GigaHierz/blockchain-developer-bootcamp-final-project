@@ -61,7 +61,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
           let ratio = img.clientWidth / img.clientHeight || 1;
           img.style.background = color || inputColor;
           img.style.border = "1.5px solid #ffff11";
-          img.style.width = "300px";
+          img.style.width = "250px";
           canvas.width = width;
           canvas.height = width / ratio;
           let ctx = canvas.getContext("2d");
@@ -148,7 +148,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         </form>
       </Box>
       <Box id="frame" margin="20px" padding="10px" border="1.5px solid #ffff11">
-        {!name && <YourSvg width="300px" height="250px"></YourSvg>}
+        {!name && <YourSvg width="250px" height="200px"></YourSvg>}
       </Box>
       <MintItem
         contract={contract}
