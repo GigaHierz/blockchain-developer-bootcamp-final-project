@@ -18,9 +18,13 @@ contract BaseContract is ERC721, Ownable {
     // Base URI
     string internal _baseURIextended;
 
-    constructor(string memory _name, string memory _symbol)
-        ERC721(_name, _symbol)
-    {}
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        string memory _baseURI
+    ) ERC721(_name, _symbol) {
+        _baseURIextended = _baseURI;
+    }
 
     function setBaseURI(string memory baseURI_) external onlyOwner {
         _baseURIextended = baseURI_;

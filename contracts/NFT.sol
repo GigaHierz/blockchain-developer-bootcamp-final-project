@@ -16,7 +16,7 @@ contract Nft is
     ERC721,
     Ownable,
     ERC721Enumerable,
-    BaseContract("Nft", "Octopus")
+    BaseContract("Nft", "Octopus", "https://ipfs.io/ipfs/")
 {
     using SafeMath for uint256;
     using Strings for uint256;
