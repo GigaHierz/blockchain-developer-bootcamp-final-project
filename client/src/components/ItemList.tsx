@@ -1,7 +1,7 @@
 import { Box, Button, Link } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { BigNumber, Contract } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { hexToDec } from "../shared/HexEncoder";
 
@@ -21,41 +21,24 @@ export default function ItemList({
 }) {
   const [tokenList, setTokenList] = useState<string[]>([]);
 
-  const showList = async () => {
-    // const tokenIds: BigNumber[] = ;
-    let result: string[] = [];
+  useEffect(() => {
+    if (account && tokenList.length === 0) {
+      showList();
+    }
+  });
 
+  const showList = async () => {
     await contract?.tokensOfOwner(account).then((tokenIds: BigNumber[]) => {
       tokenIds.map(async (token: BigNumber, index: number) => {
         await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
-          result.push(token);
-
           setTokenList((tokenList) => [...tokenList, token]);
         });
       });
     });
-
-    if (result) {
-      setTokenList(result);
-    }
-    console.log(tokenList);
   };
+
   return (
     <Box width="40vh" display="flex" flexDir="column" align-items="center">
-      <Button
-        margin="10px"
-        border="1px solid transparent"
-        _hover={{
-          border: "1px",
-          borderStyle: "solid",
-          borderColor: "blue.400",
-        }}
-        borderRadius="xl"
-        width="10vh"
-        onClick={showList}
-      >
-        Show List
-      </Button>
       <Box
         padding="10px"
         display="grid"
@@ -79,14 +62,21 @@ export default function ItemList({
                 </StyledLink>
               );
             } else {
-              return (
-                <p>You don't have any Octopus yet or they are loading...</p>
-              );
+              return <p>Yloading...</p>;
             }
           })}
 
         {tokenList.length === 0 && (
-          <p>You don't have any Octopus yet or they are loading...</p>
+          <p>
+            You don't have any Octopus yet. Go{" "}
+            <a
+              href="/blockchain-developer-bootcamp-final-project/mint"
+              color="#f87111"
+            >
+              mint
+            </a>{" "}
+            some...{" "}
+          </p>
         )}
       </Box>
     </Box>
