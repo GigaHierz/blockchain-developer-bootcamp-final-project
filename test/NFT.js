@@ -167,14 +167,40 @@ contract("Nft", (accounts) => {
     });
   });
 
+  describe("when I do a handshake and the partner address doesn't exist", async () => {
+    it("it should be reverted", async () => {
+      await contract
+        .handshake(
+          secondAddress,
+          accounts[6],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC777"
+        )
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert User doesn't exists -- Reason given: User doesn't exists."
+          );
+        });
+    });
+  });
+
   describe("get tokens of owner", async () => {
     it("lists tokens", async () => {
       let expected = [
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
       ];
+
+      await contract.mint(
+        thirdAddress,
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC555"
+      );
+      await contract.mint(
+        fourthAddress,
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC666"
+      );
 
       // Mint 3  tokens
       await contract.handshake(
