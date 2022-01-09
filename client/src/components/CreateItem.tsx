@@ -1,21 +1,45 @@
 import { Box, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { Contract } from "ethers";
+import { useEffect, useState } from "react";
+import { BigNumber, Contract } from "ethers";
 
 import MintItem from "./MintItem";
 import { encodeString } from "../shared/StringEncoder";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
+import { useEthers } from "@usedapp/core";
+import generateBabyName from "../shared/NameGenerator";
+import { hexToDecColor } from "../shared/HexEncoder";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
+  const { account } = useEthers();
+
   let inputValue: HTMLInputElement | null;
+  let userKnown: boolean | undefined;
 
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [data, setData] = useState("");
+  const [userState, setUserState] = useState(false);
 
   let frame = document.getElementById("frame");
   let img = document.createElement("img");
+
+  useEffect(() => {
+    if (userKnown === undefined) {
+      userExits();
+    }
+  });
+
+  const userExits = async () => {
+    if (account && !userKnown) {
+      await contract?.tokensOfOwner(account).then((tokens: BigNumber[]) => {
+        userKnown = tokens.length > 0;
+        console.log(userKnown);
+        setUserState(tokens.length > 0);
+      });
+    }
+  };
 
   const create = async (nameInput: string, colorInput: string) => {
     console.log(nameInput);
@@ -85,7 +109,30 @@ export default function CreateItem({ contract }: { contract: Contract }) {
   const addName = async (event: any) => {
     event.preventDefault();
 
-    if (inputValue?.value) {
+    if (userKnown && inputValue?.value && account) {
+      if (!name) {
+        setAddress(inputValue?.value);
+        generateBabyName()
+          .then((name) => {
+            const color = `#${(
+              hexToDecColor(
+                inputValue?.value.slice(10, 16) + account.slice(16, 22)
+              ) *
+              0xfffff *
+              1000000
+            )
+              .toString(16)
+              .slice(0, 6)}`;
+
+            console.log(color);
+
+            setName(name);
+            setColor(color);
+            return [name, color];
+          })
+          .then(([name, color]) => create(name, color));
+      }
+    } else if (inputValue?.value) {
       const color = `#${(
         Number(encodeString(inputValue?.value)) *
         0xfffff *
@@ -125,7 +172,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         background="#a73c80"
         opacity="0.8"
       >
-        <Text>Your Name</Text>
+        <Text> {userState ? "0xAddress" : "Your Name"}</Text>{" "}
         <form onSubmit={addName}>
           <Box
             display="flex"
@@ -136,7 +183,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
             <input
               type="text"
               className="form-control mb-1"
-              placeholder="Your Name"
+              placeholder={userState ? "0xAddress" : "Your Name"}
               ref={(input) => (inputValue = input)}
             />
             <input
@@ -154,6 +201,8 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         contract={contract}
         name={name}
         value={color}
+        address={address}
+        userKnown={userState}
         img={data}
       ></MintItem>
       <Box

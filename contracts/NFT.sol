@@ -30,18 +30,68 @@ contract Nft is
     mapping(string => bool) _tokenExists;
     mapping(address => bool) _userExists;
 
-    /// @notice assigns MinterRolle to msg.sender so msg.sender can mint the NFT. Then Token is minted. Can only be called once by every user.
-    /// @dev unfortunatly it dosn't work yet to mint from another address
+    /*
+     * Modifiers
+     */
+    modifier tokenUnique(string memory token) {
+        require(!_tokenExists[token], "Object already exists");
+        _;
+    }
+    modifier userDoesntExists(address user) {
+        require(!_userExists[user], "User already  exists");
+        _;
+    }
+    modifier userExists(address user) {
+        require(_userExists[user], "User doesn't exists");
+        _;
+    }
+    modifier addressNotSender(address user1, address user2) {
+        require(user1 != user2, "Address same as message sender");
+        _;
+    }
+
+    /// @notice  Token is minted. Can only be called once by every user.
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata
     /// @return _id
-    function mint(address to, string memory cid) public returns (uint256 _id) {
-        require(!_tokenExists[cid], "Object already exists");
-
+    function mint(address to, string memory cid)
+        public
+        tokenUnique(cid)
+        userDoesntExists(to)
+        returns (uint256 _id)
+    {
         _id = _tokenIds.current();
         _mint(to, _id);
         tokensToOwner[_id] = to;
-        tokenURIs[_id] = cid;
+        _tokenExists[cid] = true;
+        _userExists[to] = true;
+        _setTokenURI(_id, cid);
+        _tokenIds.increment();
+
+        return _id;
+    }
+
+    /// @notice  Token is minted. the color of the NFT is calculated in the FE.
+    /// @dev TODO add color so you can check that user don't handshake twice
+    /// @param to The address, the Token should be transfered to
+    /// @param partner The address of the person the user interacted with
+    /// @param cid The CID of the Tokens metadata
+    /// @return _id
+    function handShake(
+        address to,
+        address partner,
+        string memory cid
+    )
+        public
+        tokenUnique(cid)
+        userExists(to)
+        userExists(partner)
+        addressNotSender(to, partner)
+        returns (uint256 _id)
+    {
+        _id = _tokenIds.current();
+        _mint(to, _id);
+        tokensToOwner[_id] = to;
         _tokenExists[cid] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();

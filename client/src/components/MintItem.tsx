@@ -5,17 +5,22 @@ import { useState } from "react";
 import Token from "../models/Token";
 import { addItemToIPFS } from "../shared/IpfsFileUploader";
 import { useEthers } from "@usedapp/core";
+import TokenMetaData from "../models/TokenMetaData";
 
 export default function MintItem({
   contract,
   name,
   value,
+  address,
   img,
+  userKnown,
 }: {
   contract: Contract;
   name: string;
   value: string;
+  address?: string;
   img?: any;
+  userKnown?: boolean;
 }) {
   const { account } = useEthers();
 
@@ -40,7 +45,19 @@ export default function MintItem({
           if (token && token.value) {
             console.log("token");
 
-            const jsonObject = JSON.stringify(tk || token);
+            let meta: TokenMetaData = {
+              title: "Octopus " + name,
+              type: "Octopus",
+              properties: {
+                name: tk.name || token.name,
+                imageUrl: tk.imageUrl || token.imageUrl,
+                value: tk.value || token.value,
+                parent1: account || null,
+                parent2: address,
+              },
+            };
+
+            const jsonObject = JSON.stringify(meta);
             await addItemToIPFS(jsonObject).then(async (url) => {
               const urlTemp = url?.replace(baseURI, "");
               console.log(url);
@@ -50,6 +67,9 @@ export default function MintItem({
               }
             });
           }
+        })
+        .catch((err) => {
+          console.log("Failed with error: " + err);
         });
     }
   };
@@ -59,27 +79,55 @@ export default function MintItem({
 
     if (tokenUri) {
       setStatus("...isLoading");
-      return await contract
-        .mint(account, tokenUri)
-        .then((result: any) => {
-          console.log(result);
-          setStatus(
-            `The NFT  was minted.`
-            // `The NFT ${result.name} was minted. Find the <a href="${
-            //   baseURI + tokenUri
-            // }">metadata</a> and <a href="${
-            //   result.imageUrl
-            // }">the image</a> on IPFS.`
-          );
-        })
-        .catch((err: Error) => {
-          setStatus(`There was an error.`);
-          console.log("Failed with error: " + err);
-        });
-      // let temp = await tx3.wait();
-      // console.log(temp);
-      // return temp;
-      //   setColorList((prevColors) => [...prevColors, token]);
+
+      console.log(userKnown);
+
+      if (userKnown) {
+        return await contract
+          .handShake(account, address, tokenUri)
+          .then((result: any) => {
+            console.log(token);
+            setStatus(`The NFT  was minted.`);
+          })
+          .catch((err: any) => {
+            if (err.code === "INVALID_ARGUMENT") {
+              setStatus(`PLease enter a valid ENS. `);
+            } else {
+              setStatus(
+                `There was an error: ${err.error.error.body
+                  .split("reverted:")[1]
+                  .replace(
+                    `"}}`,
+                    ""
+                  )}. Remeber, you can only shake hands once with a person. And the address oyu entered needs to have already created their own NFT. `
+              );
+            }
+
+            console.log(err.error.error);
+            console.log(
+              err.error.error.body.split("reverted:")[1].replace(`"}}`, "")
+            );
+            console.log(err.error.error.body.id);
+          });
+      } else {
+        return await contract
+          .mint(account, tokenUri)
+          .then((result: any) => {
+            console.log(result);
+            setStatus(
+              `The NFT  was minted.`
+              // `The NFT ${result.name} was minted. Find the <a href="${
+              //   baseURI + tokenUri
+              // }">metadata</a> and <a href="${
+              //   result.imageUrl
+              // }">the image</a> on IPFS.`
+            );
+          })
+          .catch((err: Error) => {
+            setStatus(`There was an error.`);
+            console.log("Failed with error: " + err);
+          });
+      }
     }
   };
 

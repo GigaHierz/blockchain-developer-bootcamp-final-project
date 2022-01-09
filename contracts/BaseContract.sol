@@ -11,40 +11,51 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract BaseContract is ERC721, Ownable {
     using Strings for uint256;
 
-    // Optional mapping for token URIs
+    // <tokenURIs mapping>
     mapping(uint256 => string) internal tokenURIs;
+
+    /*
+     * Modifiers
+     */
+    modifier tokenExists(uint256 _tokenId) {
+        require(
+            _exists(_tokenId),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
+        _;
+    }
 
     constructor(string memory _name, string memory _symbol)
         ERC721(_name, _symbol)
     {}
 
+    /// @notice Set tokenUri of a token in the tokenURIs mapping
+    /// @param tokenId of Token that you wnt sto set the URI for
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)
         internal
         virtual
     {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI set of nonexistent token"
-        );
         tokenURIs[tokenId] = _tokenURI;
     }
+
+    /// @notice Returns the _baseURI of the contract
 
     function _baseURI() internal view virtual override returns (string memory) {
         return "https://ipfs.io/ipfs/";
     }
 
+    /// @notice Returns tokenURI. If baseURI is set, concatenate the baseURI and tokenURI (via abi.encodePacked).
+    /// @dev If there is no base URI, return the token URI. If there is a baseURI but no tokenURI, concatenate the tokenID to the baseURI.
+    /// @param tokenId of Token that you want to get the URI for
+    /// @return tokenURI
     function tokenURI(uint256 tokenId)
         public
         view
         virtual
         override
+        tokenExists(tokenId)
         returns (string memory)
     {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
-
         string memory _tokenURI = tokenURIs[tokenId];
         string memory base = _baseURI();
 

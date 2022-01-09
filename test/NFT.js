@@ -14,7 +14,9 @@ contract("Nft", (accounts) => {
   const creatorAddress = accounts[0];
   const firstAddress = accounts[1];
   const secondAddress = accounts[2];
-  const externalAddress = accounts[3];
+  const thirdAddress = accounts[3];
+  const fourthAddress = accounts[4];
+  const externalAddress = accounts[5];
 
   /* create named accounts for contract roles */
 
@@ -107,13 +109,24 @@ contract("Nft", (accounts) => {
       // FAILURE: cannot mint same uid twice
     });
 
-    it("should not revert if user tries to mint the same uid twice", async () => {
+    it("should  revert if user tries to mint the same uid twice", async () => {
       await contract
         .mint(firstAddress, "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
         .catch((error) => {
           assert.equal(
             error.message,
             "Returned error: VM Exception while processing transaction: revert Object already exists -- Reason given: Object already exists."
+          );
+        });
+    });
+
+    it("should  revert if user tries to mint an OG Octopus twice", async () => {
+      await contract
+        .mint(firstAddress, "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCk12")
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert User already  exists -- Reason given: User already  exists."
           );
         });
     });
@@ -154,26 +167,55 @@ contract("Nft", (accounts) => {
     });
   });
 
+  describe("when I do a handshake and the partner address doesn't exist", async () => {
+    it("it should be reverted", async () => {
+      await contract
+        .handshake(
+          secondAddress,
+          accounts[6],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC777"
+        )
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert User doesn't exists -- Reason given: User doesn't exists."
+          );
+        });
+    });
+  });
+
   describe("get tokens of owner", async () => {
     it("lists tokens", async () => {
       let expected = [
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
       ];
 
-      // Mint 3  tokens
       await contract.mint(
+        thirdAddress,
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC555"
+      );
+      await contract.mint(
+        fourthAddress,
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC666"
+      );
+
+      // Mint 3  tokens
+      await contract.handshake(
         firstAddress,
+        secondAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG"
       );
-      await contract.mint(
+      await contract.handshake(
         firstAddress,
+        thirdAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333"
       );
-      await contract.mint(
+      await contract.handshake(
         firstAddress,
+        fourthAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111"
       );
 
