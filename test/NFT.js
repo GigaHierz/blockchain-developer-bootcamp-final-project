@@ -110,14 +110,10 @@ contract("Nft", (accounts) => {
     it("should not revert if user tries to mint the same uid twice", async () => {
       await contract
         .mint(firstAddress, "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
-        .then((result) => {
-          assert.fail();
-        })
         .catch((error) => {
-          assert.notEqual(
+          assert.equal(
             error.message,
-            "assert.fail()",
-            "Object already exists."
+            "Returned error: VM Exception while processing transaction: revert Object already exists -- Reason given: Object already exists."
           );
         });
     });
@@ -133,6 +129,28 @@ contract("Nft", (accounts) => {
       let result = await contract.tokensOfOwner(secondAddress);
 
       assert.equal(result, 1);
+    });
+  });
+
+  describe("when I want to get the tokenURI", async () => {
+    it("should be returned", async () => {
+      let result = await contract.tokenURI(1);
+
+      assert.equal(
+        result,
+        "https://ipfs.io/ipfs/QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC444"
+      );
+    });
+
+    describe("AND I request a tokenId that doesn't exists", async () => {
+      it("it should be reverted", async () => {
+        await contract.tokenURI(4).catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert ERC721Metadata: URI query for nonexistent token"
+          );
+        });
+      });
     });
   });
 

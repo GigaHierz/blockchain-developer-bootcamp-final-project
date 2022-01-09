@@ -3,7 +3,6 @@ pragma solidity 0.8.10;
 /// @title An NFT game for newcomer to the blockchain world. Can be used complementary to Bootcamps to get used to MetaMask and Dapps.
 /// @author Lena Hierzi
 /// @notice This contract is not aiming for security as it is designed for testing and only to be deployed on testnet.
-/// @dev All Contract imports can be found in the BaseContract. I think it might be quite heavy and expensive to compile. But it's on the testnet. So go crazy.
 /// @custom:experimental This is an experimental contract.
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -15,20 +14,9 @@ contract BaseContract is ERC721, Ownable {
     // Optional mapping for token URIs
     mapping(uint256 => string) internal tokenURIs;
 
-    // Base URI
-    string internal _baseURIextended;
-
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        string memory _baseURI
-    ) ERC721(_name, _symbol) {
-        _baseURIextended = _baseURI;
-    }
-
-    function setBaseURI(string memory baseURI_) external onlyOwner {
-        _baseURIextended = baseURI_;
-    }
+    constructor(string memory _name, string memory _symbol)
+        ERC721(_name, _symbol)
+    {}
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)
         internal
@@ -42,7 +30,7 @@ contract BaseContract is ERC721, Ownable {
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
-        return _baseURIextended;
+        return "https://ipfs.io/ipfs/";
     }
 
     function tokenURI(uint256 tokenId)

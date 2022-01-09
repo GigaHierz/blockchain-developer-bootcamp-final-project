@@ -25,7 +25,7 @@ export default function Home() {
           First you should{" "}
           <a
             href="/blockchain-developer-bootcamp-final-project/mint"
-            color="#f87111"
+            className="App-link"
           >
             mint
           </a>{" "}

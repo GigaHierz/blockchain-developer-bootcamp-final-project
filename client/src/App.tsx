@@ -64,20 +64,7 @@ export default function App() {
               path="/mint"
               element={<Mint contract={contract.current} />}
             />
-            {/* <Route
-              path="/item/:itemId"
-              element={<ItemView ipfsGateway={ipfsGateway} />}
-            /> */}
-            {/* <Route path="/contact">
-              <Navigation />
-              <Contact />
-              <Footer />
-            </Route>
-            <Route path="/about">
-              <Navigation />
-              <About />
-              <Footer />
-            </Route> */}
+
             <Route
               path="/all"
               element={

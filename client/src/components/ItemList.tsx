@@ -1,4 +1,4 @@
-import { Box, Button, Link } from "@chakra-ui/react";
+import { Box, Link } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { BigNumber, Contract } from "ethers";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ export default function ItemList({
 
   const showList = async () => {
     await contract?.tokensOfOwner(account).then((tokenIds: BigNumber[]) => {
-      tokenIds.map(async (token: BigNumber, index: number) => {
+      tokenIds.map(async (token: BigNumber) => {
         await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
           setTokenList((tokenList) => [...tokenList, token]);
         });

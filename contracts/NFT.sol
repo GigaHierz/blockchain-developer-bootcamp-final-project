@@ -16,17 +16,14 @@ contract Nft is
     ERC721,
     Ownable,
     ERC721Enumerable,
-    BaseContract("Nft", "Octopus", "https://ipfs.io/ipfs/")
+    BaseContract("Nft", "Octopus")
 {
     using SafeMath for uint256;
     using Strings for uint256;
     using Counters for Counters.Counter;
-
     uint256 public constant MAX_SUPPLY = 50000;
-    uint256 public constant PRICE = 0.0001 ether;
+    // uint256 public constant PRICE = 0.0001 ether;
     uint256 public constant MAX_PER_MINT = 100;
-    string public baseTokenURI = "https://ipfs.io/ipfs/";
-
     mapping(uint256 => address) tokensToOwner;
 
     Counters.Counter private _tokenIds;
@@ -73,7 +70,7 @@ contract Nft is
         return tokenIds;
     }
 
-    // The following functions are overrides for BadeContract.
+    // The following functions are overrides for the BaseContract.
 
     function _baseURI()
         internal
@@ -82,7 +79,7 @@ contract Nft is
         override(BaseContract, ERC721)
         returns (string memory)
     {
-        return _baseURIextended;
+        return super._baseURI();
     }
 
     function tokenURI(uint256 tokenId)
@@ -92,24 +89,7 @@ contract Nft is
         override(BaseContract, ERC721)
         returns (string memory)
     {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
-
-        string memory _tokenURI = tokenURIs[tokenId];
-        string memory base = _baseURI();
-
-        // If there is no base URI, return the token URI.
-        if (bytes(base).length == 0) {
-            return _tokenURI;
-        }
-        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
-        if (bytes(_tokenURI).length > 0) {
-            return string(abi.encodePacked(base, _tokenURI));
-        }
-        // If there is a baseURI but no tokenURI, concatenate the tokenID to the baseURI.
-        return string(abi.encodePacked(base, tokenId.toString()));
+        return super.tokenURI(tokenId);
     }
 
     // The following functions are overrides for ERC721Enumerable required by Solidity.
