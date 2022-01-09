@@ -30,8 +30,7 @@ contract Nft is
     mapping(string => bool) _tokenExists;
     mapping(address => bool) _userExists;
 
-    /// @notice assigns MinterRolle to msg.sender so msg.sender can mint the NFT. Then Token is minted. Can only be called once by every user.
-    /// @dev unfortunatly it dosn't work yet to mint from another address
+    /// @notice  Token is minted. Can only be called once by every user.
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata
     /// @return _id
@@ -41,7 +40,6 @@ contract Nft is
         _id = _tokenIds.current();
         _mint(to, _id);
         tokensToOwner[_id] = to;
-        tokenURIs[_id] = cid;
         _tokenExists[cid] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();
