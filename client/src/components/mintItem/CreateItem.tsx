@@ -145,6 +145,14 @@ export default function CreateItem({ contract }: { contract: Contract }) {
     alert("Please enter a Value");
   };
 
+  const inputError = (value: boolean) => {
+    if (value) {
+      setColor("");
+      setName("");
+      setAddress("");
+    }
+  };
+
   return (
     <Box
       display="flex"
@@ -197,6 +205,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         address={address}
         userKnown={userState}
         img={data}
+        inputError={inputError}
       ></MintItem>
       <Box
         margin="0"

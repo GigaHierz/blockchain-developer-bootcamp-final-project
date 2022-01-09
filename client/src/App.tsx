@@ -71,6 +71,7 @@ export default function App() {
                 <ItemsListPage contract={contract.current} account={account} />
               }
             />
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </BrowserRouter>
       </FlexColumn>

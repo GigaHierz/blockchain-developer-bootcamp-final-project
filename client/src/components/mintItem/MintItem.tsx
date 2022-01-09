@@ -2,6 +2,7 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { useEthers } from "@usedapp/core";
 import { Contract } from "ethers";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Token from "../../models/Token";
 import TokenMetaData from "../../models/TokenMetaData";
@@ -14,6 +15,7 @@ export default function MintItem({
   address,
   img,
   userKnown,
+  inputError,
 }: {
   contract: Contract;
   name: string;
@@ -21,8 +23,10 @@ export default function MintItem({
   address?: string;
   img?: any;
   userKnown?: boolean;
+  inputError: any;
 }) {
   const { account } = useEthers();
+  const navigate = useNavigate();
 
   const baseURI = "https://ipfs.infura.io/ipfs/";
   const [token, setToken] = useState({} as Token);
@@ -80,8 +84,9 @@ export default function MintItem({
       if (userKnown) {
         return await contract
           .handShake(account, address, tokenUri, value)
-          .then((result: any) => {
+          .then(() => {
             setStatus(`The NFT  was minted.`);
+            setTimeout(() => navigate("/all"), 1000);
           })
           .catch((err: any) => {
             if (err.code === "INVALID_ARGUMENT") {
@@ -93,14 +98,14 @@ export default function MintItem({
                   .replace(
                     `"}}`,
                     ""
-                  )}. Remeber, you can only shake hands once with a person. And the address oyu entered needs to have already created their own NFT. `
+                  )}. Remeber, you can only shake hands once with a person. And the address you entered needs to have already created their own NFT. `
               );
             }
           });
       } else {
         return await contract
           .mint(account, tokenUri, value)
-          .then((result: any) => {
+          .then(() => {
             setStatus(
               `The NFT  was minted.`
               // `The NFT ${result.name} was minted. Find the <a href="${
@@ -109,6 +114,7 @@ export default function MintItem({
               //   result.imageUrl
               // }">the image</a> on IPFS.`
             );
+            setTimeout(() => navigate("/all"), 1000);
           })
           .catch((err: any) => {
             setStatus(
@@ -116,6 +122,7 @@ export default function MintItem({
                 .split("reverted:")[1]
                 .replace(`"}}`, "")}`
             );
+            inputError(true);
             console.log("Failed with error: " + err);
           });
       }

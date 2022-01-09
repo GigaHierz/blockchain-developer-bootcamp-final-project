@@ -4,6 +4,9 @@ const Footer = () => {
   return (
     <Container>
       <Box style={{ textAlign: "center" }} h="10vh">
+        <br />
+        <br />
+        <br />
         <p>
           Discover{" "}
           <strong>
