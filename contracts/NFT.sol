@@ -71,6 +71,34 @@ contract Nft is
         return _id;
     }
 
+    /// @notice  Token is minted. the color of the NFT is calculated in the FE.
+    /// @dev TODO add color so you can check that user don't handshake twice
+    /// @param to The address, the Token should be transfered to
+    /// @param partner The address of the person the user interacted with
+    /// @param cid The CID of the Tokens metadata
+    /// @return _id
+    function handshake(
+        address to,
+        address partner,
+        string memory cid
+    )
+        public
+        tokenUnique(cid)
+        userExists(to)
+        addressNotSender(to, partner)
+        returns (uint256 _id)
+    {
+        _id = _tokenIds.current();
+        _mint(to, _id);
+        tokensToOwner[_id] = to;
+        _tokenExists[cid] = true;
+        _userExists[to] = true;
+        _setTokenURI(_id, cid);
+        _tokenIds.increment();
+
+        return _id;
+    }
+
     /// @notice Returns the ids of tokens of one owner
     /// @param _owner The person that wants to know which tokens belong to them
     /// @return userTokens  all ids of tokens belonging to one owner

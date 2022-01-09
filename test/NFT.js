@@ -14,7 +14,9 @@ contract("Nft", (accounts) => {
   const creatorAddress = accounts[0];
   const firstAddress = accounts[1];
   const secondAddress = accounts[2];
-  const externalAddress = accounts[3];
+  const thirdAddress = accounts[3];
+  const fourthAddress = accounts[4];
+  const externalAddress = accounts[5];
 
   /* create named accounts for contract roles */
 
@@ -165,7 +167,7 @@ contract("Nft", (accounts) => {
     });
   });
 
-  xdescribe("get tokens of owner", async () => {
+  describe("get tokens of owner", async () => {
     it("lists tokens", async () => {
       let expected = [
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
@@ -175,16 +177,19 @@ contract("Nft", (accounts) => {
       ];
 
       // Mint 3  tokens
-      await contract.mint(
+      await contract.handshake(
         firstAddress,
+        secondAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG"
       );
-      await contract.mint(
+      await contract.handshake(
         firstAddress,
+        thirdAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333"
       );
-      await contract.mint(
+      await contract.handshake(
         firstAddress,
+        fourthAddress,
         "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111"
       );
 
