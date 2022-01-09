@@ -16,7 +16,7 @@ export default function Page({ children }: Props) {
       padding="4px"
       w="100%"
       h="100vh"
-      bgGradient="linear(to-r, green.200, pink.500)"
+      bgGradient="linear(to-r, #eb96c3, #846ebe)"
     >
       <FlexColumn>
         <Navigation />

@@ -1,11 +1,11 @@
 import { Box, Button, Text } from "@chakra-ui/react";
+import { useEthers } from "@usedapp/core";
 import { Contract } from "ethers";
 import { useState } from "react";
 
-import Token from "../models/Token";
-import { addItemToIPFS } from "../shared/IpfsFileUploader";
-import { useEthers } from "@usedapp/core";
-import TokenMetaData from "../models/TokenMetaData";
+import Token from "../../models/Token";
+import TokenMetaData from "../../models/TokenMetaData";
+import { addItemToIPFS } from "../../shared/IpfsFileUploader";
 
 export default function MintItem({
   contract,
@@ -43,8 +43,6 @@ export default function MintItem({
         })
         .then(async (tk) => {
           if (token && token.value) {
-            console.log("token");
-
             let meta: TokenMetaData = {
               title: "Octopus " + name,
               type: "Octopus",
@@ -60,7 +58,6 @@ export default function MintItem({
             const jsonObject = JSON.stringify(meta);
             await addItemToIPFS(jsonObject).then(async (url) => {
               const urlTemp = url?.replace(baseURI, "");
-              console.log(url);
 
               if (urlTemp) {
                 await mint(urlTemp);
@@ -80,13 +77,10 @@ export default function MintItem({
     if (tokenUri) {
       setStatus("...isLoading");
 
-      console.log(userKnown);
-
       if (userKnown) {
         return await contract
           .handShake(account, address, tokenUri, value)
           .then((result: any) => {
-            console.log(token);
             setStatus(`The NFT  was minted.`);
           })
           .catch((err: any) => {
@@ -102,18 +96,11 @@ export default function MintItem({
                   )}. Remeber, you can only shake hands once with a person. And the address oyu entered needs to have already created their own NFT. `
               );
             }
-
-            console.log(err.error.error);
-            console.log(
-              err.error.error.body.split("reverted:")[1].replace(`"}}`, "")
-            );
-            console.log(err.error.error.body.id);
           });
       } else {
         return await contract
           .mint(account, tokenUri, value)
           .then((result: any) => {
-            console.log(result);
             setStatus(
               `The NFT  was minted.`
               // `The NFT ${result.name} was minted. Find the <a href="${
@@ -123,8 +110,12 @@ export default function MintItem({
               // }">the image</a> on IPFS.`
             );
           })
-          .catch((err: Error) => {
-            setStatus(`There was an error.`);
+          .catch((err: any) => {
+            setStatus(
+              `There was an error. ${err.error.error.body
+                .split("reverted:")[1]
+                .replace(`"}}`, "")}`
+            );
             console.log("Failed with error: " + err);
           });
       }

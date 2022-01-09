@@ -13,7 +13,7 @@ export default function FlexColumn({ children }: Props) {
       alignItems="center"
       justifyContent="center"
       bg="gray.800"
-      bgGradient="linear(to-r, green.200, pink.500)"
+      bgGradient="linear(to-r, #eb96c3, #846ebe)"
       margin="4px"
     >
       {children}

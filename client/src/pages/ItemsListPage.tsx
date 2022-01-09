@@ -5,13 +5,13 @@ import Page from "../components/shared/Page";
 import ItemList from "../components/ItemList";
 import FlexColumn from "../components/shared/FlexColumn";
 
-const AllItems = ({
+export default function ItemsListPage({
   contract,
   account,
 }: {
   contract: Contract;
   account: string | null | undefined;
-}) => {
+}) {
   return (
     <Page>
       <FlexColumn>
@@ -22,6 +22,4 @@ const AllItems = ({
       </FlexColumn>
     </Page>
   );
-};
-
-export default AllItems;
+}

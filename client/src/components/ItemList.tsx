@@ -1,16 +1,9 @@
-import { Box, Link } from "@chakra-ui/react";
-import styled from "@emotion/styled";
+import { Box } from "@chakra-ui/react";
 import { BigNumber, Contract } from "ethers";
 import { useEffect, useState } from "react";
 
 import { hexToDec } from "../shared/HexEncoder";
-
-const StyledLink = styled(Link)`
-  color: #4a4a4a;
-  margin: 5px;
-  backgroundcolor: #666666;
-  border="1px solid transparent"
-`;
+import { StyledLink } from "./shared/StyledLink";
 
 export default function ItemList({
   contract,
@@ -49,11 +42,11 @@ export default function ItemList({
         width="90%"
       >
         {tokenList.length > 0 &&
-          tokenList.map((color, index) => {
-            if (color) {
+          tokenList.map((tokenUri, index) => {
+            if (tokenUri) {
               return (
                 <StyledLink
-                  href={color}
+                  to={tokenUri}
                   target="_blank"
                   rel="noreferrer"
                   key={index}

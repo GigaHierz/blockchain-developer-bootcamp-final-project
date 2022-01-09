@@ -1,14 +1,14 @@
 import { Box, Text } from "@chakra-ui/react";
+import { useEthers } from "@usedapp/core";
 import { useEffect, useState } from "react";
 import { BigNumber, Contract } from "ethers";
 
 import MintItem from "./MintItem";
-import { encodeString } from "../shared/StringEncoder";
-import { ReactComponent as YourSvg } from "../assets/octopus.svg";
-import svg from "../assets/octopus.svg";
-import { useEthers } from "@usedapp/core";
-import generateBabyName from "../shared/NameGenerator";
-import { hexToDecColor } from "../shared/HexEncoder";
+import { encodeString } from "../../shared/StringEncoder";
+import { ReactComponent as YourSvg } from "../../assets/octopus.svg";
+import svg from "../../assets/octopus.svg";
+import generateBabyName from "../../shared/NameGenerator";
+import { hexToDecColor } from "../../shared/HexEncoder";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
   const { account } = useEthers();
@@ -35,16 +35,12 @@ export default function CreateItem({ contract }: { contract: Contract }) {
     if (account && !userKnown) {
       await contract?.tokensOfOwner(account).then((tokens: BigNumber[]) => {
         userKnown = tokens.length > 0;
-        console.log(userKnown);
         setUserState(tokens.length > 0);
       });
     }
   };
 
   const create = async (nameInput: string, colorInput: string) => {
-    console.log(nameInput);
-    console.log(colorInput);
-
     await base64SvgToBase64Png(svg, 200, nameInput, colorInput)
       .then((data) => !data || setData(data))
       .then(() => {
@@ -125,8 +121,6 @@ export default function CreateItem({ contract }: { contract: Contract }) {
               .toString(16)
               .slice(0, 6)}`;
 
-            console.log(color);
-
             setName(name);
             setColor(color);
             return [name, color];
@@ -158,8 +152,6 @@ export default function CreateItem({ contract }: { contract: Contract }) {
       justifyContent="center"
       flexDirection="column"
     >
-      <Text>Mint a cute octopus</Text>
-
       <Box
         display="flex"
         alignItems="center"

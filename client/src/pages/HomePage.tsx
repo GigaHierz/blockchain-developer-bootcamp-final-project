@@ -1,10 +1,9 @@
 import { Container } from "@chakra-ui/react";
 
 import Page from "../components/shared/Page";
+import { StyledLink } from "../components/shared/StyledLink";
 
-export default function Home() {
-  // Input variable
-
+export default function HomePage() {
   return (
     <Page>
       <Container
@@ -23,12 +22,9 @@ export default function Home() {
         </p>
         <p>
           First you should{" "}
-          <a
-            href="/blockchain-developer-bootcamp-final-project/mint"
-            className="App-link"
-          >
+          <StyledLink to="/blockchain-developer-bootcamp-final-project/mint">
             mint
-          </a>{" "}
+          </StyledLink>{" "}
           your first NFT. This is a little Octopus baby. And that is going to be
           your OG Octopus. First you will only have this one that is yours and
           yours only.
@@ -42,6 +38,19 @@ export default function Home() {
           We use "Flosse" as Octopusses don'T have hands and thats the german
           word for .... In German you can also say "Gib Flosse", when you want
           to give a high five to someone. So there is that..
+        </p>
+        <br />
+        <p>
+          Also: if you want to add the Ocoptusses to your metamask wallet follow
+          this{" "}
+          <StyledLink
+            to="https://consensys.net/blog/metamask/how-to-add-your-custom-tokens-in-metamask/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            guide
+          </StyledLink>
+          .
         </p>
       </Container>
     </Page>

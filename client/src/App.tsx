@@ -4,12 +4,12 @@ import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import AllItems from "./pages/AllItems";
+import NftContract from "./contracts/Nft.json";
+import MintPage from "./pages/MintPage";
+import HomePage from "./pages/HomePage";
+import ItemsListPage from "./pages/ItemsListPage";
 import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
-import NftContract from "./contracts/Nft.json";
-import Mint from "./pages/Mint";
-import Home from "./pages/Home";
 
 export default function App() {
   const { chainId, active } = useEthers();
@@ -59,16 +59,16 @@ export default function App() {
         <ConnectButton />
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
             <Route
               path="/mint"
-              element={<Mint contract={contract.current} />}
+              element={<MintPage contract={contract.current} />}
             />
 
             <Route
               path="/all"
               element={
-                <AllItems contract={contract.current} account={account} />
+                <ItemsListPage contract={contract.current} account={account} />
               }
             />
           </Routes>

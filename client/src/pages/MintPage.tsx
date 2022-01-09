@@ -1,10 +1,10 @@
 import { Container } from "@chakra-ui/react";
 import { Contract } from "ethers";
 
-import CreateItem from "../components/CreateItem";
+import CreateItem from "../components/mintItem/CreateItem";
 import Page from "../components/shared/Page";
 
-export default function Mint({ contract }: { contract: Contract }) {
+export default function MintPage({ contract }: { contract: Contract }) {
   return (
     <Page>
       <Container

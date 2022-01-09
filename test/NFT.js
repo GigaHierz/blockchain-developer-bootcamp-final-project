@@ -22,27 +22,6 @@ contract("Nft", (accounts) => {
 
   before(async () => {
     contract = await Nft.deployed();
-
-    /* before tests */
-  });
-
-  beforeEach(async () => {
-    /* before each context */
-  });
-
-  it("should revert if ...", () => {
-    return Nft.deployed()
-      .then((instance) => {
-        return instance.publicOrExternalContractMethod(argument1, argument2, {
-          from: externalAddress,
-        });
-      })
-      .then((result) => {
-        assert.fail();
-      })
-      .catch((error) => {
-        assert.notEqual(error.message, "assert.fail()", "Reason ...");
-      });
   });
 
   describe("testgroup - security tests - description...", () => {
@@ -97,9 +76,6 @@ contract("Nft", (accounts) => {
       // SUCCESS
       assert.equal(totalSupply, 1);
       const event = result.logs[0].args;
-      // console.log(event);
-      // console.log(event.tokenId);
-      // assert.equal(event.tokenId.toNumber(), 1, 'id is correct')
       assert.equal(
         event.from,
         "0x0000000000000000000000000000000000000000",
@@ -250,7 +226,6 @@ contract("Nft", (accounts) => {
 
       await contract.tokensOfOwner(firstAddress).then(async (tokenIds) => {
         tokenIds.map(async (tokenId, index) => {
-          // console.log("tokenId", tokenId);
           await contract.tokenURI(tokenId).then((tokenUri) => {
             assert.equal(expected[index], tokenUri);
           });

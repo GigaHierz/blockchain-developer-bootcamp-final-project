@@ -1,15 +1,7 @@
 import { Box, Container } from "@chakra-ui/layout";
-import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
 
 import octopus from "../../assets/octopus.png";
-
-const StyledLink = styled(Link)`
-  color: #4a4a4a;
-  margin: 10px;
-  backgroundcolor: #666666;
-  border="1px solid transparent"
-`;
+import { StyledLink } from "./StyledLink";
 
 const Navigation = () => {
   return (
@@ -25,7 +17,7 @@ const Navigation = () => {
         <StyledLink to="/">
           <img src={octopus} alt="Home" width="50" height="28" />
         </StyledLink>
-        <StyledLink to="/mint">Mint Octopus</StyledLink>
+        <StyledLink to="/mint">Mint a cute octopus</StyledLink>
         <StyledLink to="/all">My Octopusses</StyledLink>
         {/* <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link> */}
