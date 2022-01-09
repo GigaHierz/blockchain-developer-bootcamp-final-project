@@ -3,7 +3,7 @@ import { Box, Container } from "@chakra-ui/layout";
 import octopus from "../../assets/octopus.png";
 import { StyledLink } from "./StyledLink";
 
-const Navigation = () => {
+export default function Navigation() {
   return (
     <Container>
       <Box
@@ -24,6 +24,4 @@ const Navigation = () => {
       </Box>
     </Container>
   );
-};
-
-export default Navigation;
+}

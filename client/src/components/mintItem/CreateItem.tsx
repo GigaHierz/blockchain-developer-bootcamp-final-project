@@ -67,12 +67,12 @@ export default function CreateItem({ contract }: { contract: Contract }) {
    * @param width target width in pixel of PNG image
    * @return {Promise<String>} resolves to png data url of the image
    */
-  function base64SvgToBase64Png(
+  const base64SvgToBase64Png = (
     originalBase64: string,
     width: number,
     inputName: string,
     inputColor: string
-  ): Promise<string | null> {
+  ): Promise<string | null> => {
     if (inputName || name) {
       return new Promise((resolve) => {
         img.id = inputName || name;
@@ -100,7 +100,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         enterValue();
       });
     }
-  }
+  };
 
   const addName = async (event: any) => {
     event.preventDefault();

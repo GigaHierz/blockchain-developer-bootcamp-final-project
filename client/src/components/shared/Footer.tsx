@@ -1,6 +1,6 @@
 import { Box, Container } from "@chakra-ui/react";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <Container>
       <Box style={{ textAlign: "center" }} h="10vh">
@@ -22,6 +22,4 @@ const Footer = () => {
       </Box>
     </Container>
   );
-};
-
-export default Footer;
+}
