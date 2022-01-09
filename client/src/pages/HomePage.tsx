@@ -13,6 +13,8 @@ export default function HomePage() {
         borderRadius="xl"
         py="0"
       >
+        <br />
+        <br />
         <p>
           This is the Ocotpus Game. It is supposed to be fun and cute. That is
           the most important thing. Here you don't have to worry about making
@@ -29,6 +31,7 @@ export default function HomePage() {
           your OG Octopus. First you will only have this one that is yours and
           yours only.
         </p>
+        <br />
         <p>
           But this game is also designed to motivate you to interact with other
           eople and other Ethereum Addresses. So here the "Flosse" comes into
@@ -51,6 +54,18 @@ export default function HomePage() {
             guide
           </StyledLink>
           .
+        </p>
+        <br />
+        <p>
+          You can also check out the contract on{" "}
+          <StyledLink
+            to="https://rinkeby.etherscan.io/address/0x52818719FC9E7d35fD2882344AfFa1f4fcA81874"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            EtherScan
+          </StyledLink>
+          . In case you want to check out who else has some tokens.
         </p>
       </Container>
     </Page>
