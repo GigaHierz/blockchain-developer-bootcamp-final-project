@@ -84,7 +84,7 @@ export default function MintItem({
 
       if (userKnown) {
         return await contract
-          .handShake(account, address, tokenUri)
+          .handShake(account, address, tokenUri, value)
           .then((result: any) => {
             console.log(token);
             setStatus(`The NFT  was minted.`);
@@ -111,7 +111,7 @@ export default function MintItem({
           });
       } else {
         return await contract
-          .mint(account, tokenUri)
+          .mint(account, tokenUri, value)
           .then((result: any) => {
             console.log(result);
             setStatus(

@@ -28,13 +28,18 @@ contract Nft is
 
     Counters.Counter private _tokenIds;
     mapping(string => bool) _tokenExists;
+    mapping(string => bool) _colorExists;
     mapping(address => bool) _userExists;
 
     /*
      * Modifiers
      */
     modifier tokenUnique(string memory token) {
-        require(!_tokenExists[token], "Object already exists");
+        require(!_tokenExists[token], "Token already exists");
+        _;
+    }
+    modifier colorUnique(string memory color) {
+        require(!_colorExists[color], "Color already exists");
         _;
     }
     modifier userDoesntExists(address user) {
@@ -54,9 +59,14 @@ contract Nft is
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata
     /// @return _id
-    function mint(address to, string memory cid)
+    function mint(
+        address to,
+        string memory cid,
+        string memory color
+    )
         public
         tokenUnique(cid)
+        colorUnique(color)
         userDoesntExists(to)
         returns (uint256 _id)
     {
@@ -65,6 +75,7 @@ contract Nft is
         tokensToOwner[_id] = to;
         _tokenExists[cid] = true;
         _userExists[to] = true;
+        _colorExists[color] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();
 
@@ -80,10 +91,12 @@ contract Nft is
     function handShake(
         address to,
         address partner,
-        string memory cid
+        string memory cid,
+        string memory color
     )
         public
         tokenUnique(cid)
+        colorUnique(color)
         userExists(to)
         userExists(partner)
         addressNotSender(to, partner)
@@ -93,6 +106,7 @@ contract Nft is
         _mint(to, _id);
         tokensToOwner[_id] = to;
         _tokenExists[cid] = true;
+        _colorExists[color] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();
 

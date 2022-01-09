@@ -112,13 +112,14 @@ export default function CreateItem({ contract }: { contract: Contract }) {
     if (userKnown && inputValue?.value && account) {
       if (!name) {
         setAddress(inputValue?.value);
+
         generateBabyName()
           .then((name) => {
             const color = `#${(
               hexToDecColor(
-                inputValue?.value.slice(10, 16) + account.slice(16, 22)
+                inputValue?.value.slice(6, 12) + account.slice(16, 22)
               ) *
-              0xfffff *
+              0x12345 *
               1000000
             )
               .toString(16)

@@ -2315,12 +2315,12 @@
     "4": {
       "events": {},
       "links": {},
-      "address": "0xBAe847E93dFBAEd020227849643AF82123c49467",
-      "transactionHash": "0x42f82a6c8fa6f55db74e182c92697736ba6ca27dd055c578137c576028759f80"
+      "address": "0x801A293f7B3439948534B1b9176191a7de8B212c",
+      "transactionHash": "0x25a308892d85e966bd447534c80d5ef55a1e986920b40a43f267c325cfb19c88"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-01-09T14:12:27.087Z",
+  "updatedAt": "2022-01-09T15:45:43.572Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Lena Hierzi",

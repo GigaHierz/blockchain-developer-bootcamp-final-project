@@ -90,7 +90,8 @@ contract("Nft", (accounts) => {
     it("creates a new token", async () => {
       const result = await contract.mint(
         firstAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+        "#111111"
       );
       const totalSupply = await contract.totalSupply();
       // SUCCESS
@@ -105,24 +106,45 @@ contract("Nft", (accounts) => {
         "from is correct"
       );
       assert.equal(event.to, firstAddress, "to is correct");
-
-      // FAILURE: cannot mint same uid twice
     });
 
-    it("should  revert if user tries to mint the same uid twice", async () => {
+    it("should  revert if cid already exist", async () => {
       await contract
-        .mint(firstAddress, "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV")
+        .mint(
+          accounts[8],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyV",
+          "#222222"
+        )
         .catch((error) => {
           assert.equal(
             error.message,
-            "Returned error: VM Exception while processing transaction: revert Object already exists -- Reason given: Object already exists."
+            "Returned error: VM Exception while processing transaction: revert Token already exists -- Reason given: Token already exists."
+          );
+        });
+    });
+
+    it("should  revert if color already exist", async () => {
+      await contract
+        .mint(
+          accounts[8],
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC999",
+          "#111111"
+        )
+        .catch((error) => {
+          assert.equal(
+            error.message,
+            "Returned error: VM Exception while processing transaction: revert Color already exists -- Reason given: Color already exists."
           );
         });
     });
 
     it("should  revert if user tries to mint an OG Octopus twice", async () => {
       await contract
-        .mint(firstAddress, "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCk12")
+        .mint(
+          firstAddress,
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCk12",
+          "#222222"
+        )
         .catch((error) => {
           assert.equal(
             error.message,
@@ -136,7 +158,8 @@ contract("Nft", (accounts) => {
     it("should be possible", async () => {
       await contract.mint(
         secondAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC444"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC444",
+        "#222222"
       );
 
       let result = await contract.tokensOfOwner(secondAddress);
@@ -167,13 +190,14 @@ contract("Nft", (accounts) => {
     });
   });
 
-  describe("when I do a handshake and the partner address doesn't exist", async () => {
+  describe("when I do a handShake and the partner address doesn't exist", async () => {
     it("it should be reverted", async () => {
       await contract
-        .handshake(
+        .handShake(
           secondAddress,
           accounts[6],
-          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC777"
+          "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC777",
+          "#aaaaaa"
         )
         .catch((error) => {
           assert.equal(
@@ -195,28 +219,33 @@ contract("Nft", (accounts) => {
 
       await contract.mint(
         thirdAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC555"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC555",
+        "#aaaaaa"
       );
       await contract.mint(
         fourthAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC666"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC666",
+        "#bbbbbb"
       );
 
       // Mint 3  tokens
-      await contract.handshake(
+      await contract.handShake(
         firstAddress,
         secondAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHCkyG",
+        "#cccccc"
       );
-      await contract.handshake(
+      await contract.handShake(
         firstAddress,
         thirdAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC333",
+        "#dddddd"
       );
-      await contract.handshake(
+      await contract.handShake(
         firstAddress,
         fourthAddress,
-        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111"
+        "QmWYeg2y9FKgsMYeWsr7kcpj6B6yq1Xx9P59LibSvHC111",
+        "#123456"
       );
 
       await contract.tokensOfOwner(firstAddress).then(async (tokenIds) => {
