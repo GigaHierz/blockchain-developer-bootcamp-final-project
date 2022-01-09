@@ -77,7 +77,7 @@ contract Nft is
     /// @param partner The address of the person the user interacted with
     /// @param cid The CID of the Tokens metadata
     /// @return _id
-    function handshake(
+    function handShake(
         address to,
         address partner,
         string memory cid

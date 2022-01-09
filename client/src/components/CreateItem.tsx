@@ -8,7 +8,7 @@ import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
 import { useEthers } from "@usedapp/core";
 import generateBabyName from "../shared/NameGenerator";
-import { hexToDec } from "../shared/HexEncoder";
+import { hexToDecColor } from "../shared/HexEncoder";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
   const { account } = useEthers();
@@ -115,7 +115,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         generateBabyName()
           .then((name) => {
             const color = `#${(
-              hexToDec(
+              hexToDecColor(
                 inputValue?.value.slice(10, 16) + account.slice(16, 22)
               ) *
               0xfffff *
@@ -202,7 +202,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         name={name}
         value={color}
         address={address}
-        userKnown={userKnown}
+        userKnown={userState}
         img={data}
       ></MintItem>
       <Box

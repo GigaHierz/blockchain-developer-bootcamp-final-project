@@ -80,12 +80,11 @@ export default function MintItem({
     if (tokenUri) {
       setStatus("...isLoading");
 
+      console.log(userKnown);
+
       if (userKnown) {
         return await contract
-          .handShake(account, address, tokenUri, {
-            gasPrice: 5000,
-            gasLimit: 9000000,
-          })
+          .handShake(account, address, tokenUri)
           .then((result: any) => {
             console.log(token);
             setStatus(`The NFT  was minted.`);
@@ -95,10 +94,20 @@ export default function MintItem({
               setStatus(`PLease enter a valid ENS. `);
             } else {
               setStatus(
-                `There was an error. Maybe you tried to shake hands againwith the same person? That is unfortunatly only possible once in here. `
+                `There was an error: ${err.error.error.body
+                  .split("reverted:")[1]
+                  .replace(
+                    `"}}`,
+                    ""
+                  )}. Remeber, you can only shake hands once with a person. And the address oyu entered needs to have already created their own NFT. `
               );
             }
-            console.log("Failed with error: " + err);
+
+            console.log(err.error.error);
+            console.log(
+              err.error.error.body.split("reverted:")[1].replace(`"}}`, "")
+            );
+            console.log(err.error.error.body.id);
           });
       } else {
         return await contract
