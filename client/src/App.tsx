@@ -4,21 +4,20 @@ import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Home from "./pages/Home";
-import ItemView from "./pages/ItemView";
 import AllItems from "./pages/AllItems";
 import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 import NftContract from "./contracts/Nft.json";
+import Mint from "./pages/Mint";
+import Home from "./pages/Home";
 
 export default function App() {
   const { chainId, active } = useEthers();
-  const ipfsGateway = `https://ipfs.io/ipfs`;
   const { account } = useEthers();
-  //   const ipfsGateway = `https://ipfs.io/ipfs`;
   const provider = useRef<ethers.providers.InfuraProvider>();
-  //   const contract = useRef<Contract>({} as Contract);
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
+  //   const ipfsGateway = `https://ipfs.io/ipfs`;
+  //   const contract = useRef<Contract>({} as Contract);
 
   // Todo: alert when chainId is updated
   const checkChainId = () => {
@@ -60,14 +59,15 @@ export default function App() {
         <ConnectButton />
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route
-              path="/"
-              element={<Home contract={contract.current} account={account} />}
+              path="/mint"
+              element={<Mint contract={contract.current} />}
             />
-            <Route
+            {/* <Route
               path="/item/:itemId"
               element={<ItemView ipfsGateway={ipfsGateway} />}
-            />
+            /> */}
             {/* <Route path="/contact">
               <Navigation />
               <Contact />
@@ -81,11 +81,7 @@ export default function App() {
             <Route
               path="/all"
               element={
-                <AllItems
-                  contract={contract.current}
-                  account={account}
-                  ipfsGateway={ipfsGateway}
-                />
+                <AllItems contract={contract.current} account={account} />
               }
             />
           </Routes>

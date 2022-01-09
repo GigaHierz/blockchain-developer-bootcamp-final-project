@@ -4,7 +4,6 @@ import { BigNumber, Contract } from "ethers";
 import { useState } from "react";
 
 import { hexToDec } from "../shared/HexEncoder";
-import Nft from "./nfts/Nft";
 
 const StyledLink = styled(Link)`
   color: #4a4a4a;
@@ -16,29 +15,31 @@ const StyledLink = styled(Link)`
 export default function ItemList({
   contract,
   account,
-  ipfsGateway,
 }: {
   contract: Contract;
   account: string | null | undefined;
-  ipfsGateway: string;
 }) {
-  const [metadataUrl, setMetadataUrl] = useState(`Loading...`);
   const [tokenList, setTokenList] = useState<string[]>([]);
 
   const showList = async () => {
-    const tokenIds: BigNumber[] = await contract?.tokensOfOwner(account);
+    // const tokenIds: BigNumber[] = ;
     let result: string[] = [];
 
-    tokenIds.map(async (token: BigNumber, index: number) => {
-      await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
-        result.push(token);
+    await contract?.tokensOfOwner(account).then((tokenIds: BigNumber[]) => {
+      tokenIds.map(async (token: BigNumber, index: number) => {
+        await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
+          result.push(token);
+
+          setTokenList((tokenList) => [...tokenList, token]);
+        });
       });
     });
 
-    setTokenList(result);
+    if (result) {
+      setTokenList(result);
+    }
     console.log(tokenList);
   };
-
   return (
     <Box width="40vh" display="flex" flexDir="column" align-items="center">
       <Button
@@ -64,23 +65,29 @@ export default function ItemList({
         flex-wrap="wrap"
         width="90%"
       >
-        {tokenList.map((color, index) => {
-          if (color) {
-            return (
-              <StyledLink
-                href={color}
-                target="_blank"
-                rel="noreferrer"
-                key={index}
-              >
-                your Octopus No: {index}{" "}
-              </StyledLink>
-            );
-            // return <Nft nft={color} key={index} />;
-          }
+        {tokenList.length > 0 &&
+          tokenList.map((color, index) => {
+            if (color) {
+              return (
+                <StyledLink
+                  href={color}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={index}
+                >
+                  your Octopus No: {index}
+                </StyledLink>
+              );
+            } else {
+              return (
+                <p>You don't have any Octopus yet or they are loading...</p>
+              );
+            }
+          })}
 
-          <p>{color}</p>;
-        })}
+        {tokenList.length === 0 && (
+          <p>You don't have any Octopus yet or they are loading...</p>
+        )}
       </Box>
     </Box>
   );

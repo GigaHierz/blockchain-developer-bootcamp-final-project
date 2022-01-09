@@ -6,7 +6,7 @@ import octopus from "../../assets/octopus.png";
 
 const StyledLink = styled(Link)`
   color: #4a4a4a;
-  margin: 5px;
+  margin: 10px;
   backgroundcolor: #666666;
   border="1px solid transparent"
 `;
@@ -25,7 +25,8 @@ const Navigation = () => {
         <StyledLink to="/">
           <img src={octopus} alt="Home" width="50" height="28" />
         </StyledLink>
-        <StyledLink to="/all">All Items</StyledLink>
+        <StyledLink to="/mint">Mint Octopus</StyledLink>
+        <StyledLink to="/all">My Octopusses</StyledLink>
         {/* <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link> */}
       </Box>

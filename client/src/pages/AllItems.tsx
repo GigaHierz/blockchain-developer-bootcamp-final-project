@@ -8,11 +8,9 @@ import FlexColumn from "../components/shared/FlexColumn";
 const AllItems = ({
   contract,
   account,
-  ipfsGateway,
 }: {
   contract: Contract;
   account: string | null | undefined;
-  ipfsGateway: string;
 }) => {
   return (
     <Page>
@@ -20,11 +18,7 @@ const AllItems = ({
         <Heading size="5" renderas="h1">
           All Your Octopussessss
         </Heading>
-        <ItemList
-          contract={contract}
-          account={account}
-          ipfsGateway={ipfsGateway}
-        />
+        <ItemList contract={contract} account={account} />
       </FlexColumn>
     </Page>
   );

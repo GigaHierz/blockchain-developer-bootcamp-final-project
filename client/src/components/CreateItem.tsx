@@ -6,11 +6,8 @@ import MintItem from "./MintItem";
 import { encodeString } from "../shared/StringEncoder";
 import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
-import { useEthers } from "@usedapp/core";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
-  const { account } = useEthers();
-
   let inputValue: HTMLInputElement | null;
 
   const [color, setColor] = useState("");
