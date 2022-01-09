@@ -85,6 +85,7 @@ contract Nft is
         public
         tokenUnique(cid)
         userExists(to)
+        userExists(partner)
         addressNotSender(to, partner)
         returns (uint256 _id)
     {
@@ -92,7 +93,6 @@ contract Nft is
         _mint(to, _id);
         tokensToOwner[_id] = to;
         _tokenExists[cid] = true;
-        _userExists[to] = true;
         _setTokenURI(_id, cid);
         _tokenIds.increment();
 
