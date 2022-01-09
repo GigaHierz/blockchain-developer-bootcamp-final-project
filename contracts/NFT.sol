@@ -30,13 +30,36 @@ contract Nft is
     mapping(string => bool) _tokenExists;
     mapping(address => bool) _userExists;
 
+    /*
+     * Modifiers
+     */
+    modifier tokenUnique(string memory token) {
+        require(!_tokenExists[token], "token already exists");
+        _;
+    }
+    modifier userDoesntExists(address user) {
+        require(!_userExists[user], "User already  exists");
+        _;
+    }
+    modifier userExists(address user) {
+        require(_userExists[user], "User doesn't exists");
+        _;
+    }
+    modifier addressNotSender(address user1, address user2) {
+        require(user1 != user2, "Address same as message sender");
+        _;
+    }
+
     /// @notice  Token is minted. Can only be called once by every user.
     /// @param to The address, the Token should be transfered to
     /// @param cid The CID of the Tokens metadata
     /// @return _id
-    function mint(address to, string memory cid) public returns (uint256 _id) {
-        require(!_tokenExists[cid], "Object already exists");
-
+    function mint(address to, string memory cid)
+        public
+        tokenUnique(cid)
+        userDoesntExists(to)
+        returns (uint256 _id)
+    {
         _id = _tokenIds.current();
         _mint(to, _id);
         tokensToOwner[_id] = to;
