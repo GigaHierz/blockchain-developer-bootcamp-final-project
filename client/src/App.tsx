@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Text } from "@chakra-ui/react";
 import { useEthers } from "@usedapp/core";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
@@ -12,10 +12,10 @@ import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 
 export default function App() {
-  const { chainId, active } = useEthers();
   const { account } = useEthers();
   const provider = useRef<ethers.providers.InfuraProvider>();
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
+  const [chainState, setChainState] = useState("");
   //   const ipfsGateway = `https://ipfs.io/ipfs`;
   //   const contract = useRef<Contract>({} as Contract);
 
@@ -46,13 +46,16 @@ export default function App() {
     setup();
   }, []);
 
-  // Todo: alert when chainId is updated
-  const checkChainId = () => {
-    if (chainId !== 3 && active) {
-      // alert('To be able to use this App please connect to the RopstenNetwork')
+  // reload page if chain is changed
+  (window as any).ethereum.on("networkChanged", (chainId: number) => {
+    if (Number(chainId) !== 4) {
+      setChainState(
+        "To be able to use this App please connect to the Rinkeby Network"
+      );
+    } else {
+      setChainState("");
     }
-  };
-  checkChainId();
+  });
 
   // reload page if account is changed
   (window as any).ethereum.on("accountsChanged", () => {
@@ -63,6 +66,7 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
+        <Text color="#c83f3f">{chainState}</Text>
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
             <Route path="/" element={<HomePage />} />

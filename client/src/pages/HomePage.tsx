@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react";
+import { Container, Text } from "@chakra-ui/react";
 
 import Page from "../components/shared/Page";
 import { StyledLink } from "../components/shared/StyledLink";
@@ -15,14 +15,14 @@ export default function HomePage() {
       >
         <br />
         <br />
-        <p>
+        <Text>
           This is the Ocotpus Game. It is supposed to be fun and cute. That is
           the most important thing. Here you don't have to worry about making
           mistakes or losing money. This Dapp is supposed to make you feel more
           comfortable with MetaMask and minting and Nfts and maybe exploring the
           Etherscan.
-        </p>
-        <p>
+        </Text>
+        <Text>
           First you should{" "}
           <StyledLink to="/blockchain-developer-bootcamp-final-project/mint">
             mint
@@ -30,20 +30,20 @@ export default function HomePage() {
           your first NFT. This is a little Octopus baby. And that is going to be
           your OG Octopus. First you will only have this one that is yours and
           yours only.
-        </p>
+        </Text>
         <br />
-        <p>
+        <Text>
           But this game is also designed to motivate you to interact with other
           eople and other Ethereum Addresses. So here the "Flosse" comes into
           the game.
-        </p>
-        <p>
+        </Text>
+        <Text>
           We use "Flosse" as Octopusses don'T have hands and thats the german
           word for .... In German you can also say "Gib Flosse", when you want
           to give a high five to someone. So there is that..
-        </p>
+        </Text>
         <br />
-        <p>
+        <Text>
           Also: if you want to add the Ocoptusses to your metamask wallet follow
           this{" "}
           <StyledLink
@@ -54,9 +54,9 @@ export default function HomePage() {
             guide
           </StyledLink>
           .
-        </p>
+        </Text>
         <br />
-        <p>
+        <Text>
           You can also check out the contract on{" "}
           <StyledLink
             to="https://rinkeby.etherscan.io/address/0x52818719FC9E7d35fD2882344AfFa1f4fcA81874"
@@ -66,7 +66,7 @@ export default function HomePage() {
             EtherScan
           </StyledLink>
           . In case you want to check out who else has some tokens.
-        </p>
+        </Text>
       </Container>
     </Page>
   );
