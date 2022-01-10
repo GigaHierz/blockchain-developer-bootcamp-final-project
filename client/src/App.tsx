@@ -1,5 +1,5 @@
 import { ChakraProvider, Text } from "@chakra-ui/react";
-import { ChainId, useEthers } from "@usedapp/core";
+import { useEthers } from "@usedapp/core";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -12,7 +12,7 @@ import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 
 export default function App() {
-  const { account, chainId } = useEthers();
+  const { account } = useEthers();
   const provider = useRef<ethers.providers.InfuraProvider>();
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
   const [chainState, setChainState] = useState("");
@@ -42,33 +42,23 @@ export default function App() {
     setup();
   }, []);
 
-  const checkMMConnection = () => {
-    if (chainId !== ChainId.Rinkeby) {
+  // Todo: alert when chainId is updated
+
+  // reload page if chain is changed
+  (window as any).ethereum.on("networkChanged", (chainId: number) => {
+    if (Number(chainId) !== 4) {
       setChainState(
         "To be able to use this App please connect to the Rinkeby Network"
       );
     } else {
       setChainState("");
     }
+  });
 
-    // reload page if chain is changed
-    (window as any).ethereum.on("networkChanged", (chainId: number) => {
-      if (Number(chainId) !== 4) {
-        setChainState(
-          "To be able to use this App please connect to the Rinkeby Network"
-        );
-      } else {
-        setChainState("");
-      }
-    });
-
-    // reload page if account is changed
-    (window as any).ethereum.on("accountsChanged", () => {
-      window.location.reload();
-    });
-  };
-
-  checkMMConnection();
+  // reload page if account is changed
+  (window as any).ethereum.on("accountsChanged", () => {
+    window.location.reload();
+  });
 
   return (
     <ChakraProvider>
