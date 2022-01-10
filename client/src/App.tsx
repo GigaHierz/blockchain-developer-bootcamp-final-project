@@ -64,7 +64,9 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
-        <Text color="#c83f3f">{chainState}</Text>
+        <Text color="#c83f3f" fontSize="small">
+          {chainState}
+        </Text>
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
             <Route path="/" element={<HomePage />} />

@@ -67,7 +67,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
   const checkConnection = () => {
     if (!account) {
       setAccountState(
-        "You need to be connected to a MetaMask Wallet to mint an Octopus NFT."
+        "You need to be connected to a MetaMask Wallet and use the Rinkeby network to mint an Octopus NFT."
       );
     } else {
       setAccountState("");
@@ -213,7 +213,9 @@ export default function CreateItem({ contract }: { contract: Contract }) {
           </Box>
         </form>
       </Box>
-      <Text>{accountState}</Text>
+      <Text color="#c83f3f" fontSize="small">
+        {accountState}
+      </Text>
       <Box id="frame" margin="20px" padding="10px" border="1.5px solid #ffff11">
         {!name && <YourSvg width="250px" height="200px"></YourSvg>}
       </Box>
