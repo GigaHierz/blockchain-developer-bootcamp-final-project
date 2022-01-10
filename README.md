@@ -68,7 +68,7 @@ and
 truffle migrate
 ```
 
-And then lastly deploy the contract to the ropsten testnet:
+And then lastly deploy the contract to the rinkeby testnet:
 
 ```
 truffle migrate --network rinkeby
@@ -91,9 +91,8 @@ yarn install
 setup `.env` file with the following variables.
 
 ```
-REACT_APP_PRIVATE_KEY=xxxxxx
+REACT_APP_PRIVATE_MM_KEY=xxxxxx
 REACT_APP_IPFS=xxxxxx
-REACT_APP_SECRET=xxxxxx
 REACT_APP_INFURA_PROJECT_ID=xxxxxx
 
 ```

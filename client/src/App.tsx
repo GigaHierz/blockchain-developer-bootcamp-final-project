@@ -19,14 +19,6 @@ export default function App() {
   //   const ipfsGateway = `https://ipfs.io/ipfs`;
   //   const contract = useRef<Contract>({} as Contract);
 
-  // Todo: alert when chainId is updated
-  const checkChainId = () => {
-    if (chainId !== 3 && active) {
-      // alert('To be able to use this App please connect to the RopstenNetwork')
-    }
-  };
-  checkChainId();
-
   useEffect(() => {
     // this is only run once on component mounting
 
@@ -39,6 +31,7 @@ export default function App() {
         process.env.REACT_APP_PRIVATE_KEY as any,
         provider.current
       );
+
       const signer = wallet.connect(provider.current);
       //   const network = await provider.getNetwork();
 
@@ -52,6 +45,19 @@ export default function App() {
     };
     setup();
   }, []);
+
+  // Todo: alert when chainId is updated
+  const checkChainId = () => {
+    if (chainId !== 3 && active) {
+      // alert('To be able to use this App please connect to the RopstenNetwork')
+    }
+  };
+  checkChainId();
+
+  // reload page if account is changed
+  (window as any).ethereum.on("accountsChanged", () => {
+    window.location.reload();
+  });
 
   return (
     <ChakraProvider>
