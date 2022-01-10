@@ -1,5 +1,5 @@
 import { ChakraProvider, Text } from "@chakra-ui/react";
-import { useEthers } from "@usedapp/core";
+import { ChainId, useEthers } from "@usedapp/core";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -12,7 +12,7 @@ import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 
 export default function App() {
-  const { account } = useEthers();
+  const { account, chainId } = useEthers();
   const provider = useRef<ethers.providers.InfuraProvider>();
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
   const [chainState, setChainState] = useState("");
@@ -20,8 +20,6 @@ export default function App() {
   //   const contract = useRef<Contract>({} as Contract);
 
   useEffect(() => {
-    // this is only run once on component mounting
-
     const setup = async () => {
       provider.current = new ethers.providers.InfuraProvider(
         "rinkeby",
@@ -33,9 +31,7 @@ export default function App() {
       );
 
       const signer = wallet.connect(provider.current);
-      //   const network = await provider.getNetwork();
 
-      // TODO: Figure out chainID
       const contractAddress = NftContract.networks[4].address;
 
       setContract((contract) => ({
@@ -46,21 +42,33 @@ export default function App() {
     setup();
   }, []);
 
-  // reload page if chain is changed
-  (window as any).ethereum.on("networkChanged", (chainId: number) => {
-    if (Number(chainId) !== 4) {
+  const checkMMConnection = () => {
+    if (chainId !== ChainId.Rinkeby) {
       setChainState(
         "To be able to use this App please connect to the Rinkeby Network"
       );
     } else {
       setChainState("");
     }
-  });
 
-  // reload page if account is changed
-  (window as any).ethereum.on("accountsChanged", () => {
-    window.location.reload();
-  });
+    // reload page if chain is changed
+    (window as any).ethereum.on("networkChanged", (chainId: number) => {
+      if (Number(chainId) !== 4) {
+        setChainState(
+          "To be able to use this App please connect to the Rinkeby Network"
+        );
+      } else {
+        setChainState("");
+      }
+    });
+
+    // reload page if account is changed
+    (window as any).ethereum.on("accountsChanged", () => {
+      window.location.reload();
+    });
+  };
+
+  checkMMConnection();
 
   return (
     <ChakraProvider>

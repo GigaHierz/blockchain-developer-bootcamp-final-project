@@ -21,6 +21,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
   const [address, setAddress] = useState("");
   const [data, setData] = useState("");
   const [userState, setUserState] = useState(false);
+  const [accountState, setAccountState] = useState("");
 
   let frame = document.getElementById("frame");
   let img = document.createElement("img");
@@ -55,10 +56,27 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         if (frame?.childElementCount && frame?.childElementCount > 1) {
           frame?.firstChild?.remove();
         }
+
+        checkConnection();
       })
       .catch((err) => {
         console.log("Failed with error: " + err);
       });
+  };
+
+  const checkConnection = () => {
+    if (!account) {
+      setAccountState(
+        "You need to be connected to a MetaMask Wallet to mint an Octopus NFT."
+      );
+    } else {
+      setAccountState("");
+    }
+    (window as any).ethereum.on("networkChanged", (chainId: number) => {
+      if (Number(chainId) === 4) {
+        setAccountState("");
+      }
+    });
   };
 
   /**
@@ -195,6 +213,7 @@ export default function CreateItem({ contract }: { contract: Contract }) {
           </Box>
         </form>
       </Box>
+      <Text>{accountState}</Text>
       <Box id="frame" margin="20px" padding="10px" border="1.5px solid #ffff11">
         {!name && <YourSvg width="250px" height="200px"></YourSvg>}
       </Box>

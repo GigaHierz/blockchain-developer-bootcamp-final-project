@@ -62,9 +62,7 @@ export default function MintItem({
             const jsonObject = JSON.stringify(meta);
             await addItemToIPFS(jsonObject).then(async (url) => {
               const urlTemp = url?.replace(baseURI, "");
-              if (!account) {
-                setStatus("You need to be connected to a MetaMask Wallet.");
-              } else if (urlTemp) {
+              if (urlTemp) {
                 await mint(urlTemp);
               }
             });
