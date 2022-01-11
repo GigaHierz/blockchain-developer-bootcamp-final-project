@@ -26,7 +26,7 @@ export default function App() {
         process.env.REACT_APP_INFURA_PROJECT_ID
       );
       const wallet = new ethers.Wallet(
-        process.env.REACT_APP_PRIVATE_KEY as any,
+        process.env.REACT_APP_PRIVATE_MM_KEY as any,
         provider.current
       );
 
