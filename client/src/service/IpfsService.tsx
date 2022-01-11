@@ -31,9 +31,9 @@ export async function addItemToIPFS(file: any) {
 
 export async function getItemFromIPFS(cid: string) {
   try {
-    const added = await toBuffer(
-      client.cat("QmV7N6Brncdj8TcxvuePBt8TswQQs8HjwMpJ2yUNA2WZwW")
-    );
+    console.log(cid);
+
+    const added = await toBuffer(client.cat(cid));
 
     return decodeuint8arr(added);
   } catch (error) {
