@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import Token from "../../models/Token";
 import TokenMetaData from "../../models/TokenMetaData";
-import { addItemToIPFS } from "../../shared/IpfsFileUploader";
+import { addItemToIPFS } from "../../service/IpfsService";
 
 export default function MintItem({
   contract,

@@ -1,9 +1,14 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { BigNumber, Contract } from "ethers";
 import { useEffect, useState } from "react";
 
-import { hexToDec } from "../shared/HexEncoder";
-import { StyledLink } from "./shared/StyledLink";
+import { hexToDec, hexToRgb } from "../shared/HexEncoder";
+import { ReactComponent as YourSvg } from "../assets/octopus.svg";
+import svg from "../assets/octopus.svg";
+
+import TokenMetaData from "../models/TokenMetaData";
+import base64SvgToBase64Png from "../shared/SvgToPng";
+import { getItemFromIPFS } from "../service/IpfsService";
 
 export default function ItemList({
   contract,
@@ -13,49 +18,129 @@ export default function ItemList({
   account: string | null | undefined;
 }) {
   const [tokenList, setTokenList] = useState<string[]>([]);
+  const [tokenMetaList, setTokenMetaList] = useState<TokenMetaData[]>(
+    [] as TokenMetaData[]
+  );
+  // const [colorList, setColorList] = useState<string[]>([]);
+  const baseURI = "https://ipfs.infura.io/ipfs/";
 
   useEffect(() => {
     if (account && tokenList.length === 0) {
+      loadList();
+    }
+    if (tokenList.length > 0 && tokenMetaList.length < 3) {
+      getTokenMeta();
+    }
+    if (tokenList.length === 3 && tokenMetaList.length === 3) {
       showList();
     }
   });
 
-  const showList = async () => {
-    await contract?.tokensOfOwner(account).then((tokenIds: BigNumber[]) => {
-      tokenIds.map(async (token: BigNumber) => {
-        await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
-          setTokenList((tokenList) => [...tokenList, token]);
+  const loadList = async () => {
+    const tokens = await contract
+      ?.tokensOfOwner(account)
+      .then((tokenIds: BigNumber[]) => {
+        tokenIds.map(async (token: BigNumber) => {
+          await contract
+            ?.tokenURI(hexToDec(token._hex))
+            .then((token: string) => {
+              setTokenList((tokenList) => [...tokenList, token]);
+            });
         });
       });
+
+    console.log(tokens?.length);
+  };
+
+  const getTokenMeta = async () => {
+    tokenList?.map(async (token, index) => {
+      token.replace(baseURI, "");
+      console.log(tokenList);
+
+      await getItemFromIPFS(token).then((result) => {
+        let tokenMetaData: TokenMetaData = JSON.parse(result || "");
+        if (tokenMetaData) {
+          // setColorList((colorList) => [
+          //   ...colorList,
+          //   tokenMetaData.properties.value,
+          // ]);
+          console.log(tokenMetaData);
+
+          setTokenMetaList((tokenMetaList) => [
+            ...tokenMetaList,
+            tokenMetaData,
+          ]);
+        }
+      });
+    });
+  };
+  const showList = async () => {
+    tokenMetaList?.map(async (tokenMetaData, index) => {
+      let form = document.getElementById(`form-${index}`);
+      form?.setAttribute("key", "form" + index.toString());
+
+      let img = document.createElement("img");
+      img.setAttribute("id", "nft-" + index.toString());
+      img.setAttribute("key", "nft" + index.toString());
+
+      base64SvgToBase64Png(
+        svg,
+        img,
+        200,
+        tokenMetaData.properties.name,
+        tokenMetaData.properties.value
+      )
+        .then(() => {
+          let rgb = hexToRgb(tokenMetaData.properties.value);
+
+          if (
+            img.style.background === tokenMetaData.properties.value ||
+            img.style.background === rgb
+          ) {
+            return;
+          }
+        })
+        .then(() => {
+          if (form && form.hasChildNodes()) {
+            return;
+          } else {
+            // form?.appendChild(img);
+          }
+        });
     });
   };
 
   return (
-    <Box width="40vh" display="flex" flexDir="column" align-items="center">
-      <Box
-        padding="10px"
-        display="grid"
-        grid-template-columns="1fr 1fr 1fr 1fr"
-        alignItems="center"
-        flexDirection="row"
-        flex-wrap="wrap"
-        width="90%"
-      >
-        {tokenList.length > 0 &&
-          tokenList.map((tokenUri, index) => {
-            if (tokenUri) {
+    <Box width="80vh" display="flex" flexDir="column" align-items="center">
+      <Box padding="10px" display="flex" flex-wrap="wrap" flexDirection="row">
+        {tokenMetaList.length > 0 &&
+          tokenMetaList.map((token, index) => {
+            if (token) {
               return (
-                <StyledLink
-                  to={tokenUri}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={index}
-                >
-                  your Octopus No: {index}
-                </StyledLink>
+                <Box>
+                  <Box
+                    id={"form-" + index.toString()}
+                    margin="20px"
+                    padding="10px"
+                    border="1.5px solid #ffff11"
+                    key={"form" + index.toString()}
+                  >
+                    {
+                      <YourSvg
+                        fill={token.properties.value}
+                        width="250px"
+                        height="200px"
+                        key={"img" + index.toString()}
+                      ></YourSvg>
+                    }
+                  </Box>
+                  <Text key={"name-" + index.toString()}>
+                    {token.properties.name}
+                  </Text>
+                </Box>
               );
             } else {
-              return <p>Yloading...</p>;
+              return <p>loading...</p>;
             }
           })}
 

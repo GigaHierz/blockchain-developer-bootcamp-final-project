@@ -20,18 +20,21 @@ export default function App() {
   //   const contract = useRef<Contract>({} as Contract);
 
   useEffect(() => {
+    // this is only run once on component mounting
+
     const setup = async () => {
       provider.current = new ethers.providers.InfuraProvider(
         "rinkeby",
         process.env.REACT_APP_INFURA_PROJECT_ID
       );
       const wallet = new ethers.Wallet(
-        process.env.REACT_APP_PRIVATE_KEY as any,
+        process.env.REACT_APP_PRIVATE_MM_KEY as any,
         provider.current
       );
-
       const signer = wallet.connect(provider.current);
+      //   const network = await provider.getNetwork();
 
+      // TODO: Figure out chainID
       const contractAddress = NftContract.networks[4].address;
 
       setContract((contract) => ({
@@ -41,8 +44,6 @@ export default function App() {
     };
     setup();
   }, []);
-
-  // Todo: alert when chainId is updated
 
   // reload page if chain is changed
   (window as any).ethereum.on("networkChanged", (chainId: number) => {
@@ -81,7 +82,6 @@ export default function App() {
                 <ItemsListPage contract={contract.current} account={account} />
               }
             />
-            <Route path="*" element={<HomePage />} />
           </Routes>
         </BrowserRouter>
       </FlexColumn>
