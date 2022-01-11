@@ -45,14 +45,9 @@ export default function ItemList({
           tokenList.map((tokenUri, index) => {
             if (tokenUri) {
               return (
-                <StyledLink
-                  to={tokenUri}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={index}
-                >
+                <a href={tokenUri} target="_blank" rel="noreferrer" key={index}>
                   your Octopus No: {index}
-                </StyledLink>
+                </a>
               );
             } else {
               return <p>Yloading...</p>;

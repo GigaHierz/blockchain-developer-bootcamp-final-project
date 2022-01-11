@@ -46,25 +46,27 @@ export default function HomePage() {
         <Text>
           Also: if you want to add the Ocoptusses to your metamask wallet follow
           this{" "}
-          <StyledLink
-            to="https://consensys.net/blog/metamask/how-to-add-your-custom-tokens-in-metamask/"
+          <a
+            href="https://consensys.net/blog/metamask/how-to-add-your-custom-tokens-in-metamask/"
             target="_blank"
             rel="noreferrer"
+            color="#ffff"
           >
             guide
-          </StyledLink>
+          </a>
           .
         </Text>
         <br />
         <Text>
           You can also check out the contract on{" "}
-          <StyledLink
-            to="https://rinkeby.etherscan.io/address/0x52818719FC9E7d35fD2882344AfFa1f4fcA81874"
+          <a
+            href="https://rinkeby.etherscan.io/address/0x52818719FC9E7d35fD2882344AfFa1f4fcA81874"
             target="_blank"
             rel="noopener noreferrer"
+            color="#0000"
           >
             EtherScan
-          </StyledLink>
+          </a>
           . In case you want to check out who else has some tokens.
         </Text>
       </Container>
