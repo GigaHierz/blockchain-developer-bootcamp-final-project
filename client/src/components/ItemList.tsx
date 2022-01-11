@@ -22,7 +22,7 @@ export default function ItemList({
     [] as TokenMetaData[]
   );
   // const [colorList, setColorList] = useState<string[]>([]);
-  const baseURI = "https://ipfs.infura.io/ipfs/";
+  const baseURI = "https://ipfs.io/ipfs/";
 
   useEffect(() => {
     if (account && tokenList.length === 0) {
@@ -48,16 +48,13 @@ export default function ItemList({
             });
         });
       });
-
+    return tokens;
     console.log(tokens?.length);
   };
 
   const getTokenMeta = async () => {
     tokenList?.map(async (token, index) => {
-      token.replace(baseURI, "");
-      console.log(tokenList);
-
-      await getItemFromIPFS(token).then((result) => {
+      await getItemFromIPFS(token.replace(baseURI, "")).then((result) => {
         let tokenMetaData: TokenMetaData = JSON.parse(result || "");
         if (tokenMetaData) {
           // setColorList((colorList) => [
@@ -104,7 +101,7 @@ export default function ItemList({
           if (form && form.hasChildNodes()) {
             return;
           } else {
-            // form?.appendChild(img);
+            form?.appendChild(img);
           }
         });
     });
@@ -117,7 +114,7 @@ export default function ItemList({
           tokenMetaList.map((token, index) => {
             if (token) {
               return (
-                <Box>
+                <Box key={"box" + index.toString()}>
                   <Box
                     id={"form-" + index.toString()}
                     margin="20px"
@@ -125,14 +122,14 @@ export default function ItemList({
                     border="1.5px solid #ffff11"
                     key={"form" + index.toString()}
                   >
-                    {
+                    {/* {
                       <YourSvg
                         fill={token.properties.value}
                         width="250px"
                         height="200px"
                         key={"img" + index.toString()}
                       ></YourSvg>
-                    }
+                    } */}
                   </Box>
                   <Text key={"name-" + index.toString()}>
                     {token.properties.name}
