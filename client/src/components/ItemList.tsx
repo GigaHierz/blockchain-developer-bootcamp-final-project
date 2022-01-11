@@ -109,7 +109,7 @@ export default function ItemList({
 
   return (
     <Box width="80vh" display="flex" flexDir="column" align-items="center">
-      <Box padding="10px" display="flex" flex-wrap="wrap" flexDirection="row">
+      <Box padding="10px" display="flex" flex-wrap="wrap" flexDir="row">
         {tokenMetaList.length > 0 &&
           tokenMetaList.map((token, index) => {
             if (token) {
@@ -122,14 +122,15 @@ export default function ItemList({
                     border="1.5px solid #ffff11"
                     key={"form" + index.toString()}
                   >
-                    {/* {
+                    {
                       <YourSvg
                         fill={token.properties.value}
+                        stroke="green"
                         width="250px"
                         height="200px"
                         key={"img" + index.toString()}
                       ></YourSvg>
-                    } */}
+                    }
                   </Box>
                   <Text key={"name-" + index.toString()}>
                     {token.properties.name}
