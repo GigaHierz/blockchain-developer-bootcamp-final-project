@@ -8,7 +8,6 @@
     "@chakra-ui/react": "^1.6.12",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@metamask/detect-provider": "^1.2.0",
     "@metamask/jazzicon": "^2.0.0",
     "@types/bl": "^5.0.2",
     "@types/body-parser": "^1.19.2",

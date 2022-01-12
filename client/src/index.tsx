@@ -19,7 +19,13 @@ const config: Config = {
   readOnlyUrls: {
     [ChainId.Rinkeby]: `https://rinkeby.infura.io/v3/${process.env.REACT_APP_INFURA_PROJECT_ID}`,
   },
-  supportedChains: [ChainId.Rinkeby],
+  supportedChains: [
+    ChainId.Rinkeby,
+    ChainId.Ropsten,
+    ChainId.Mainnet,
+    ChainId.Kovan,
+    ChainId.Goerli,
+  ],
 };
 
 ReactDOM.render(

@@ -1,6 +1,5 @@
 import { ChakraProvider, Text } from "@chakra-ui/react";
 import { useEthers } from "@usedapp/core";
-import detectEthereumProvider from "@metamask/detect-provider";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -13,7 +12,7 @@ import FlexColumn from "./components/shared/FlexColumn";
 import ConnectButton from "./components/metamask/ConnectButton";
 
 export default function App() {
-  const { account } = useEthers();
+  const { account, chainId } = useEthers();
   const provider = useRef<ethers.providers.InfuraProvider>();
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
   const [chainState, setChainState] = useState("");
@@ -22,7 +21,6 @@ export default function App() {
 
   useEffect(() => {
     // this is only run once on component mounting
-    detectMM();
 
     const setup = async () => {
       provider.current = new ethers.providers.InfuraProvider(
@@ -45,18 +43,13 @@ export default function App() {
       }));
     };
     setup();
-  }, []);
 
-  // check if app is connected to MetaMask
-  const detectMM = async () => {
-    const providerMM = await detectEthereumProvider();
-
-    if (!providerMM) {
-      let textBody = document.getElementById("connection");
-      let text = document.createTextNode("");
-      textBody?.appendChild(text);
+    if (chainId !== 3) {
+      setChainState(
+        "To be able to use this App please connect to the Rinkeby Network"
+      );
     }
-  };
+  }, []);
 
   // reload page if chain is changed
   (window as any).ethereum?.on("networkChanged", (chainId: number) => {
@@ -79,15 +72,19 @@ export default function App() {
       <FlexColumn>
         <ConnectButton />
         <Text id="connection" color="#c83f3f" fontSize="small">
-          {!chainState && (
-            <p>
-              <br />
-              <br />
-              <a href="https://metamask.io/">
+          <br />
+          <br />
+          {!account && !chainState && (
+            <span>
+              <a
+                href="https://metamask.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Please connect to MetaMask to use this App.
               </a>
               If you are connected, please change to the Rinkeby Testnet.
-            </p>
+            </span>
           )}
           {chainState}
         </Text>
