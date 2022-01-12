@@ -7,7 +7,7 @@ export function hexToDecColor(hexString: string) {
 export function hexToRgb(color: string): string {
   let aRgb = "";
   if (color.length !== 7) {
-    throw "Only six-digit hex colors are allowed.";
+    throw new Error("Only six-digit hex colors are allowed.");
   }
   let aRgbHex = color.replace("#", "").match(/.{1,2}/g);
   if (aRgbHex) {

@@ -61,8 +61,6 @@ export default function ItemList({
     });
   };
   const showList = async () => {
-    console.log(tokenMetaList);
-
     tokenMetaList?.map(async (tokenMetaData, index) => {
       let form = document.getElementById(`form-${index}`);
       form?.setAttribute("key", "form" + index.toString());
