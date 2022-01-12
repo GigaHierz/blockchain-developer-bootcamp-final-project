@@ -24,27 +24,6 @@ contract("Nft", (accounts) => {
     contract = await Nft.deployed();
   });
 
-  describe("testgroup - security tests - description...", () => {
-    //deploy a new contract
-    before(async () => {
-      /* before tests */
-      const newNFT = await Nft.new();
-
-      it("fails on initialize ...", async () => {
-        return assertRevert(async () => {
-          await newNFT.initialize();
-        });
-      });
-
-      it("checks if method returns true", async () => {
-        assert.isTrue(await newNFT.thisMethodShouldReturnTrue());
-      });
-    });
-
-    beforeEach(async () => {
-      /* before each tests */
-    });
-  });
   describe("deployment", async () => {
     it("deploys successfully", async () => {
       const address = contract.address;

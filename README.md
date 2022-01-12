@@ -125,7 +125,7 @@ or you use Ganach CLI. Then the port for the local testnet is `8545`.
 
 Unfortunately so far the tests for the upgradable plugin are still failing. But there are other tests that go through :).
 
-5. A screencast of you walking through your project - loom
+5. A screencast of you walking through your project - [loom](https://www.loom.com/share/4192db87b9404ca5a2a85992bc27bf3f?sharedAppSource=personal_library)
 
 6. Ethereum Address
 
