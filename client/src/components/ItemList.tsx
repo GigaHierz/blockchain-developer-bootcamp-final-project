@@ -103,7 +103,7 @@ export default function ItemList({
           tokenMetaList.map((token, index) => {
             if (token) {
               return (
-                <Box key={"box" + index.toString()}>
+                <a href={tokenList[index]} key={"box" + index.toString()}>
                   <Box
                     id={"form-" + index.toString()}
                     margin="20px"
@@ -114,7 +114,7 @@ export default function ItemList({
                   <Text key={"name-" + index.toString()}>
                     {token.properties.name}
                   </Text>
-                </Box>
+                </a>
               );
             } else {
               return <p>loading...</p>;

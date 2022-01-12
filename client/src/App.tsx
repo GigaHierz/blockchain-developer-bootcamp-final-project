@@ -1,5 +1,6 @@
 import { ChakraProvider, Text } from "@chakra-ui/react";
 import { useEthers } from "@usedapp/core";
+import detectEthereumProvider from "@metamask/detect-provider";
 import { Contract, ethers } from "ethers";
 import { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -21,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     // this is only run once on component mounting
+    detectMM();
 
     const setup = async () => {
       provider.current = new ethers.providers.InfuraProvider(
@@ -45,8 +47,19 @@ export default function App() {
     setup();
   }, []);
 
+  // check if app is connected to MetaMask
+  const detectMM = async () => {
+    const providerMM = await detectEthereumProvider();
+
+    if (!providerMM) {
+      let textBody = document.getElementById("connection");
+      let text = document.createTextNode("");
+      textBody?.appendChild(text);
+    }
+  };
+
   // reload page if chain is changed
-  (window as any).ethereum.on("networkChanged", (chainId: number) => {
+  (window as any).ethereum?.on("networkChanged", (chainId: number) => {
     if (Number(chainId) !== 4) {
       setChainState(
         "To be able to use this App please connect to the Rinkeby Network"
@@ -57,7 +70,7 @@ export default function App() {
   });
 
   // reload page if account is changed
-  (window as any).ethereum.on("accountsChanged", () => {
+  (window as any).ethereum?.on("accountsChanged", () => {
     window.location.reload();
   });
 
@@ -65,9 +78,20 @@ export default function App() {
     <ChakraProvider>
       <FlexColumn>
         <ConnectButton />
-        <Text color="#c83f3f" fontSize="small">
+        <Text id="connection" color="#c83f3f" fontSize="small">
+          {!chainState && (
+            <p>
+              <br />
+              <br />
+              <a href="https://metamask.io/">
+                Please connect to MetaMask to use this App.
+              </a>
+              If you are connected, please change to the Rinkeby Testnet.
+            </p>
+          )}
           {chainState}
         </Text>
+
         <BrowserRouter basename="/blockchain-developer-bootcamp-final-project">
           <Routes>
             <Route path="/" element={<HomePage />} />

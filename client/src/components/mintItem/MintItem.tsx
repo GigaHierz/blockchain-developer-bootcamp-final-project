@@ -75,8 +75,6 @@ export default function MintItem({
   };
 
   const mint = async (tokenUri: string): Promise<Token | undefined> => {
-    console.log(contract.address);
-
     if (tokenUri) {
       setStatus("...isLoading");
 
@@ -85,7 +83,6 @@ export default function MintItem({
           .handShake(account, address, tokenUri, value)
           .then(() => {
             setStatus(`The NFT  was minted.`);
-            setTimeout(() => navigate("/all"), 1000);
           })
           .catch((err: any) => {
             if (err.code === "INVALID_ARGUMENT") {
@@ -105,15 +102,7 @@ export default function MintItem({
         return await contract
           .mint(account, tokenUri, value)
           .then(() => {
-            setStatus(
-              `The NFT  was minted.`
-              // `The NFT ${result.name} was minted. Find the <a href="${
-              //   baseURI + tokenUri
-              // }">metadata</a> and <a href="${
-              //   result.imageUrl
-              // }">the image</a> on IPFS.`
-            );
-            setTimeout(() => navigate("/all"), 1000);
+            setStatus(`The NFT  was minted.`);
           })
           .catch((err: any) => {
             setStatus(
@@ -126,6 +115,10 @@ export default function MintItem({
           });
       }
     }
+  };
+
+  const navigateToList = () => {
+    navigate("/all");
   };
 
   return (
@@ -143,10 +136,12 @@ export default function MintItem({
           borderColor: "blue.400",
         }}
         borderRadius="xl"
-        width="10vh"
-        onClick={createOctopus}
+        width="150px"
+        onClick={
+          status === "The NFT  was minted." ? navigateToList : createOctopus
+        }
       >
-        Mint Item
+        {status === "The NFT  was minted." ? "Show List" : "Mint Item"}
       </Button>
       <Text>{status}</Text>
     </Box>
