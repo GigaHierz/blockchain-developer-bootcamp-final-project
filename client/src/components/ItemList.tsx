@@ -3,7 +3,6 @@ import { BigNumber, Contract } from "ethers";
 import { useEffect, useState } from "react";
 
 import { hexToDec, hexToRgb } from "../shared/HexEncoder";
-import { ReactComponent as YourSvg } from "../assets/octopus.svg";
 import svg from "../assets/octopus.svg";
 
 import TokenMetaData from "../models/TokenMetaData";
@@ -17,6 +16,7 @@ export default function ItemList({
   contract: Contract;
   account: string | null | undefined;
 }) {
+  const [tokenListLength, setTokenListLength] = useState<number>();
   const [tokenList, setTokenList] = useState<string[]>([]);
   const [tokenMetaList, setTokenMetaList] = useState<TokenMetaData[]>(
     [] as TokenMetaData[]
@@ -28,28 +28,23 @@ export default function ItemList({
     if (account && tokenList.length === 0) {
       loadList();
     }
-    if (tokenList.length > 0 && tokenMetaList.length < 3) {
+    if (tokenList.length === tokenListLength && tokenMetaList.length === 0) {
       getTokenMeta();
     }
-    if (tokenList.length === 3 && tokenMetaList.length === 3) {
+    if (tokenList.length === tokenMetaList.length) {
       showList();
     }
   });
 
   const loadList = async () => {
-    const tokens = await contract
-      ?.tokensOfOwner(account)
-      .then((tokenIds: BigNumber[]) => {
-        tokenIds.map(async (token: BigNumber) => {
-          await contract
-            ?.tokenURI(hexToDec(token._hex))
-            .then((token: string) => {
-              setTokenList((tokenList) => [...tokenList, token]);
-            });
+    await contract?.tokensOfOwner(account).then((tokenIds: BigNumber[]) => {
+      setTokenListLength(tokenIds.length);
+      tokenIds.map(async (token: BigNumber) => {
+        await contract?.tokenURI(hexToDec(token._hex)).then((token: string) => {
+          setTokenList((tokenList) => [...tokenList, token]);
         });
       });
-    return tokens;
-    console.log(tokens?.length);
+    });
   };
 
   const getTokenMeta = async () => {
@@ -57,12 +52,6 @@ export default function ItemList({
       await getItemFromIPFS(token.replace(baseURI, "")).then((result) => {
         let tokenMetaData: TokenMetaData = JSON.parse(result || "");
         if (tokenMetaData) {
-          // setColorList((colorList) => [
-          //   ...colorList,
-          //   tokenMetaData.properties.value,
-          // ]);
-          console.log(tokenMetaData);
-
           setTokenMetaList((tokenMetaList) => [
             ...tokenMetaList,
             tokenMetaData,
@@ -72,6 +61,8 @@ export default function ItemList({
     });
   };
   const showList = async () => {
+    console.log(tokenMetaList);
+
     tokenMetaList?.map(async (tokenMetaData, index) => {
       let form = document.getElementById(`form-${index}`);
       form?.setAttribute("key", "form" + index.toString());
@@ -121,17 +112,7 @@ export default function ItemList({
                     padding="10px"
                     border="1.5px solid #ffff11"
                     key={"form" + index.toString()}
-                  >
-                    {
-                      <YourSvg
-                        fill={token.properties.value}
-                        stroke="green"
-                        width="250px"
-                        height="200px"
-                        key={"img" + index.toString()}
-                      ></YourSvg>
-                    }
-                  </Box>
+                  ></Box>
                   <Text key={"name-" + index.toString()}>
                     {token.properties.name}
                   </Text>
