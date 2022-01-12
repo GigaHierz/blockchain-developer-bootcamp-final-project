@@ -44,7 +44,7 @@ export default function App() {
     };
     setup();
 
-    if (chainId !== 3) {
+    if (chainId && chainId !== 3) {
       setChainState(
         "To be able to use this App please connect to the Rinkeby Network"
       );
