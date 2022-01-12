@@ -9,6 +9,7 @@ import { ReactComponent as YourSvg } from "../../assets/octopus.svg";
 import svg from "../../assets/octopus.svg";
 import generateBabyName from "../../shared/NameGenerator";
 import { hexToDecColor } from "../../shared/HexEncoder";
+import base64SvgToBase64Png from "../../shared/SvgToPng";
 
 export default function CreateItem({ contract }: { contract: Contract }) {
   const { account } = useEthers();
@@ -42,7 +43,13 @@ export default function CreateItem({ contract }: { contract: Contract }) {
   };
 
   const create = async (nameInput: string, colorInput: string) => {
-    await base64SvgToBase64Png(svg, 200, nameInput, colorInput)
+    await base64SvgToBase64Png(
+      svg,
+      img,
+      200,
+      nameInput || name,
+      colorInput || color
+    )
       .then((data) => !data || setData(data))
       .then(() => {
         if (img.style.background === colorInput) {
@@ -77,47 +84,6 @@ export default function CreateItem({ contract }: { contract: Contract }) {
         setAccountState("");
       }
     });
-  };
-
-  /**
-   * converts a base64 encoded data url SVG image to a PNG image
-   * @param originalBase64 data url of svg image
-   * @param width target width in pixel of PNG image
-   * @return {Promise<String>} resolves to png data url of the image
-   */
-  const base64SvgToBase64Png = (
-    originalBase64: string,
-    width: number,
-    inputName: string,
-    inputColor: string
-  ): Promise<string | null> => {
-    if (inputName || name) {
-      return new Promise((resolve) => {
-        img.id = inputName || name;
-        img.onload = async () => {
-          let canvas = document.createElement("canvas");
-          let ratio = img.clientWidth / img.clientHeight || 1;
-          img.style.background = color || inputColor;
-          img.style.border = "1.5px solid #ffff11";
-          img.style.width = "250px";
-          canvas.width = width;
-          canvas.height = width / ratio;
-          let ctx = canvas.getContext("2d");
-          ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
-          try {
-            let data = canvas.toDataURL("image/png");
-            resolve(data);
-          } catch (e) {
-            resolve(null);
-          }
-        };
-        img.src = originalBase64;
-      });
-    } else {
-      return new Promise(() => {
-        enterValue();
-      });
-    }
   };
 
   const addName = async (event: any) => {
@@ -157,10 +123,6 @@ export default function CreateItem({ contract }: { contract: Contract }) {
       setColor(color);
       create(inputValue?.value || "", color);
     }
-  };
-
-  const enterValue = () => {
-    alert("Please enter a Value");
   };
 
   const inputError = (value: boolean) => {
