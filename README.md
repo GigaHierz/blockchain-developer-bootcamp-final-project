@@ -90,6 +90,10 @@ yarn install
 
 setup `.env` file with the following variables.
 
+- REACT_APP_PRIVATE_MM_KEY= Your private Metamask Key
+- REACT_APP_IPFS= (You dont t need that yet...)
+- REACT_APP_INFURA_PROJECT_ID= Infura Project Id
+
 ```
 REACT_APP_PRIVATE_MM_KEY=xxxxxx
 REACT_APP_IPFS=xxxxxx
