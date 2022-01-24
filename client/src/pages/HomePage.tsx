@@ -23,13 +23,10 @@ export default function HomePage() {
           Etherscan.
         </Text>
         <Text>
-          First you should{" "}
-          <StyledLink to="/blockchain-developer-bootcamp-final-project/mint">
-            mint
-          </StyledLink>{" "}
-          your first NFT. This is a little Octopus baby. And that is going to be
-          your OG Octopus. First you will only have this one that is yours and
-          yours only.
+          First you should <StyledLink to="mint">mint</StyledLink> your first
+          NFT. This is a little Octopus baby. And that is going to be your OG
+          Octopus. First you will only have this one that is yours and yours
+          only.
         </Text>
         <br />
         <Text>
