@@ -134,25 +134,3 @@ Unfortunately so far the tests for the upgradable plugin are still failing. But 
 6. Ethereum Address
 
 - 0x0AFBEA5597875c33047aB0004575f636e652C49e
-
-To get a developer certification for the course, your project must:
-
-- Contain smart contract(s) which: - Are commented to the specs described here
-
-- Use at least two design patterns from the "Smart Contracts" section (see a list here)
-- Protect against two attack vectors from the "Smart Contracts" section with its SWC number (see a list here)
-- Inherits from at least one library or interface
-- Can be easily compiled, migrated and tested (see #5)
-
-- Have at least five unit tests for your smart contract(s) that pass. In the code, include a sentence or two explaining what the tests are covering their expected behavior. You are not required to build unit tests for your frontend, just your smart contracts.
-
-- Contain a deployed_address.txt file which contains the testnet address and network where your contract(s) have been deployed
-
-- Have a frontend interface built with a framework like React or plain HTML/CSS/JS that:
-  Detects the presence of MetaMask
-  Connects to the current account
-  Displays information from your smart contract
-  Allows a user to submit a transaction to update smart contract state
-  Updates the frontend if the transaction is successful or not
-
-- Hosted on Github Pages, Heroku, Netlify, Fleek, Surge or some other free frontend service that gives users a public interface to your decentralized application. That address should be in your README.md document.
