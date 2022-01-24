@@ -50,8 +50,8 @@ export default function App() {
   }, []);
 
   // reload page if chain is changed
-  (window as any).ethereum?.on("networkChanged", (chainId: number) => {
-    if (Number(chainId) !== 4) {
+  (window as any).ethereum?.on("networkChanged", (_chainId: number) => {
+    if (Number(_chainId) !== 4) {
       setChainState(
         "To be able to use this App please connect to the Rinkeby Network"
       );
@@ -76,7 +76,7 @@ export default function App() {
         .join("?");
       window.history.replaceState(
         null,
-        null,
+        "",
         l.pathname.slice(0, -1) + decoded + l.hash
       );
     }
