@@ -16,8 +16,6 @@ export default function App() {
   const provider = useRef<ethers.providers.InfuraProvider>();
   const [contract, setContract] = useState(useRef<Contract>({} as Contract));
   const [chainState, setChainState] = useState("");
-  //   const ipfsGateway = `https://ipfs.io/ipfs`;
-  //   const contract = useRef<Contract>({} as Contract);
 
   useEffect(() => {
     // this is only run once on component mounting
